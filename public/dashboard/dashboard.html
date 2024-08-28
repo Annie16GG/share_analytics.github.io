@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../styles.css">
+  <script type="text/javascript" src="https://cdn.boldbi.com/embedded-sdk/v7.10.16/boldbi-embed.js"></script>
+</head>
+
+<body>
+  <div class="sidebar">
+    <img id="logo-main" src="../images/logo.png">
+    <h2 id="titulo-menu">Menu</h2>
+    <a href="#" id="menu-dashboard">Dashboards</a>
+    <a href="#" id="menu-upload">Upload</a>
+    <a href="#" id="menu-users">Users</a>
+    <div class="sign-out-container">
+      <a href="#" id="signOut">
+        <img src="../images/apagar.png" alt="Sign out" class="sign-out-icon">
+      </a>
+    </div>
+  </div>
+
+  <div id="content" class="content">
+    <div id="dashboard-view" class="view">
+      <!-- Submenú del dashboard -->
+      <div class="sidebar secondary-sidebar">
+        <h2>Dashboards</h2>
+        <button id="CategoryButton">Añadir Categoria</button>
+        <ul id="dashboards-menu">
+
+        </ul>
+        <ul id="dashboard-list"></ul>
+        <div id="dashboard-container"></div>
+      </div>
+      <!-- Contenido del dashboard embebido -->
+      <div id="dashboard" class="dashboard-content">
+        <!-- Contenido principal de tu dashboard -->
+      </div>
+    </div>
+    <div id="upload-view" class="view" style="display: none;">
+      <!-- Contenido de la vista de Upload -->
+      <div class="sidebar secondary-sidebar">
+        <h2>Forms</h2>
+        <!-- <button id="addFormButton">Añadir Formulario</button> -->
+        <ul id="forms-menu">
+          <!-- Los elementos de la lista de formularios se cargarán dinámicamente aquí -->
+        </ul>
+      </div>
+      <div id="formulario">
+        <!-- Aquí se renderizará el formulario seleccionado -->
+      </div>
+    </div>
+    <!-- Sección de Users -->
+    <div id="users-view" class="view" style="display: none;">
+      <h1>Users</h1>
+      <button id="addUserButton">Add User</button>
+      <button id="selectedActionButton" style="display: none;">Add Group</button>
+      <table id="users-table">
+        <thead>
+          <tr>
+            <th>Select</th>
+            <th>Name</th>
+            <th>User</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Verification</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
+    </div>
+
+    <div id="permission-view" class="view" style="display: none;">
+      <a href="#">
+        <img src="../images/pista-anterior.png" id="backToUsersButton" alt="Back">
+      </a>
+      <!-- <img src="../images/apagar.png" alt="Sign out" class="sign-out-icon"> -->
+      <h2>Permissions</h2>
+      <button id="addPermissionButton">Add Permission</button>
+      <table id="permissionsTable">
+        <thead>
+          <tr>
+            <th>Entity</th>
+            <th>Scope</th>
+            <th>Access Mode</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Permissions rows will be dynamically added here -->
+        </tbody>
+      </table>
+    </div>
+    <!-- Modal para agregar usuarios -->
+    <div id="addUserModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Add User</h2>
+        <form id="addUserForm">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required><br>
+
+          <label for="last_name">Last Name:</label>
+          <input type="text" id="last_name" name="last_name" required><br>
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required><br>
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required><br>
+
+          <label for="user">User:</label>
+          <input type="text" id="user" name="user" required><br>
+
+          <label for="status">Status:</label>
+          <input type="text" id="status" name="status" required><br>
+
+          <label for="verification">Verification:</label>
+          <input type="text" id="verification" name="verification" required><br>
+
+          <label for="image_url">Image URL:</label>
+          <input type="text" id="image_url" name="image_url"><br>
+
+          <label for="tipo_user">Tipo de User:</label>
+          <select id="tipo_user" name="tipo_user" required>
+            <option value="Administrador">Administrador</option>
+            <option value="Visualizador">Visualizador</option>
+            <option value="Visualizador y carga">Visualizador y carga</option>
+            <option value="Solo carga">Solo carga</option>
+          </select><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+    <!-- Modal para editar usuario -->
+    <div id="editUserModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Edit User</h2>
+        <form id="editUserForm">
+          <input type="hidden" id="editUserId" name="id">
+          <label for="editName">Name:</label>
+          <input type="text" id="editName" name="name" required><br>
+          <label for="editLastName">Last Name:</label>
+          <input type="text" id="editLastName" name="last_name" required><br>
+          <label for="editEmail">Email:</label>
+          <input type="email" id="editEmail" name="email" required><br>
+          <label for="editUser">Username:</label>
+          <input type="text" id="editUser" name="user" required><br>
+          <label for="editStatus">Status:</label>
+          <input type="text" id="editStatus" name="status" required><br>
+          <label for="editVerification">Verification:</label>
+          <input type="text" id="editVerification" name="verification" required><br>
+          <label for="editImageUrl">Image URL:</label>
+          <input type="text" id="editImageUrl" name="image_url"><br>
+          <label for="editTipoUser">User Type:</label>
+          <select id="editTipoUser" name="tipo_user" required>
+            <option value="Administrador">Administrador</option>
+            <option value="Visualizador">Visualizador</option>
+            <option value="Visualizador y carga">Visualizador y carga</option>
+            <option value="Solo carga">Solo carga</option>
+          </select><br>
+          <input type="submit" value="Edit User">
+        </form>
+      </div>
+    </div>
+
+    <div id="addPermissionModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <input type="hidden" id="userIdInput" name="userId" />
+        <h2>Add Permission</h2>
+        <form id="addPermissionForm">
+          <div class="radio-group">
+            <div>
+              <input type="radio" id="specificResources" name="category" value="Specific Resources" checked>
+              <label for="specificResources">Specific Resources</label>
+            </div>
+            <div>
+              <input type="radio" id="allSettings" name="category" value="All Settings">
+              <label for="allSettings">All Settings</label>
+            </div>
+            <div>
+              <input type="radio" id="specificSettings" name="category" value="Specific Settings">
+              <label for="specificSettings">Specific Settings</label>
+            </div>
+          </div>
+          <div class="cards-container">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h3 class="card-title">Entity</h3>
+                <ul id="entities-menu">
+                </ul>
+              </div>
+            </div>
+            <div id="scopeCard" class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h3 class="card-title">Scope</h3>
+                <ul id="scope-menu">
+                </ul>
+              </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h3 class="card-title">Access mode</h3>
+                <ul id="access-menu">
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit">Add Permission</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addFormModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Formulario</h2>
+        <form id="addForm">
+          <label for="formName">Nombre del Formulario:</label>
+          <input type="text" id="formName" name="formName" required>
+
+          <div id="formFieldsContainer">
+            <div class="formField">
+              <label for="fieldLabel">Etiqueta del Campo:</label>
+              <input type="text" class="fieldLabel" required>
+
+              <label for="fieldType">Tipo del Campo:</label>
+              <select class="fieldType" required>
+                <option value="text">Texto</option>
+                <option value="number">Número</option>
+                <option value="email">Email</option>
+                <option value="date">Fecha</option>
+                <option value="time">Hora</option>
+                <option value="checkbox">Checkbox</option>
+                <!-- Agrega más tipos según sea necesario -->
+              </select>
+
+              <label for="fieldName">Nombre del Campo:</label>
+              <input type="text" class="fieldName" required readonly>
+            </div>
+          </div>
+
+          <button type="button" id="addFieldButton">Añadir Campo</button>
+          <button type="submit">Guardar Formulario</button>
+        </form>
+      </div>
+    </div>
+    <!-- Modal para seleccionar grupo -->
+    <div id="selectGroupModal" class="modal" style="display: none;">
+      <div id="selectGroupModal-content" class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Groups</h2>
+        <div class="tabs">
+          <button class="tab-button" data-tab="new-group">Nuevo grupo</button>
+          <button class="tab-button" data-tab="existing-group">Grupo existente</button>
+        </div>
+        <div class="tab-content" id="new-group">
+          <label for="groupName">Nombre del Grupo:</label>
+          <input type="text" id="groupName" name="groupName"><br>
+          <label for="groupDescription">Descripción:</label>
+          <textarea id="groupDescription" name="groupDescription"></textarea><br>
+        </div>
+        <div class="tab-content" id="existing-group">
+          <label for="existingGroupSelect">Selecciona un grupo:</label>
+          <select id="existingGroupSelect">
+            <!-- Grupos se cargarán aquí dinámicamente -->
+          </select>
+        </div>
+        <button id="addGroupButton">Añadir grupo</button>
+      </div>
+    </div>
+
+    <div id="addCategoryModal" class="modal" style="display: none;">
+      <div id="addCategoryModal-content" class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Categoria</h2>
+        <label for="categoryName">Nombre:</label>
+        <input type="text" id="categoryName" name="categoryName"><br>
+        <label for="categoryDescription">Descripción:</label>
+        <textarea id="categoryDescription" name="categoryDescription"></textarea><br>
+        <button id="addCategoryButton">Añadir Categoria</button>
+      </div>
+    </div>
+
+    <script src="../dashboard/dashboard.js"></script>
+</body>
+
+</html>
