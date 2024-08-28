@@ -58,7 +58,7 @@ app.use(express.static('public'));
 // Usa el router de boldbiRoutes
 app.use('/api', boldbiRoutes);
 
-const appconfig = JSON.parse(fs.readFileSync('./embedConfig.json'));
+const appconfig = JSON.parse(fs.readFileSync('./server/embedConfig.json'));
 const embedSecret = appconfig.EmbedSecret;
 const configjson = {
   "DashboardId": appconfig.DashboardId,
