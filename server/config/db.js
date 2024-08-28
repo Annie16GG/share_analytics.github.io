@@ -1,7 +1,8 @@
 const mysql = require('mysql2');
 
 const connection = mysql.createConnection({
-  host: '0.tcp.ngrok.io:18936',
+  host: '0.tcp.ngrok.io',
+  port: '18936',
   user: 'root',
   password: '1234',
   database: 'share_analytics'
