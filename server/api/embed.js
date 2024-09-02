@@ -3,17 +3,30 @@ const crypto = require('crypto');
 const url = require('url');
 const http = require('http');
 const https = require('https');
+const express = require('express');
+const cors = require('cors');  // Importa CORS
 const boldbiRoutes = require('./server/routes/boldbiRoutes');
+
+// Inicializa la aplicación Express
+const app = express();
+
+// Configura CORS
+const corsOptions = {
+  origin: 'https://share-analytics.vercel.app',  // Tu dominio en Vercel
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true
+};
+
+// Usa los middlewares que necesitas
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.static('public'));
+app.use('/api', boldbiRoutes);
 
 // Exportar la función handler para que funcione como una API en Vercel
 export default function handler(req, res) {
-  // Usar el middleware que necesitas
   if (req.method === 'POST') {
-    app.use(cors());
-    app.use(express.json());
-    app.use(express.static('public'));
-    app.use('/api', boldbiRoutes);
-
     const appconfig = JSON.parse(fs.readFileSync('./embedConfig.json'));
     const embedSecret = appconfig.EmbedSecret;
     const configjson = {
