@@ -1,4 +1,4 @@
-const db = require("../config/db");
+const db = require("../../config/db");
 
 exports.getDashboards = (req, res) => {
   const query = "SELECT id, name_dashboard FROM dashboards";

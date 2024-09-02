@@ -1,7 +1,7 @@
 // formController.js
 
-const db = require("../config/db");
-const db_ss = require("../config/db_singlestore");
+const db = require("../../config/db");
+const db_ss = require("../../config/db_singlestore");
 
 exports.getForms = (req, res) => {
   const query = "SELECT id, name FROM forms";
