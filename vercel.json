@@ -8,6 +8,10 @@
     {
       "src": "server/api/embed.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -18,6 +22,14 @@
     {
       "src": "/api/embed/(.*)",
       "dest": "/server/api/embed.js"
+    },
+    {
+      "src": "/public/(.*)",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
     }
   ]
 }
