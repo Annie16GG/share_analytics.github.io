@@ -13,13 +13,15 @@ const app = express();
 // Configura CORS
 const corsOptions = {
   origin: 'https://share-analytics.vercel.app',  // Tu dominio en Vercel
-  methods: ['GET', 'POST'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-  credentials: true
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 };
 
-// Usa los middlewares que necesitas
-app.use(cors(corsOptions));
+app.use(cors(corsOptions));  // Aplica la configuración de CORS
+
 app.use(express.json());
 app.use(express.static('public'));
 app.use('/api', boldbiRoutes);
