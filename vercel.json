@@ -24,12 +24,12 @@
       "dest": "/server/api/embed.js"
     },
     {
-      "src": "/public/(.*)",
-      "dest": "/public/$1"
+      "src": "/(dashboard|images|forms)/(.*)",
+      "dest": "/public/$1/$2"
     },
     {
       "src": "/(.*)",
-      "dest": "/public/$1"
+      "dest": "/public/index.html"
     }
   ]
 }
