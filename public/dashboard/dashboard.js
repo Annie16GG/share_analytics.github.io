@@ -456,6 +456,7 @@ function deletePermiso(permisoId, userId) {
       console.error("Error:", error);
     });
 }
+debugger;
 function embedSample(id, userId) {
   console.log(userId);
   var boldbiEmbedInstance = BoldBI.create({
