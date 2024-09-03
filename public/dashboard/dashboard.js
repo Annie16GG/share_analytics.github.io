@@ -607,7 +607,7 @@ function loadDashboards() {
       })
       .catch((error) => console.error("Error fetching dashboards:", error));
   } else {
-    fetch("/api/api/dash/dashboards")
+    fetch("/api/dash/dashboards")
       .then((response) => response.json())
       .then((forms) => {
         const formsMenu = document.getElementById("dashboards-menu");
