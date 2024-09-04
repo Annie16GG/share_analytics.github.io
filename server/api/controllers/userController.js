@@ -1,5 +1,5 @@
 // server/controllers/userController.js
-const db = require('../../config/db');
+const db = require('../../config/db_singlestore');
 
 exports.getUsers = (req, res) => {
   const query = 'SELECT * FROM users';

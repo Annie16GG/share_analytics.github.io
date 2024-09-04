@@ -1,7 +1,7 @@
 // formController.js
 
-const db = require("../../config/db");
-const db_ss = require("../../config/db_singlestore");
+const db = require("../../config/db_singlestore");
+// const db_ss = require("../../config/db_singlestore");
 
 exports.getForms = (req, res) => {
   const query = "SELECT id, name FROM forms";
@@ -215,14 +215,14 @@ exports.submitForm = (req, res) => {
 
   // Construir la consulta de inserción, escapando los nombres de columna
   const columns = Object.keys(datosParaGuardar).map(column => `\`${column}\``).join(', ');
-  const values = Object.values(datosParaGuardar).map(value => db_ss.escape(value)).join(', ');
+  const values = Object.values(datosParaGuardar).map(value => db.escape(value)).join(', ');
 
   console.log('Datos para guardar:', datosParaGuardar);
   console.log('Consulta SQL:', `INSERT INTO \`${tableName}\` (${columns}) VALUES (${values})`);
 
   const query = `INSERT INTO \`${tableName}\` (${columns}) VALUES (${values})`;
 
-  db_ss.query(query, (err, results) => {
+  db.query(query, (err, results) => {
     if (err) {
       console.error('Error en la consulta:', err.message);
       return res.status(500).json({ success: false, error: err.message });

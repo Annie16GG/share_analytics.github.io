@@ -6,11 +6,11 @@ const path = require('path');
 const caBundlePath = path.join(__dirname, 'singlestore_bundle.pem');
 
 const connection = mysql.createConnection({
-  host: 'svc-3482219c-a389-4079-b18b-d50662524e8a-shared-dml.aws-virginia-6.svc.singlestore.com',
-  port: '3333',
-  user: 'Annie',
-  password: '96DCtk3j4FlyeAXEoU1HGei9pIqVJAkK',
-  database: 'db_melaniesamantha_d0f3d',
+  host: 'svc-b845e011-115a-40f4-bea9-2c3d85c359f8-dml.aws-virginia-6.svc.singlestore.com',
+  port: '3306',
+  user: 'admin',
+  password: 'hgNFzhQ1frChitO0BS51MM0Ripaf7PGx',
+  database: 'share_analytics',
   ssl: {
     ca: fs.readFileSync(caBundlePath)
   }

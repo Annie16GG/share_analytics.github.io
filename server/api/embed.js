@@ -29,7 +29,7 @@ app.use('/api', boldbiRoutes);
 // Exportar la función handler para que funcione como una API en Vercel
 export default function handler(req, res) {
   if (req.method === 'POST') {
-    const appconfig = JSON.parse(fs.readFileSync('./embedConfig.json'));
+    const appconfig = JSON.parse(fs.readFileSync('/embedConfig.json'));
     const embedSecret = appconfig.EmbedSecret;
     const configjson = {
       "DashboardId": appconfig.DashboardId,
