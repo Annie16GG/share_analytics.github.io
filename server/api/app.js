@@ -27,7 +27,7 @@ app.use('/api', formRoutes);
 app.use('/api/perm', permissionRoutes)
 app.use('/api/auth', authRoutes)
 app.use('/api/groups', groupesRoutes)
-// app.use('/api/dashboards', boldbiRoutes)
+app.use('/api/dashboards', boldbiRoutes)
 app.use('/api/dash', dashboardsRoutes)
 app.use('/api/category', categoryRoutes)
 
