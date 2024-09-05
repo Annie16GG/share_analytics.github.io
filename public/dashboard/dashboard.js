@@ -477,7 +477,7 @@ function embedSample(id, userId) {
   });
   console.log(boldbiEmbedInstance);
   console.log(boldbiEmbedInstance.serverUrl);
-  console.log(boldbiEmbedInstance.authorizationServer.url);
+  console.log(boldbiEmbedInstance.authorizationServer);
   // console.log(boldbiEmbedInstance.serverUrl);
   if ((boldbiEmbedInstance.IsDependencyLoaded = true)) {
     boldbiEmbedInstance.loadDashboard();
