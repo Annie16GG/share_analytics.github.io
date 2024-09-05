@@ -5,7 +5,7 @@ const https = require('https');
 const crypto = require('crypto');
 const url = require('url');
 const express = require('express');
-const boldbiRoutes = require('./server/routes/boldbiRoutes');  // Asegúrate de ajustar la ruta si es necesario.
+const boldbiRoutes = require('./server/api/routes/boldbiRoutes');  // Asegúrate de ajustar la ruta si es necesario.
 
 const app = express();
 
