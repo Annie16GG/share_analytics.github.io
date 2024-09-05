@@ -11,7 +11,7 @@ const app = express();
 
 // Configurar CORS
 const corsOptions = {
-  origin: 'https://share-analytics.vercel.app',  // Asegúrate de que esté apuntando a tu frontend
+  origin: 'https://login.shareanalytics.com.mx/',  // Asegúrate de que esté apuntando a tu frontend
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
