@@ -459,8 +459,6 @@ function deletePermiso(permisoId, userId) {
 
 function embedSample(id, userId) {
   console.log(userId);
-  console.log(serverUrl);
-  console.log(authorizationUrl);
   var boldbiEmbedInstance = BoldBI.create({
     serverUrl: rootUrl + "/" + siteIdentifier,
     dashboardId: id,
@@ -478,6 +476,8 @@ function embedSample(id, userId) {
     expirationTime: "100000",
   });
   console.log(boldbiEmbedInstance);
+  console.log(serverUrl);
+  console.log(authorizationUrl);
   if ((boldbiEmbedInstance.IsDependencyLoaded = true)) {
     boldbiEmbedInstance.loadDashboard();
   } else {
