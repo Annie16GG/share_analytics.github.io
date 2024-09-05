@@ -476,8 +476,9 @@ function embedSample(id, userId) {
     expirationTime: "100000",
   });
   console.log(boldbiEmbedInstance);
+  console.log(boldbiEmbedInstance.serverUrl);
+  console.log(boldbiEmbedInstance.authorizationServer.url);
   // console.log(boldbiEmbedInstance.serverUrl);
-  console.log(authorizationUrl);
   if ((boldbiEmbedInstance.IsDependencyLoaded = true)) {
     boldbiEmbedInstance.loadDashboard();
   } else {
