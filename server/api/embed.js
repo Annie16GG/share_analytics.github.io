@@ -10,11 +10,14 @@ const boldbiRoutes = require('./server/routes/boldbiRoutes');  // Asegúrate de 
 const app = express();
 
 // Configurar CORS
-app.use(cors({
-  origin: 'https://share-analytics.vercel.app', // El dominio desde el que harás la petición.
+const corsOptions = {
+  origin: 'https://share-analytics.vercel.app',  // Asegúrate de que esté apuntando a tu frontend
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
-}));
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
 
 // Middleware
 app.use(express.json());

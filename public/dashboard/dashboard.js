@@ -23,7 +23,7 @@ var embedType = "component";
 // }
 var dashboardId = "dee9aba7-1484-4ab3-8114-066614d7ca01";
 var rootUrl = "https://login.shareanalytics.com.mx/bi";
-var authorizationUrl = "http://localhost:8080/embeddetail/get";
+const authorizationUrl = "https://share-analytics.vercel.app/api/embeddetail/get";
 let selectedAccess = null;
 let selectedEntity = null;
 let selectedScope = null;
