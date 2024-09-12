@@ -55,7 +55,7 @@ app.listen(PORT, () => {
 // app.use(express.json());
 // app.use(express.static('public'));
 
-// // Usa el router de boldbiRoutes
+// Usa el router de boldbiRoutes
 // app.use('/api', boldbiRoutes);
 // const appconfig = JSON.parse(fs.readFileSync('./server/api/embedConfig.json'));
 // const embedSecret = appconfig.EmbedSecret;
