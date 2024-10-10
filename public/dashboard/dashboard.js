@@ -475,6 +475,7 @@ function embedSample(id, userId) {
     dashboardSettings: { showHeader: true, showExport: false, showRefresh: true, enableTheme: true, showMoreOption: true, enableFilterOverview: true, enableFullScreen: true, },
     expirationTime: "100000",
   });
+  boldbiEmbedInstance.loadDashboard();
 }
 // Función para mostrar la vista seleccionada
 function openEditUserModal(userId) {
