@@ -8,7 +8,7 @@ document.getElementById("signOut").addEventListener("click", (event) => {
   window.location.href = "../index.html";
 });
 var siteIdentifier = "site/capacitacion";
-var environment = "onpremise";
+var environment = "cloud";
 var embedType = "component";
 // var filtParameters = "";
 // const userId = localStorage.getItem("user_id");
