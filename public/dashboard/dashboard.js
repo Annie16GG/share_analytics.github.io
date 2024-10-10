@@ -475,17 +475,6 @@ function embedSample(id, userId) {
     dashboardSettings: { showHeader: true, showExport: false, showRefresh: true, enableTheme: true, showMoreOption: true, enableFilterOverview: true, enableFullScreen: true, },
     expirationTime: "100000",
   });
-  console.log(boldbiEmbedInstance);
-  console.log(boldbiEmbedInstance.serverUrl);
-  console.log(boldbiEmbedInstance.authorizationServer);
-  // console.log(boldbiEmbedInstance.serverUrl);
-  if ((boldbiEmbedInstance.IsDependencyLoaded = true)) {
-    boldbiEmbedInstance.loadDashboard();
-  } else {
-    const dashboardDiv = document.getElementById("dashboard");
-    dashboardDiv.innerHTML =
-      "<p>No se puede acceder al dashboard. Por favor, intente de nuevo más tarde.</p>";
-  }
 }
 // Función para mostrar la vista seleccionada
 function openEditUserModal(userId) {
