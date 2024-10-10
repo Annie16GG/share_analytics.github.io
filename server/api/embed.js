@@ -11,7 +11,7 @@ const app = express();
 
 // Configurar CORS
 const corsOptions = {
-  origin: 'https://portal.shareanalytics.com.mx', // Cambia esto al origen correcto
+  origin: true, // Cambia esto al origen correcto
   methods: ['GET', 'POST', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
