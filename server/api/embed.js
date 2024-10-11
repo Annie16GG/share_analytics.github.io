@@ -41,7 +41,7 @@ const configjson = {
 const userEmail = appconfig.UserEmail;
 
 // Ruta para obtener los detalles del embed
-app.post('/embeddetail/get', function (req, res) {
+app.get('/embeddetail/get', function (req, res) {
   let embedQuerString = req.body.embedQuerString;
   let dashboardServerApiUrl = req.body.dashboardServerApiUrl;
 
