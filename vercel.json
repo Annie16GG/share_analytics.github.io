@@ -12,11 +12,11 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "server/api/(.*)",
       "dest": "server/api/app.js"
     },
     {
-      "src": "/api/(.*)",
+      "src": "server/api/(.*)",
       "dest": "server/api/embed.js"
     },
     {
