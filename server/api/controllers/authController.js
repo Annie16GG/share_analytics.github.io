@@ -52,6 +52,19 @@ exports.createUser = (req, res) => {
   });
 };
 
+exports.createUnidad = (req, res) => {
+  const { placas, estado, fecha, carga} = req.body;
+  const estatus = "Disponible"; 
+
+  const query = 'INSERT INTO Unidades (U_Placas, U_Estado, U_FechaDeCompra, U_CargaMax, U_Status) VALUES (?, ?, ?, ?, ?)';
+  db.query(query, [placas, estado, fecha, carga, estatus], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    return res.status(201).json({ message: 'Unidad añadida exitosamente', unidadId: placas });
+  });
+};
+
 // Función para actualizar un usuario existente
 exports.updateUser = (req, res) => {
   const { id, name, last_name, email, user, status, verification, image_url, tipo_user } = req.body;
@@ -72,6 +85,24 @@ exports.updateUser = (req, res) => {
   });
 };
 
+exports.updateUnidad = (req, res) => {
+  const { placas, estado, fecha, carga, status } = req.body;
+  const query = `
+    UPDATE Unidades
+    SET U_Estado = ?, U_FechaDeCompra = ?, U_CargaMax = ?, U_Status = ?
+    WHERE U_Placas = ?`;
+
+  db.query(query, [estado, fecha, carga, status, placas], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'Unidad no encontrada' });
+    }
+    return res.status(200).json({ message: 'Unidad actualizada satisfactoriamente' });
+  });
+};
+
 exports.deleteUser = (req, res) => {
   const { id } = req.params;
 
@@ -85,6 +116,24 @@ exports.deleteUser = (req, res) => {
       return res.status(404).json({ message: 'User not found' });
     }
     return res.status(200).json({ message: 'User deleted successfully' });
+  });
+};
+
+
+exports.deleteUnidad = (req, res) => {
+  console.log(req.params);
+  const { id } = req.params;
+
+  const query = 'DELETE FROM Unidades WHERE U_Placas = ?';
+
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'Unidad no encontrada' });
+    }
+    return res.status(200).json({ message: 'Unidad eliminada satisfactoriamente' });
   });
 };
 

@@ -213,6 +213,182 @@ exports.submitForm = (req, res) => {
     };
   }
 
+  if (tableName === 'Vehiculos') {
+    // Validación de los campos del formulario de vehículos
+    const errors = {};
+
+    // Validar campo 'Fecha'
+    if (!formData.Fecha || formData.Fecha.trim() === "") {
+      errors.Fecha = "El campo 'Fecha' es obligatorio.";
+    }
+
+    // Validar campo 'Recurso'
+    if (!formData.Recurso || formData.Recurso.trim() === "") {
+      errors.Recurso = "El campo 'Recurso' es obligatorio.";
+    }
+
+    // Validar campo 'Proyecto'
+    if (!formData.Proyecto || formData.Proyecto.trim() === "") {
+      errors.Proyecto = "El campo 'Proyecto' es obligatorio.";
+    }
+
+    // Validar campo 'Horas'
+    if (!formData.Horas || formData.Horas.trim() === "") {
+      errors.Horas = "El campo 'Horas' es obligatorio.";
+    }
+
+    // Si hay errores, retornar un error
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ success: false, errors });
+    }
+
+    // Transformaciones de datos, si son necesarias...
+    // Ejemplo: Si necesitas transformar el campo Horas en otro formato
+
+    // Agregar los campos calculados al objeto de datos
+    datosParaGuardar = {
+      ...datosParaGuardar,
+      // Otros campos calculados si es necesario
+    };
+  }
+
+  if (tableName === 'Calendario') {
+    // Validación de los campos del formulario de CalendarioM_flotilla
+    const errors = {};
+
+    // Validar campo 'Monto'
+    if (!formData.Monto || isNaN(formData.Monto) || formData.Monto < 0) {
+      errors.Monto = "El campo 'Monto' es obligatorio y debe ser un número mayor o igual a 0.";
+    }
+
+    // Validar campo 'ID'
+    if (!formData.ID || isNaN(formData.ID) || formData.ID < 0) {
+      errors.ID = "El campo 'ID' es obligatorio y debe ser un número mayor o igual a 0.";
+    }
+
+    // Validar campo 'DiasFaltantes'
+    if (!formData.DiasFaltantes || isNaN(formData.DiasFaltantes) || formData.DiasFaltantes < 0) {
+      errors.DiasFaltantes = "El campo 'Días Faltantes' es obligatorio y debe ser un número mayor o igual a 0.";
+    }
+
+    // Validar campo 'Hoy'
+    if (!formData.Hoy || isNaN(Date.parse(formData.Hoy))) {
+      errors.Hoy = "El campo 'Hoy' es obligatorio y debe ser una fecha válida.";
+    }
+
+    // Validar campo 'FechaEvento'
+    if (!formData.FechaEvento || isNaN(Date.parse(formData.FechaEvento))) {
+      errors.FechaEvento = "El campo 'Fecha del Evento' es obligatorio y debe ser una fecha válida.";
+    }
+
+    // Validar campo 'VehiculoID'
+    if (!formData.VehiculoID || isNaN(formData.VehiculoID) || formData.VehiculoID < 0) {
+      errors.VehiculoID = "El campo 'Vehículo ID' es obligatorio y debe ser un número mayor o igual a 0.";
+    }
+
+    // Validar campo 'Tipo'
+    if (!formData.Tipo || formData.Tipo.trim() === "") {
+      errors.Tipo = "El campo 'Tipo' es obligatorio.";
+    }
+
+    // Si hay errores, retornar un error
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ success: false, errors });
+    }
+
+    // Preparar los datos para guardar
+    const datosParaGuardar = {
+      Monto: formData.Monto,
+      ID: formData.ID,
+      DiasFaltantes: formData.DiasFaltantes,
+      Hoy: formData.Hoy,
+      FechaEvento: formData.FechaEvento,
+      VehiculoID: formData.VehiculoID,
+      Tipo: formData.Tipo,
+    };
+
+    // Lógica para insertar en la base de datos
+    // db.insert('CalendarioM_flotilla', datosParaGuardar);
+  }
+
+  if (tableName === 'Asignacion') {
+    // Validación de los campos del formulario de Persona
+    const errors = {};
+
+    // Validar campo 'Persona'
+    if (!formData.Persona || formData.Persona.trim() === "") {
+      errors.Persona = "El campo 'Persona' es obligatorio.";
+    }
+
+    // Validar campo 'AsignacionID'
+    if (!formData.AsignacionID || isNaN(formData.AsignacionID) || formData.AsignacionID < 0) {
+      errors.AsignacionID = "El campo 'Asignación ID' es obligatorio y debe ser un número mayor o igual a 0.";
+    }
+
+    // Validar campo 'FechaInicio'
+    if (!formData.FechaInicio || isNaN(Date.parse(formData.FechaInicio))) {
+      errors.FechaInicio = "El campo 'Fecha de Inicio' es obligatorio y debe ser una fecha válida.";
+    }
+
+    // Validar campo 'FechaFin'
+    if (!formData.FechaFin || isNaN(Date.parse(formData.FechaFin))) {
+      errors.FechaFin = "El campo 'Fecha de Fin' es obligatorio y debe ser una fecha válida.";
+    }
+
+    // Validar campo 'VehiculoID'
+    if (!formData.VehiculoID || isNaN(formData.VehiculoID) || formData.VehiculoID < 0) {
+      errors.VehiculoID = "El campo 'Vehículo ID' es obligatorio y debe ser un número mayor o igual a 0.";
+    }
+
+    // Si hay errores, retornar un error
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ success: false, errors });
+    }
+
+    // Preparar los datos para guardar
+    const datosParaGuardar = {
+      Persona: formData.Persona,
+      AsignacionID: formData.AsignacionID,
+      FechaInicio: formData.FechaInicio,
+      FechaFin: formData.FechaFin,
+      VehiculoID: formData.VehiculoID,
+    };
+
+    // Lógica para insertar en la base de datos
+    // db.insert('Persona', datosParaGuardar);
+  }
+
+  if (tableName === 'coordenadas') {
+    // Validación de los campos del formulario de Coordenadas
+    const errors = {};
+
+    // Validar campo 'VehiculoID'
+    if (!formData.VehiculoID || isNaN(formData.VehiculoID) || formData.VehiculoID < 0) {
+      errors.VehiculoID = "El campo 'Vehículo ID' es obligatorio y debe ser un número mayor o igual a 0.";
+    }
+
+    // Validar campo 'GpsID'
+    if (!formData.GpsID || isNaN(formData.GpsID) || formData.GpsID < 0) {
+      errors.GpsID = "El campo 'GPS ID' es obligatorio y debe ser un número mayor o igual a 0.";
+    }
+
+    // Si hay errores, retornar un error
+    if (Object.keys(errors).length > 0) {
+      return res.status(400).json({ success: false, errors });
+    }
+
+    // Preparar los datos para guardar
+    const datosParaGuardar = {
+      CoordenadasX: formData.CoordenadasX,
+      VehiculoID: formData.VehiculoID,
+      GpsID: formData.GpsID,
+      CoordenadasY: formData.CoordenadasY,
+    };
+
+    // Lógica para insertar en la base de datos
+    // db.insert('Coordenadas', datosParaGuardar);
+  }
+
   // Construir la consulta de inserción, escapando los nombres de columna
   const columns = Object.keys(datosParaGuardar).map(column => `\`${column}\``).join(', ');
   const values = Object.values(datosParaGuardar).map(value => db.escape(value)).join(', ');
