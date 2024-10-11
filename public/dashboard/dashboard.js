@@ -7,9 +7,7 @@ document.getElementById("signOut").addEventListener("click", (event) => {
   // Redirigir al usuario a la página de inicio de sesión
   window.location.href = "../index.html";
 });
-var siteIdentifier = "site/capacitacion";
-var environment = "onpremise";
-var embedType = "component";
+
 // var filtParameters = "";
 // const userId = localStorage.getItem("user_id");
 // if(userId == '5dbf3cb3-8b87-4648-bb41-2a2b137d2fc9'){
@@ -21,14 +19,27 @@ var embedType = "component";
 // else if(userId == 'hola'){
 //   filtParameters = "Categoria=Entretenimiento";
 // }
+
+
 var dashboardId = "dee9aba7-1484-4ab3-8114-066614d7ca01";
 var rootUrl = "https://login.shareanalytics.com.mx/bi";
-const authorizationUrl = "https://21f1-20-121-192-203.ngrok-free.app/embeddetail/get";
+var siteIdentifier = "site/sharedemos";
+var environment = "onpremise";
+var embedType = "component";
+
+
+//Url of the GetDetails(API) in this application
+var authorizationUrl="https://4d8e-20-121-192-203.ngrok-free.app";
+
+// var authorizationUrl = "http://localhost:8080/embeddetail/get";
 let selectedAccess = null;
 let selectedEntity = null;
 let selectedScope = null;
 const addUserModal = document.getElementById("addUserModal");
+const addUnidadModal = document.getElementById("addUnidadModal");
 const addUserButton = document.getElementById("addUserButton");
+const addUnityButton = document.getElementById("addUnityButton");
+const addUnidadButton = document.getElementById("addUnidadButton");
 const addPermissionModal = document.getElementById("addPermissionModal");
 const addPermissionButton = document.getElementById("addPermissionButton");
 const closeModal = document.getElementsByClassName("close")[0];
@@ -46,6 +57,12 @@ const closeBtn = document.querySelector(".close");
 const validationFunctions = {
   25: validateBitacoraTelcel,
   27: validateBitacoraTelcel_v2,
+  1125899906842625: validateCargaHoras,
+  2251799813685249: validaCalendario,
+  2251799813685250: validaAsignacion,
+  2251799813685251: validaCoordenadas,
+  1125899906842626:validaVehiculos,
+
   otro_formulario: validateOtroFormulario,
   // Agrega más formularios y funciones aquí...
 };
@@ -53,6 +70,10 @@ const validationFunctions = {
 // Mostrar el modal cuando se haga clic en el botón "Add User"
 addUserButton.onclick = function () {
   addUserModal.style.display = "block";
+};
+
+addUnityButton.onclick = function () {
+  addUnidadModal.style.display = "block";
 };
 addPermissionButton.onclick = function () {
   addPermissionModal.style.display = "block";
@@ -66,6 +87,7 @@ addPermissionButton.onclick = function () {
 // Cerrar el modal cuando se haga clic en el botón de cierre
 closeModal.onclick = function () {
   addUserModal.style.display = "none";
+  addUnidadModal.style.display = "none";
   addFormModal.style.display = "none";
   selectGroupModal.style.display = "none";
 };
@@ -379,6 +401,163 @@ function submitEditUserForm(event) {
     })
     .catch((error) => console.error("Error updating user details:", error));
 }
+
+function submitEditUnidadForm(event) {
+  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+  const editPlacas = document.getElementById("editU_Placas").value;
+  const editEstado = document.getElementById("editU_Estado").value;
+  const editFecha = document.getElementById("editU_FechaDeCompra").value;
+  const editCarga = document.getElementById("editU_CargaMax").value;
+  const editStatus = document.getElementById("editU_Status").value;
+
+  const updatedUser = {
+    placas: editPlacas,
+    estado: editEstado,
+    fecha: editFecha,
+    carga: editCarga,
+    status: editStatus
+  };
+  console.log(updatedUser);
+
+  fetch(`/api/auth/unidades/${editUserId}`, {
+    method: "PUT", // Método HTTP para actualizar datos
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedUser),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Unidad actualizada satisfactoriamente", data);
+      // Cerrar el modal
+      document.getElementById("editUnidadModal").style.display = "none";
+      loadUnidades(); // Opcional: refrescar la lista de usuarios o actualizar la UI según sea necesario
+    })
+    .catch((error) => console.error("Error updating user details:", error));
+}
+
+function submitEditViajeForm(event) {
+  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+  const editPlacas = document.getElementById("updateU_Placas").value;
+  const editviaje = document.getElementById("upadateV_KeyViaje").value;
+  const editfin = document.getElementById("updateV_FFin").value;
+  const editstatus = document.getElementById("updateV_Status").value;
+
+  const updatedUser = {
+    placas: editPlacas,
+    viaje:editviaje,
+    fin: editfin,
+    status: editstatus
+  };
+  console.log(updatedUser);
+
+  fetch(`/api/viaje/viajes/${editPlacas}`, {
+    method: "PUT", // Método HTTP para actualizar datos
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedUser),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Unidad actualizada satisfactoriamente", data);
+      // Cerrar el modal
+      document.getElementById("updateAsignacionViajeModal").style.display = "none";
+      document.getElementById("C_Placas").value = editPlacas;
+      document.getElementById("C_KeyViaje").value = editviaje;
+      document.getElementById("costosModal").style.display = "block";
+      loadUnidades();
+    })
+    .catch((error) => console.error("Error updating user details:", error));
+}
+
+function submitEventoForm(event) {
+  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+  const evPlacas = document.getElementById("E_Placas").value;
+  const evTipo = document.getElementById("E_Tipo").value;
+  const evFecha = document.getElementById("E_FechaEvento").value;
+  const evMonto = document.getElementById("E_Monto").value;
+
+  const updatedUser = {
+    placas: evPlacas,
+    tipo: evTipo,
+    fecha: evFecha,
+    monto: evMonto
+  };
+  console.log(updatedUser);
+
+  fetch(`/api/viaje/eventos`, {
+    method: "POST", // Método HTTP para actualizar datos
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedUser),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Evento añadido", data);
+      // Cerrar el modal
+      document.getElementById("eventoModal").style.display = "none";
+      loadUnidades(); // Opcional: refrescar la lista de usuarios o actualizar la UI según sea necesario
+    })
+    .catch((error) => console.error("Error updating user details:", error));
+}
+
+function submitCostosForm(event) {
+  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+  // Recoger las placas y el keyViaje
+  const placas = document.getElementById("C_Placas").value;
+  const keyViaje = document.getElementById("C_KeyViaje").value;
+
+  // Recoger los valores de todas las filas dinámicas
+  const categorias = Array.from(document.querySelectorAll("select[name='C_Categoria[]']")).map(select => select.value);
+  const tipos = Array.from(document.querySelectorAll("select[name='C_Tipo[]']")).map(select => select.value);
+  const montos = Array.from(document.querySelectorAll("input[name='C_Monto[]']")).map(input => parseFloat(input.value));
+
+  // Verificar que todas las filas tengan los valores completos
+  const costos = categorias.map((categoria, index) => ({
+    categoria,
+    tipo: tipos[index],
+    monto: montos[index]
+  }));
+
+  // Crear el objeto a enviar
+  const data = {
+    placas,
+    keyViaje,
+    costos
+  };
+
+  console.log("Datos a enviar:", data); // Verificar en la consola si los datos son correctos
+
+  fetch(`/api/viaje/costos`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      return response.json(); // Verificar si el backend está enviando JSON
+    })
+    .then((data) => {
+      console.log("Evento añadido", data);
+      document.getElementById("costosModal").style.display = "none";
+      debugger;
+      loadUnidades();
+    })
+    .catch((error) => {
+      console.error("Error al guardar los costos:", error);
+    });
+
+}
 const deleteUser = async (userId) => {
   try {
     const response = await fetch(`/api/auth/users/${userId}`, {
@@ -388,6 +567,22 @@ const deleteUser = async (userId) => {
 
     if (response.ok) {
       loadUsers();
+    } else {
+      console.error(result.message);
+    }
+  } catch (error) {
+    console.error("Error deleting user:", error);
+  }
+};
+const deleteUnidad = async (placa) => {
+  try {
+    const response = await fetch(`/api/auth/unidades/${placa}`, {
+      method: "DELETE",
+    });
+    const result = await response.json();
+
+    if (response.ok) {
+      loadUnidades();
     } else {
       console.error(result.message);
     }
@@ -516,6 +711,7 @@ function openEditUserModal(userId) {
           editVerification.value = user.verification;
           editImageUrl.value = user.image_url || ""; // Manejar valores nulos
           editTipoUser.value = user.tipo_user;
+
           // Mostrar el modal de edición
           document.getElementById("editUserModal").style.display = "block";
         } else {
@@ -529,6 +725,164 @@ function openEditUserModal(userId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
+
+function openEditUnidadModal(unidadId) {
+  fetch(`/api/auth/unidades/${unidadId}`)
+    .then((response) => response.json())
+    .then((unidades) => {
+      if (unidades.length > 0) {
+        const unidad = unidades[0]; // Acceder al primer (y único) objeto en el array
+
+        // Verificar y asignar los campos del formulario con los datos del usuario
+        const placas = document.getElementById("editU_Placas");
+        const estado = document.getElementById("editU_Estado");
+        const fechaComp = document.getElementById("editU_FechaDeCompra");
+        const cargaMax = document.getElementById("editU_CargaMax");
+        const estatus = document.getElementById("editU_Status");
+        if (
+          placas &&
+          estado &&
+          fechaComp &&
+          cargaMax &&
+          estatus
+        ) {
+          placas.value = unidad.U_Placas;
+          estado.value = unidad.U_Estado;
+          fechaComp.value = unidad.U_FechaDeCompra;
+          cargaMax.value = unidad.U_CargaMax;
+          estatus.value = unidad.U_Status;
+
+          console.log(unidad.U_Status);
+          if (unidad.U_Status === "Ocupado") {
+            document.getElementById("editU_Status").disabled = true;
+          } else {
+            document.getElementById("editU_Status").disabled = false; // En caso contrario, habilitarlo
+          }
+          // Mostrar el modal de edición
+          document.getElementById("editUnidadModal").style.display = "block";
+        } else {
+          console.error(
+            "Uno o más elementos del formulario no fueron encontrados."
+          );
+        }
+      } else {
+        console.error("No user data found.");
+      }
+    })
+    .catch((error) => console.error("Error fetching user details:", error));
+}
+
+function openEditViajeModal(unidadId) {
+  fetch(`/api/viaje/viajes/${unidadId}`)
+    .then((response) => response.json())
+    .then((unidades) => {
+      console.log(unidadId);
+      if (unidades.length > 0) {
+        const unidad = unidades[0]; // Acceder al primer (y único) objeto en el array
+
+        // Verificar y asignar los campos del formulario con los datos del usuario
+        const placas = document.getElementById("updateU_Placas");
+        const viaje = document.getElementById("upadateV_KeyViaje");
+        const operador = document.getElementById("updateV_Operador");
+        const estadoOr = document.getElementById("updateV_EstadoOrigen");
+        const estadoDe = document.getElementById("updateV_EstadoDestino");
+        const fInicio = document.getElementById("updateV_FInicio");
+        const fFin = document.getElementById("updateV_FFin");
+        const costo = document.getElementById("updateV_Costo");
+        const ingreso = document.getElementById("updateV_Ingreso");
+        const carga = document.getElementById("updateV_CargaUtilizada");
+        const status = document.getElementById("updateV_Status");
+        if (
+          placas &&
+          viaje &&
+          operador &&
+          estadoOr &&
+          estadoDe &&
+          fInicio &&
+          fFin &&
+          costo &&
+          ingreso &&
+          carga &&
+          status
+        ) {
+          placas.value = unidad.V_Placas;
+          viaje.value = unidad.V_KeyViaje;
+          operador.value = unidad.V_Operador;
+          estadoOr.value = unidad.V_EstadoOrigen;
+          estadoDe.value = unidad.V_EstadoDestino;
+          fInicio.value = unidad.V_FInicio;
+          fFin.value = unidad.V_FFin;
+          costo.value = unidad.V_Costo;
+          ingreso.value = unidad.V_Ingreso;
+          carga.value = unidad.V_CargaUtilizada;
+          status.value = unidad.V_Status;
+          // Mostrar el modal de edición
+          document.getElementById("updateAsignacionViajeModal").style.display = "block";
+        } else {
+          console.error(
+            "Uno o más elementos del formulario no fueron encontrados."
+          );
+        }
+      } else {
+        console.error("No user data found.");
+      }
+    })
+    .catch((error) => console.error("Error fetching user details:", error));
+}
+
+function openAsignarViajeUnidadModal(unidadId) {
+  fetch(`/api/auth/unidades/${unidadId}`)
+    .then((response) => response.json())
+    .then((unidades) => {
+      if (unidades.length > 0) {
+        const unidad = unidades[0];
+        const placas = document.getElementById("addU_Placas");
+
+        if (
+          placas
+        ) {
+          placas.value = unidad.U_Placas;
+          // Mostrar el modal de edición
+          document.getElementById("addAsignacionViajeModal").style.display = "block";
+          loadUnidades();
+        } else {
+          console.error(
+            "Uno o más elementos del formulario no fueron encontrados."
+          );
+        }
+      } else {
+        console.error("No user data found.");
+      }
+    })
+    .catch((error) => console.error("Error fetching user details:", error));
+}
+
+function eventoUnidad(unidadId) {
+  fetch(`/api/auth/unidades/${unidadId}`)
+    .then((response) => response.json())
+    .then((unidades) => {
+      if (unidades.length > 0) {
+        const unidad = unidades[0];
+        const placas = document.getElementById("E_Placas");
+
+        if (
+          placas
+        ) {
+          placas.value = unidad.U_Placas;
+          // Mostrar el modal de edición
+          document.getElementById("eventoModal").style.display = "block";
+        } else {
+          console.error(
+            "Uno o más elementos del formulario no fueron encontrados."
+          );
+        }
+      } else {
+        console.error("No user data found.");
+      }
+    })
+    .catch((error) => console.error("Error fetching user details:", error));
+}
+
 function showView(viewId) {
   const views = document.querySelectorAll(".view");
   views.forEach((view) => {
@@ -770,7 +1124,39 @@ function loadUsers() {
       </div>
     </div>
   </td>
-  
+
+              `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error fetching users:", error));
+}
+function loadUnidades() {
+  fetch("/api/auth/unidades")
+    .then((response) => response.json())
+    .then((data) => {
+      const tbody = document.querySelector("#unidades-table tbody");
+      tbody.innerHTML = "";
+      data.forEach((unidad) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                <td>${unidad.U_Placas}</td>
+                <td>${unidad.U_Estado}</td>
+                <td>${unidad.U_FechaDeCompra}</td>
+                <td>${unidad.U_CargaMax}</td>
+                <td>${unidad.U_Status}</td>
+                <td>
+    <div class="dropdown">
+      <button class="dropbtn">Actions</button>
+      <div class="dropdown-content">
+        <a href="#" onclick="eventoUnidad('${unidad.U_Placas}')">Agregar Evento</a>
+        <a href="#" onclick="${unidad.U_Status === 'Ocupado' ? `openEditViajeModal('${unidad.U_Placas}')` : `openAsignarViajeUnidadModal('${unidad.U_Placas}')`}">Modificar viaje</a>
+        <a href="#" onclick="openEditUnidadModal('${unidad.U_Placas}')">Editar Unidad</a>
+        <a href="#" onclick="deleteUnidad('${unidad.U_Placas}')">Borrar unidad</a>
+      </div>
+    </div>
+  </td>
+
               `;
         tbody.appendChild(row);
       });
@@ -1033,6 +1419,125 @@ function validateBitacoraTelcel_v2(data) {
   };
 }
 
+function validateCargaHoras(data) {
+  const errors = {};
+  // Validar el campo Fecha
+  if (!data.Fecha || data.Fecha.trim() === "") {
+    errors.Fecha = "El campo 'Fecha' es obligatorio.";
+  }
+
+  // Validar el campo Recurso
+  if (!data.Recurso || data.Recurso.trim() === "") {
+    errors.Recurso = "El campo 'Recurso' es obligatorio.";
+  }
+
+  // Validar el campo Proyecto
+  if (!data.Proyecto || data.Proyecto.trim() === "") {
+    errors.Proyecto = "El campo 'Proyecto' es obligatorio.";
+  }
+
+  // Validar el campo Horas
+  if (!data.Horas || data.Horas.trim() === "") {
+    errors.Horas = "El campo 'Horas' es obligatorio.";
+  }
+  // Más validaciones específicas...
+
+  console.log(data);
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+function validaVehiculos(data) {
+  const errors = {};
+
+  // Validar el campo Placa
+  if (!data.placa || data.placa.trim() === "") {
+    errors.placa = "El campo 'Placa' es obligatorio.";
+  } else if (data.placa.length > 10) {
+    errors.placa = "El campo 'Placa' no puede tener más de 10 caracteres.";
+  }
+
+  // Validar el campo Tipo
+  const tiposValidos = ["Consulta", "Carga", "Servicio"];
+  if (!data.tipo || !tiposValidos.includes(data.tipo)) {
+    errors.tipo = "El campo 'Tipo' es obligatorio y debe ser una opción válida.";
+  }
+
+  // Validar el campo Disponibilidad
+  const disponibilidadValida = ["Disponible", "Ocupado"];
+  if (!data.disponibilidad || !disponibilidadValida.includes(data.disponibilidad)) {
+    errors.disponibilidad = "El campo 'Disponibilidad' es obligatorio y debe ser una opción válida.";
+  }
+
+  // Validar el campo Color
+  if (!data.color || data.color.trim() === "") {
+    errors.color = "El campo 'Color' es obligatorio.";
+  }
+
+  // Validar el campo Km
+  if (data.km === undefined || isNaN(data.km) || data.km < 0) {
+    errors.km = "El campo 'Kilómetros' es obligatorio y debe ser un número mayor o igual a 0.";
+  }
+
+  // Validar el campo Marca
+  if (!data.marca || data.marca.trim() === "") {
+    errors.marca = "El campo 'Marca' es obligatorio.";
+  }
+
+  // Validar el campo VIN
+  if (data.vin === undefined || isNaN(data.vin) || data.vin < 0) {
+    errors.vin = "El campo 'VIN' es obligatorio y debe ser un número mayor o igual a 0.";
+  }
+
+  // Validar el campo Estado
+  if (!data.estado || data.estado.trim() === "") {
+    errors.estado = "El campo 'Estado' es obligatorio.";
+  }
+
+  // Validar el campo Departamento
+  if (!data.departamento || data.departamento.trim() === "") {
+    errors.departamento = "El campo 'Departamento' es obligatorio.";
+  }
+
+  console.log(data);
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+function validaCalendario(data) {
+  const errors = {};
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+
+function validaAsignacion(data) {
+  const errors = {};
+
+
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+function validaCoordenadas(data) {
+  const errors = {};
+  return {
+    isValid: Object.keys(errors).length === 0,
+    errors,
+  };
+}
+
+
 function validateOtroFormulario(data) {
   const errors = {};
   // Validaciones específicas para otro formulario
@@ -1091,6 +1596,7 @@ function showMenuBasedOnRole() {
         "#menu-dashboard",
         "#menu-upload",
         "#menu-users",
+        "#menu-unidades",
         "#signOut",
       ],
       "Visualizador y carga": ["#menu-dashboard", "#menu-upload", "#signOut"],
@@ -1129,6 +1635,54 @@ function showMenuBasedOnRole() {
   // document.getElementById("backButton").addEventListener("click", () => {
   //   window.history.back();
   // });
+}
+
+// Función para agregar una nueva fila al formulario de costos
+function addCostoRow() {
+  const tableBody = document.getElementById("costoTableBody");
+
+  // Crear una nueva fila
+  const newRow = document.createElement("tr");
+
+  // Añadir las celdas con los campos necesarios
+  newRow.innerHTML = `
+    <td>
+      <select name="C_Categoria[]" required>
+        <option value="Gasolina">Gasolina</option>
+        <option value="Limpieza">Limpieza</option>
+        <option value="Llantas">Llantas</option>
+        <option value="Mensualidad">Mensualidad</option>
+      </select>
+    </td>
+    <td>
+      <select name="C_Tipo[]" required>
+        <option value="Cambio de Llantas">Cambio de Llantas</option>
+        <option value="Lavado Completo">Lavado Completo</option>
+        <option value="Lavado Exterior">Lavado Exterior</option>
+        <option value="Limpieza Interior">Limpieza Interior</option>
+        <option value="Limpieza Interior y Exterior">Limpieza Interior y Exterior</option>
+        <option value="Pago de Arrendamiento">Pago de Arrendamiento</option>
+        <option value="Recarga Completa">Recarga Completa</option>
+        <option value="Revision de Llantas">Revision de Llantas</option>
+        <option value="Revision de Presión">Revision de Presión</option>
+      </select>
+    </td>
+    <td>
+      <input type="number" name="C_Monto[]" step="0.01" required />
+    </td>
+    <td>
+      <button type="button" onclick="removeCostoRow(this)">Eliminar</button>
+    </td>
+  `;
+
+  // Añadir la nueva fila al cuerpo de la tabla
+  tableBody.appendChild(newRow);
+}
+
+// Función para eliminar una fila del formulario de costos
+function removeCostoRow(button) {
+  const row = button.parentElement.parentElement;
+  row.remove();
 }
 
 addCategoryButton.addEventListener("click", function () {
@@ -1200,6 +1754,59 @@ document
 document
   .getElementById("editUserForm")
   .addEventListener("submit", submitEditUserForm);
+
+  document
+  .getElementById("editUnidadForm")
+  .addEventListener("submit", submitEditUnidadForm);
+
+  document
+  .getElementById("updateAsignacionViajeForm")
+  .addEventListener("submit", submitEditViajeForm);
+
+  document
+  .getElementById("eventForm")
+  .addEventListener("submit", submitEventoForm);
+
+  document
+  .getElementById("costForm")
+  .addEventListener("submit", submitCostosForm);
+
+document
+  .getElementById("addPermissionForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const userId = document.getElementById("userIdInput").value;
+    const entity = selectedEntity; // Assuming the first selected entity
+    const scope = selectedScope; // Assuming the first selected scope
+    const access_mode = selectedAccess; // Assuming the first selected access_mode
+
+    const permissionData = {
+      id_user: userId,
+      entity: entity,
+      scope: scope,
+      access_mode: access_mode,
+    };
+
+    fetch("/api/perm/permission/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(permissionData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Permission added:", data);
+        // Handle success, e.g., close the modal, refresh the permissions list, etc.
+        loadPermisos(userId);
+        addPermissionModal.style.display = "none";
+      })
+      .catch((error) => {
+        console.error("Error adding permission:", error);
+        // Handle error
+      });
+  });
 // Manejar el envío del formulario para añadir un nuevo formulario
 document.getElementById("addForm").addEventListener("submit", function (event) {
   event.preventDefault();
@@ -1251,6 +1858,22 @@ document.getElementById("menu-users").addEventListener("click", () => {
     .getElementById("selectedActionButton")
     .addEventListener("click", function () {});
 });
+
+document.getElementById("menu-unidades").addEventListener("click", () => {
+  showView("unidades-view");
+  loadUnidades(); // Cargar y mostrar los usuarios
+  document
+    .querySelector("#unidades-table tbody")
+    .addEventListener("change", function (e) {
+      if (e.target && e.target.matches(".user-checkbox")) {
+        toggleActionButton();
+      }
+    });
+  document
+    .getElementById("selectedActionButton")
+    .addEventListener("click", function () {});
+});
+
 document.getElementById("signOut").addEventListener("click", () => {
   localStorage.removeItem("authToken");
   window.location.href = "../index.html";
@@ -1300,6 +1923,158 @@ document
         console.error("Error:", error);
       });
   });
+
+  document
+  .getElementById("addUnidadForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const formData = {
+      placas: document.getElementById("U_Placas").value,
+      estado: document.getElementById("U_Estado").value,
+      fecha: document.getElementById("U_FechaDeCompra").value,
+      carga: document.getElementById("U_CargaMax").value,
+    };
+
+    fetch("/api/auth/unidades", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        addUnidadModal.style.display = "none";
+        loadUnidades(); // Recargar la lista de usuarios
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
+
+  document
+  .getElementById("addAsignacionViajeForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const estadoISO = {
+      "Aguascalientes": "AGU",
+      "BajaCalifornia": "BCN",
+      "BajaCalifornia Sur": "BCS",
+      "Campeche": "CAM",
+      "CDMX": "CMX",
+      "Chiapas": "CHP",
+      "Chihuahua": "CHH",
+      "Coahuila": "COA",
+      "Colima": "COL",
+      "Durango": "DUR",
+      "Guanajuato": "GUA",
+      "Guerrero": "GRO",
+      "Hidalgo": "HID",
+      "Jalisco": "JAL",
+      "EdoMex": "MEX",
+      "Michoacan": "MIC",
+      "Morelos": "MOR",
+      "Nayarit": "NAY",
+      "NuevoLeon": "NLE",
+      "Oaxaca": "OAX",
+      "Puebla": "PUE",
+      "Querétaro": "QUE",
+      "QuintanaRoo": "ROO",
+      "SanLuisPotosí": "SLP",
+      "Sinaloa": "SIN",
+      "Sonora": "SON",
+      "Tabasco": "TAB",
+      "Tamaulipas": "TAM",
+      "Tlaxcala": "TLA",
+      "Veracruz": "VER",
+      "Yucatán": "YUC",
+      "Zacatecas": "ZAC"
+    };
+
+    const estadoOrigen = document.getElementById("V_EstadoOrigen").value;
+    const estadoDestino = document.getElementById("V_EstadoDestino").value;
+
+    // Obtener los códigos ISO de 3 dígitos
+    const codigoOrigen = estadoISO[estadoOrigen];
+    const codigoDestino = estadoISO[estadoDestino];
+
+    // Crear el V_NOM automáticamente
+    const V_NOM = `${codigoOrigen}-${codigoDestino}`;
+
+    const formData = {
+      placas: document.getElementById("addU_Placas").value,
+      viaje: document.getElementById("V_KeyViaje").value,
+      operador: document.getElementById("V_Operador").value,
+      estadoOr: estadoOrigen,
+      estadoDe: estadoDestino,
+      V_NOM: V_NOM, // Agregar V_NOM calculado
+      fInicio: document.getElementById("V_FInicio").value,
+      fFin: null,
+      costo: document.getElementById("V_Costo").value,
+      ingreso: document.getElementById("V_Ingreso").value,
+      carga: document.getElementById("V_CargaUtilizada").value,
+      estatus: document.getElementById("V_Status").value
+    };
+
+    fetch("/api/viaje/viajes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        addAsignacionViajeModal.style.display = "none";
+        loadUnidades(); // Recargar la lista de usuarios
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
+
+  // document
+  // .getElementById("addAsignacionViajeForm")
+  // .addEventListener("submit", function (event) {
+  //   event.preventDefault();
+
+
+  //   const formData = {
+  //     placas: document.getElementById("updateU_Placas").value,
+  //     viaje: document.getElementById("upadateV_KeyViaje").value,
+  //     operador: document.getElementById("updateV_Operador").value,
+  //     estadoOrigen : document.getElementById("updateV_EstadoOrigen").value,
+  //     estadoDestino : document.getElementById("updateV_EstadoDestino").value,
+  //     fInicio: document.getElementById("updateV_FInicio").value,
+  //     fFin: document.getElementById("updateV_FFin").value,
+  //     costo: document.getElementById("updateV_Costo").value,
+  //     ingreso: document.getElementById("updateV_Ingreso").value,
+  //     carga: document.getElementById("updateV_CargaUtilizada").value,
+  //     estatus: document.getElementById("updateV_Status").value
+  //   };
+
+  //   fetch("/api/viaje/viajes", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(formData),
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log("Success:", data);
+  //       addAsignacionViajeModal.style.display = "none";
+  //       loadUnidades(); // Recargar la lista de usuarios
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // });
+
 document.addEventListener("DOMContentLoaded", showMenuBasedOnRole);
 document.addEventListener("DOMContentLoaded", () => {
   const permissionView = document.getElementById("permission-view");
