@@ -56,7 +56,7 @@ var appconfig = JSON.parse(fs.readFileSync('server/api/embedConfig.json'));
 
          return gen_hmac;
        }
-
+      app.get('/embeddetail/ping', (req, res) => {res.send("pong")})
        app.get("/",function (request, response) {
 
        var pathname = url.parse(request.url).pathname;
