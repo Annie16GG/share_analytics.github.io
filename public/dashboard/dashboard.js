@@ -23,7 +23,7 @@ var embedType = "component";
 // }
 var dashboardId = "dee9aba7-1484-4ab3-8114-066614d7ca01";
 var rootUrl = "https://login.shareanalytics.com.mx/bi";
-const authorizationUrl = "http://20.121.192.203:8084/embeddetail/get";
+const authorizationUrl = "https://21f1-20-121-192-203.ngrok-free.app/embeddetail/get";
 let selectedAccess = null;
 let selectedEntity = null;
 let selectedScope = null;
