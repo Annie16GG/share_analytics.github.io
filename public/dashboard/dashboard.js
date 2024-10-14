@@ -29,7 +29,7 @@ var embedType = "component";
 
 
 //Url of the GetDetails(API) in this application
-var authorizationUrl="https://b887-2605-59c8-7073-f710-cc16-ae6d-c10c-dd0b.ngrok-free.app";
+var authorizationUrl=" https://2677-2605-59c8-7073-f710-cc16-ae6d-c10c-dd0b.ngrok-free.app";
 
 // var authorizationUrl = "http://localhost:8080/embeddetail/get";
 let selectedAccess = null;
