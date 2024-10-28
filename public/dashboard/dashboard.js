@@ -1,13 +1,3 @@
-document.getElementById("signOut").addEventListener("click", (event) => {
-  event.preventDefault();
-
-  // Eliminar token de autenticación de localStorage
-  localStorage.removeItem("authToken");
-
-  // Redirigir al usuario a la página de inicio de sesión
-  window.location.href = "../index.html";
-});
-
 // var filtParameters = "";
 // const userId = localStorage.getItem("user_id");
 // if(userId == '5dbf3cb3-8b87-4648-bb41-2a2b137d2fc9'){
@@ -20,18 +10,24 @@ document.getElementById("signOut").addEventListener("click", (event) => {
 //   filtParameters = "Categoria=Entretenimiento";
 // }
 
+// Función para verificar si hay una sesión activa
+function checkSession() {
+  const token = localStorage.getItem("authToken"); // Aquí buscamos el token en el localStorage
+  if (!token) {
+    // Si no hay token, redirigir a index.html
+    window.location.href = "../index.html";
+  }
+}
 
-var dashboardId = "dee9aba7-1484-4ab3-8114-066614d7ca01";
+// Llamamos a checkSession() al cargar la página
+checkSession();
+
+var dashboardId = "5655907d-2104-4b98-b152-7f88c99bab33";
 var rootUrl = "https://login.shareanalytics.com.mx/bi";
 var siteIdentifier = "site/sharedemos";
 var environment = "onpremise";
 var embedType = "component";
-
-
-//Url of the GetDetails(API) in this application
-var authorizationUrl=" https://2677-2605-59c8-7073-f710-cc16-ae6d-c10c-dd0b.ngrok-free.app";
-
-// var authorizationUrl = "http://localhost:8080/embeddetail/get";
+var authorizationUrl = "http://localhost:8080/embeddetail/get";
 let selectedAccess = null;
 let selectedEntity = null;
 let selectedScope = null;
@@ -53,7 +49,14 @@ const formFieldsContainer = document.getElementById("formFieldsContainer");
 const addFieldButton = document.getElementById("addFieldButton");
 const addFormModal = document.getElementById("addFormModal");
 const closeBtn = document.querySelector(".close");
-
+const addCategoryModal = document.getElementById("addCategoryModal");
+const addCategoryButton = document.getElementById("CategoryButton");
+const selectGroupModal = document.getElementById("selectGroupModal");
+const closeModalButton = selectGroupModal.querySelector(".close");
+const tabButtons = selectGroupModal.querySelectorAll(".tab-button");
+const tabContents = selectGroupModal.querySelectorAll(".tab-content");
+const addGroupButton = document.getElementById("addGroupButton");
+const existingGroupSelect = document.getElementById("existingGroupSelect");
 const validationFunctions = {
   25: validateBitacoraTelcel,
   27: validateBitacoraTelcel_v2,
@@ -61,17 +64,14 @@ const validationFunctions = {
   2251799813685249: validaCalendario,
   2251799813685250: validaAsignacion,
   2251799813685251: validaCoordenadas,
-  1125899906842626:validaVehiculos,
+  1125899906842626: validaVehiculos,
 
   otro_formulario: validateOtroFormulario,
   // Agrega más formularios y funciones aquí...
 };
-
-// Mostrar el modal cuando se haga clic en el botón "Add User"
 addUserButton.onclick = function () {
   addUserModal.style.display = "block";
 };
-
 addUnityButton.onclick = function () {
   addUnidadModal.style.display = "block";
 };
@@ -84,22 +84,17 @@ addPermissionButton.onclick = function () {
   loadEntities();
   loadScope();
 };
-// Cerrar el modal cuando se haga clic en el botón de cierre
 closeModal.onclick = function () {
   addUserModal.style.display = "none";
   addUnidadModal.style.display = "none";
   addFormModal.style.display = "none";
   selectGroupModal.style.display = "none";
 };
-// Cerrar el modal cuando se haga clic fuera del contenido del modal
 window.onclick = function (event) {
   if (event.target == addUserModal) {
     addUserModal.style.display = "none";
   }
 };
-// btn.onclick = function () {
-//   modal.style.display = "block";
-// };
 span.onclick = function () {
   modal.style.display = "none";
 };
@@ -116,7 +111,6 @@ closeModalButtons.forEach((button) => {
     }
   };
 });
-// Cerrar el modal si se hace clic fuera de su contenido
 window.onclick = function (event) {
   const modals = document.querySelectorAll(".modal");
   modals.forEach((modal) => {
@@ -134,7 +128,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/\s+/g, "_");
   });
 });
-// Función para añadir un nuevo campo
 addFieldButton.onclick = () => {
   const fieldDiv = document.createElement("div");
   fieldDiv.classList.add("formField");
@@ -219,32 +212,26 @@ addForm.addEventListener("submit", (event) => {
     .catch((error) => console.error("Error:", error));
 });
 
-const addCategoryModal = document.getElementById("addCategoryModal");
-const addCategoryButton = document.getElementById("CategoryButton");
-
 document
   .getElementById("CategoryButton")
   .addEventListener("click", function () {
     addCategoryModal.style.display = "block";
   });
+document.getElementById("signOut").addEventListener("click", (event) => {
+  event.preventDefault();
 
-// Obtener referencias a los elementos del modal
-const selectGroupModal = document.getElementById("selectGroupModal");
-const closeModalButton = selectGroupModal.querySelector(".close");
-const tabButtons = selectGroupModal.querySelectorAll(".tab-button");
-const tabContents = selectGroupModal.querySelectorAll(".tab-content");
-const addGroupButton = document.getElementById("addGroupButton");
-const existingGroupSelect = document.getElementById("existingGroupSelect");
+  // Eliminar token de autenticación de localStorage
+  localStorage.removeItem("authToken");
 
-// Abrir modal cuando se hace clic en el botón de acción
+  // Redirigir al usuario a la página de inicio de sesión
+  window.location.href = "../index.html";
+});
 document
   .getElementById("selectedActionButton")
   .addEventListener("click", function () {
     selectGroupModal.style.display = "block";
     loadExistingGroups();
   });
-
-// Cambiar entre pestañas
 tabButtons.forEach((button) => {
   button.addEventListener("click", function () {
     tabButtons.forEach((btn) => btn.classList.remove("active"));
@@ -255,25 +242,6 @@ tabButtons.forEach((button) => {
     document.getElementById(targetTab).classList.add("active");
   });
 });
-
-// Cargar grupos existentes en el select
-function loadExistingGroups() {
-  fetch("/api/groups/group") // Reemplaza con tu endpoint real
-    .then((response) => response.json())
-    .then((groups) => {
-      console.log(groups); // Verifica los datos recibidos
-      existingGroupSelect.innerHTML = ""; // Limpiar opciones anteriores
-      groups.forEach((group) => {
-        const option = document.createElement("option");
-        option.value = group.id;
-        option.textContent = group.name_group;
-        existingGroupSelect.appendChild(option);
-      });
-    })
-    .catch((error) => console.error("Error fetching groups:", error));
-}
-
-// Enviar datos al backend al añadir grupo
 addGroupButton.addEventListener("click", function () {
   const activeTab = document.querySelector(".tab-content.active");
   let groupData;
@@ -325,19 +293,431 @@ addGroupButton.addEventListener("click", function () {
 
   // Enviar datos al backend (reemplaza con tu endpoint real)
 });
-
-// Cerrar modal al hacer clic fuera de él
 window.addEventListener("click", function (event) {
   if (event.target === selectGroupModal) {
     selectGroupModal.style.display = "none";
   }
 });
-
-// Cerrar modal al hacer clic en el botón de cerrar
 closeModalButton.addEventListener("click", function () {
   selectGroupModal.style.display = "none";
 });
+addCategoryButton.addEventListener("click", function () {
+  let groupData;
 
+  const categoryName = document.getElementById("categoryName").value;
+  const categoryDescription = document.getElementById(
+    "categoryDescription"
+  ).value;
+  groupData = { name: categoryName, description: categoryDescription };
+
+  fetch("/api/category/add", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(groupData),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Categoria añadida:", data);
+      addCategoryModal.style.display = "none"; // Cerrar modal
+    })
+    .catch((error) => console.error("Error adding group:", error));
+
+  // Enviar datos al backend (reemplaza con tu endpoint real)
+});
+document.querySelectorAll('input[name="category"]').forEach((radio) => {
+  radio.addEventListener("change", handleRadioChange);
+});
+document
+  .getElementById("addPermissionForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const userId = document.getElementById("userIdInput").value;
+    const entity = selectedEntity; // Assuming the first selected entity
+    const scope = selectedScope; // Assuming the first selected scope
+    const access_mode = selectedAccess; // Assuming the first selected access_mode
+
+    const permissionData = {
+      id_user: userId,
+      entity: entity,
+      scope: scope,
+      access_mode: access_mode,
+    };
+
+    fetch("/api/perm/permission/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(permissionData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Permission added:", data);
+        // Handle success, e.g., close the modal, refresh the permissions list, etc.
+        loadPermisos(userId);
+        addPermissionModal.style.display = "none";
+      })
+      .catch((error) => {
+        console.error("Error adding permission:", error);
+        // Handle error
+      });
+  });
+document
+  .getElementById("editUserForm")
+  .addEventListener("submit", submitEditUserForm);
+document
+  .getElementById("editUnidadForm")
+  .addEventListener("submit", submitEditUnidadForm);
+document
+  .getElementById("updateAsignacionViajeForm")
+  .addEventListener("submit", submitEditViajeForm);
+document
+  .getElementById("eventForm")
+  .addEventListener("submit", submitEventoForm);
+document
+  .getElementById("costForm")
+  .addEventListener("submit", submitCostosForm);
+document
+  .getElementById("addPermissionForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const userId = document.getElementById("userIdInput").value;
+    const entity = selectedEntity; // Assuming the first selected entity
+    const scope = selectedScope; // Assuming the first selected scope
+    const access_mode = selectedAccess; // Assuming the first selected access_mode
+
+    const permissionData = {
+      id_user: userId,
+      entity: entity,
+      scope: scope,
+      access_mode: access_mode,
+    };
+
+    fetch("/api/perm/permission/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(permissionData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Permission added:", data);
+        // Handle success, e.g., close the modal, refresh the permissions list, etc.
+        loadPermisos(userId);
+        addPermissionModal.style.display = "none";
+      })
+      .catch((error) => {
+        console.error("Error adding permission:", error);
+        // Handle error
+      });
+  });
+document.getElementById("addForm").addEventListener("submit", function (event) {
+  event.preventDefault();
+  const formName = document.getElementById("formName").value;
+  const formFields = document.getElementById("formFields").value;
+
+  fetch("/api/forms", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ name: formName, config: formFields }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        alert("Formulario añadido exitosamente");
+        modal.style.display = "none";
+        loadForms(); // Recargar la lista de formularios
+      } else {
+        alert("Error al añadir el formulario: " + data.error);
+      }
+    })
+    .catch((error) => console.error("Error:", error));
+});
+document.getElementById("menu-dashboard").addEventListener("click", () => {
+  showView("dashboard-view");
+  addCategoryButton.style.display = "block";
+  loadDashboards();
+});
+document.getElementById("menu-upload").addEventListener("click", () => {
+  showView("upload-view");
+  loadForms();
+});
+document.getElementById("menu-users").addEventListener("click", () => {
+  showView("users-view");
+  loadUsers(); // Cargar y mostrar los usuarios
+  document
+    .querySelector("#users-table tbody")
+    .addEventListener("change", function (e) {
+      if (e.target && e.target.matches(".user-checkbox")) {
+        toggleActionButton();
+      }
+    });
+  document
+    .getElementById("selectedActionButton")
+    .addEventListener("click", function () {});
+});
+document.getElementById("menu-unidades").addEventListener("click", () => {
+  showView("unidades-view");
+  loadUnidades(); // Cargar y mostrar los usuarios
+  document
+    .querySelector("#unidades-table tbody")
+    .addEventListener("change", function (e) {
+      if (e.target && e.target.matches(".user-checkbox")) {
+        toggleActionButton();
+      }
+    });
+  document
+    .getElementById("selectedActionButton")
+    .addEventListener("click", function () {});
+});
+document.getElementById("signOut").addEventListener("click", () => {
+  localStorage.removeItem("authToken");
+  window.location.href = "../index.html";
+});
+document
+  .querySelectorAll("#upload-view .sidebar.secondary-sidebar ul li")
+  .forEach((item, index) => {
+    item.addEventListener("click", () => {
+      // Aquí puedes cargar y mostrar dinámicamente el contenido del formulario según el índice o identificador
+      const formIndex = index + 1; // Ajustar según tu lógica de datos
+      const formularioContainer = document.getElementById("formulario");
+      formularioContainer.innerHTML = `Aquí puedes cargar el contenido del Formulario ${formIndex}`;
+    });
+  });
+document
+  .getElementById("addUserForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const formData = {
+      id: generateUUID(),
+      name: document.getElementById("name").value,
+      last_name: document.getElementById("last_name").value,
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value,
+      user: document.getElementById("user").value,
+      status: document.getElementById("status").value,
+      verification: document.getElementById("verification").value,
+      image_url: document.getElementById("image_url").value,
+      tipo_user: document.getElementById("tipo_user").value,
+    };
+
+    fetch("/api/auth/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        addUserModal.style.display = "none";
+        loadUsers(); // Recargar la lista de usuarios
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
+
+document
+  .getElementById("addUnidadForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const formData = {
+      placas: document.getElementById("U_Placas").value,
+      estado: document.getElementById("U_Estado").value,
+      fecha: document.getElementById("U_FechaDeCompra").value,
+      carga: document.getElementById("U_CargaMax").value,
+    };
+
+    // Usar SweetAlert2 para la confirmación
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas agregar esta unidad?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, agregarla",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma, hacer el fetch
+        fetch("/api/auth/unidades", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Success:", data);
+            Swal.fire(
+              "Unidad agregada!",
+              "La unidad ha sido agregada exitosamente.",
+              "success"
+            );
+            addUnidadModal.style.display = "none"; // Cerrar el modal
+            loadUnidades(); // Recargar la lista de unidades
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire(
+              "Error",
+              "Ocurrió un error al agregar la unidad.",
+              "error"
+            );
+          });
+      }
+    });
+  });
+
+document
+  .getElementById("addAsignacionViajeForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const estadoISO = {
+      Aguascalientes: "AGU",
+      BajaCalifornia: "BCN",
+      "BajaCalifornia Sur": "BCS",
+      Campeche: "CAM",
+      CDMX: "CMX",
+      Chiapas: "CHP",
+      Chihuahua: "CHH",
+      Coahuila: "COA",
+      Colima: "COL",
+      Durango: "DUR",
+      Guanajuato: "GUA",
+      Guerrero: "GRO",
+      Hidalgo: "HID",
+      Jalisco: "JAL",
+      EdoMex: "MEX",
+      Michoacan: "MIC",
+      Morelos: "MOR",
+      Nayarit: "NAY",
+      NuevoLeon: "NLE",
+      Oaxaca: "OAX",
+      Puebla: "PUE",
+      Querétaro: "QUE",
+      QuintanaRoo: "ROO",
+      SanLuisPotosí: "SLP",
+      Sinaloa: "SIN",
+      Sonora: "SON",
+      Tabasco: "TAB",
+      Tamaulipas: "TAM",
+      Tlaxcala: "TLA",
+      Veracruz: "VER",
+      Yucatán: "YUC",
+      Zacatecas: "ZAC",
+    };
+
+    const estadoOrigen = document.getElementById("V_EstadoOrigen").value;
+    const estadoDestino = document.getElementById("V_EstadoDestino").value;
+
+    // Obtener los códigos ISO de 3 dígitos
+    const codigoOrigen = estadoISO[estadoOrigen];
+    const codigoDestino = estadoISO[estadoDestino];
+
+    // Crear el V_NOM automáticamente
+    const V_NOM = `${codigoOrigen}-${codigoDestino}`;
+
+    const formData = {
+      placas: document.getElementById("addU_Placas").value,
+      viaje: document.getElementById("V_KeyViaje").value,
+      operador: document.getElementById("V_Operador").value,
+      estadoOr: estadoOrigen,
+      estadoDe: estadoDestino,
+      V_NOM: V_NOM, // Agregar V_NOM calculado
+      fInicio: document.getElementById("V_FInicio").value,
+      fFin: null,
+      costo: document.getElementById("V_Costo").value,
+      ingreso: document.getElementById("V_Ingreso").value,
+      carga: document.getElementById("V_CargaUtilizada").value,
+      estatus: document.getElementById("V_Status").value,
+    };
+
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas agregar este viaje?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, agregarlo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch("/api/viaje/viajes", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Success:", data);
+            Swal.fire(
+              "Viaje agregado!",
+              "El viaje ha sido agregado exitosamente.",
+              "success"
+            );
+            addAsignacionViajeModal.style.display = "none";
+            loadUnidades(); // Recargar la lista de usuarios
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire(
+              "Error",
+              "Ocurrió un error al agregar el viaje.",
+              "error"
+            );
+          });
+      }
+    });
+  });
+document.addEventListener("DOMContentLoaded", showMenuBasedOnRole);
+document.addEventListener("DOMContentLoaded", () => {
+  const permissionView = document.getElementById("permission-view");
+  const usersView = document.getElementById("users-view");
+  const tipoUser = localStorage.getItem("userRole");
+  // backToUsersButton.style.display = 'inline';
+  // // Ocultar el botón de añadir formulario si el rol es Visualizador y carga
+  if (tipoUser === "Visualizador y carga") {
+    addFormButton.style.display = "none";
+  }
+  // Manejar el clic en el botón de retroceso
+  backToUsersButton.addEventListener("click", () => {
+    permissionView.style.display = "none";
+    usersView.style.display = "block";
+  });
+});
+showView("dashboard-view");
+// Cargar grupos existentes en el select
+function loadExistingGroups() {
+  fetch("/api/groups/group") // Reemplaza con tu endpoint real
+    .then((response) => response.json())
+    .then((groups) => {
+      console.log(groups); // Verifica los datos recibidos
+      existingGroupSelect.innerHTML = ""; // Limpiar opciones anteriores
+      groups.forEach((group) => {
+        const option = document.createElement("option");
+        option.value = group.id;
+        option.textContent = group.name_group;
+        existingGroupSelect.appendChild(option);
+      });
+    })
+    .catch((error) => console.error("Error fetching groups:", error));
+}
 function generateUUID() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
     const r = (Math.random() * 16) | 0,
@@ -345,7 +725,6 @@ function generateUUID() {
     return v.toString(16);
   });
 }
-
 function toggleActionButton() {
   const selectedCheckboxes = document.querySelectorAll(
     ".user-checkbox:checked"
@@ -358,7 +737,6 @@ function toggleActionButton() {
     actionButton.style.display = "none"; // Ocultar el botón
   }
 }
-// Función para manejar el envío del formulario de edición
 function submitEditUserForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -383,25 +761,51 @@ function submitEditUserForm(event) {
     image_url: editImageUrl,
     tipo_user: editTipoUser,
   };
-  console.log(updatedUser);
 
-  fetch(`/api/auth/users/${editUserId}`, {
-    method: "PUT", // Método HTTP para actualizar datos
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedUser),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("User updated successfully:", data);
-      // Cerrar el modal
-      document.getElementById("editUserModal").style.display = "none";
-      loadUsers(); // Opcional: refrescar la lista de usuarios o actualizar la UI según sea necesario
-    })
-    .catch((error) => console.error("Error updating user details:", error));
+  // Mostrar alerta de confirmación antes de realizar la acción
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción actualizará los datos del usuario.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, actualizar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Si el usuario confirma, proceder con la actualización
+      fetch(`/api/auth/users/${editUserId}`, {
+        method: "PUT", // Método HTTP para actualizar datos
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Mostrar alerta de éxito si se actualizó correctamente
+          Swal.fire(
+            "Actualizado",
+            "Los datos del usuario han sido actualizados.",
+            "success"
+          );
+          // Cerrar el modal
+          document.getElementById("editUserModal").style.display = "none";
+          loadUsers(); // Refrescar la lista de usuarios o actualizar la UI según sea necesario
+        })
+        .catch((error) => {
+          console.error("Error updating user details:", error);
+          // Mostrar alerta de error si algo salió mal
+          Swal.fire(
+            "Error",
+            "Hubo un problema al actualizar los datos de la unidad.",
+            "error"
+          );
+        });
+    }
+  });
 }
-
 function submitEditUnidadForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -416,27 +820,51 @@ function submitEditUnidadForm(event) {
     estado: editEstado,
     fecha: editFecha,
     carga: editCarga,
-    status: editStatus
+    status: editStatus,
   };
   console.log(updatedUser);
 
-  fetch(`/api/auth/unidades/${editUserId}`, {
-    method: "PUT", // Método HTTP para actualizar datos
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedUser),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Unidad actualizada satisfactoriamente", data);
-      // Cerrar el modal
-      document.getElementById("editUnidadModal").style.display = "none";
-      loadUnidades(); // Opcional: refrescar la lista de usuarios o actualizar la UI según sea necesario
-    })
-    .catch((error) => console.error("Error updating user details:", error));
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción actualizará los datos de la unidad.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, actualizar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/api/auth/unidades/${editUserId}`, {
+        method: "PUT", // Método HTTP para actualizar datos
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          Swal.fire(
+            "Actualizado",
+            "Los datos de la unidad han sido actualizados.",
+            "success"
+          );
+          // Cerrar el modal
+          document.getElementById("editUnidadModal").style.display = "none";
+          loadUnidades(); // Opcional: refrescar la lista de usuarios o actualizar la UI según sea necesario
+        })
+        .catch((error) => {
+          console.error("Error updating user details:", error);
+          // Mostrar alerta de error si algo salió mal
+          Swal.fire(
+            "Error",
+            "Hubo un problema al actualizar los datos de la unidad.",
+            "error"
+          );
+        });
+    }
+  });
 }
-
 function submitEditViajeForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -447,32 +875,52 @@ function submitEditViajeForm(event) {
 
   const updatedUser = {
     placas: editPlacas,
-    viaje:editviaje,
+    viaje: editviaje,
     fin: editfin,
-    status: editstatus
+    status: editstatus,
   };
-  console.log(updatedUser);
-
-  fetch(`/api/viaje/viajes/${editPlacas}`, {
-    method: "PUT", // Método HTTP para actualizar datos
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedUser),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Unidad actualizada satisfactoriamente", data);
-      // Cerrar el modal
-      document.getElementById("updateAsignacionViajeModal").style.display = "none";
-      document.getElementById("C_Placas").value = editPlacas;
-      document.getElementById("C_KeyViaje").value = editviaje;
-      document.getElementById("costosModal").style.display = "block";
-      loadUnidades();
-    })
-    .catch((error) => console.error("Error updating user details:", error));
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción finalizara el viaje.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, actualizar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/api/viaje/viajes/${editPlacas}`, {
+        method: "PUT", // Método HTTP para actualizar datos
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Mostrar alerta de éxito si se actualizó correctamente
+          Swal.fire("Actualizado", "El viaje ha finalizado.", "success");
+          // Cerrar el modal
+          document.getElementById("updateAsignacionViajeModal").style.display =
+            "none";
+          document.getElementById("C_Placas").value = editPlacas;
+          document.getElementById("C_KeyViaje").value = editviaje;
+          document.getElementById("costosModal").style.display = "block";
+          loadUnidades();
+        })
+        .catch((error) => {
+          console.error("Error updating user details:", error);
+          // Mostrar alerta de error si algo salió mal
+          Swal.fire(
+            "Error",
+            "Hubo un problema al finalizar el viaje.",
+            "error"
+          );
+        });
+    }
+  });
 }
-
 function submitEventoForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -485,27 +933,42 @@ function submitEventoForm(event) {
     placas: evPlacas,
     tipo: evTipo,
     fecha: evFecha,
-    monto: evMonto
+    monto: evMonto,
   };
-  console.log(updatedUser);
-
-  fetch(`/api/viaje/eventos`, {
-    method: "POST", // Método HTTP para actualizar datos
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(updatedUser),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Evento añadido", data);
-      // Cerrar el modal
-      document.getElementById("eventoModal").style.display = "none";
-      loadUnidades(); // Opcional: refrescar la lista de usuarios o actualizar la UI según sea necesario
-    })
-    .catch((error) => console.error("Error updating user details:", error));
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción añadira un evento.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, Añadir",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/api/viaje/eventos`, {
+        method: "POST", // Método HTTP para actualizar datos
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedUser),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Mostrar alerta de éxito si se actualizó correctamente
+          Swal.fire("Actualizado", "El evento ha sido añadido.", "success");
+          // Cerrar el modal
+          document.getElementById("eventoModal").style.display = "none";
+          loadUnidades(); // Opcional: refrescar la lista de usuarios o actualizar la UI según sea necesario
+        })
+        .catch((error) => {
+          console.error("Error updating user details:", error);
+          // Mostrar alerta de error si algo salió mal
+          Swal.fire("Error", "Hubo un problema al añadir el evento.", "error");
+        });
+    }
+  });
 }
-
 function submitCostosForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -514,49 +977,70 @@ function submitCostosForm(event) {
   const keyViaje = document.getElementById("C_KeyViaje").value;
 
   // Recoger los valores de todas las filas dinámicas
-  const categorias = Array.from(document.querySelectorAll("select[name='C_Categoria[]']")).map(select => select.value);
-  const tipos = Array.from(document.querySelectorAll("select[name='C_Tipo[]']")).map(select => select.value);
-  const montos = Array.from(document.querySelectorAll("input[name='C_Monto[]']")).map(input => parseFloat(input.value));
+  const categorias = Array.from(
+    document.querySelectorAll("select[name='C_Categoria[]']")
+  ).map((select) => select.value);
+  const tipos = Array.from(
+    document.querySelectorAll("select[name='C_Tipo[]']")
+  ).map((select) => select.value);
+  const montos = Array.from(
+    document.querySelectorAll("input[name='C_Monto[]']")
+  ).map((input) => parseFloat(input.value));
 
   // Verificar que todas las filas tengan los valores completos
   const costos = categorias.map((categoria, index) => ({
     categoria,
     tipo: tipos[index],
-    monto: montos[index]
+    monto: montos[index],
   }));
 
   // Crear el objeto a enviar
   const data = {
     placas,
     keyViaje,
-    costos
+    costos,
   };
 
-  console.log("Datos a enviar:", data); // Verificar en la consola si los datos son correctos
-
-  fetch(`/api/viaje/costos`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => {
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      return response.json(); // Verificar si el backend está enviando JSON
-    })
-    .then((data) => {
-      console.log("Evento añadido", data);
-      document.getElementById("costosModal").style.display = "none";
-      debugger;
-      loadUnidades();
-    })
-    .catch((error) => {
-      console.error("Error al guardar los costos:", error);
-    });
-
+  // Mostrar alerta de confirmación antes de realizar la acción
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción registrara los costos.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, continuar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/api/viaje/costos`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          Swal.fire(
+            "Actualizado",
+            "Los costos han sido registrados.",
+            "success"
+          );
+          document.getElementById("costosModal").style.display = "none";
+          loadUnidades();
+        })
+        .catch((error) => {
+          console.error("Error updating user details:", error);
+          // Mostrar alerta de error si algo salió mal
+          Swal.fire(
+            "Error",
+            "Hubo un problema al registrar los costos.",
+            "error"
+          );
+        });
+    }
+  });
 }
 const deleteUser = async (userId) => {
   try {
@@ -575,6 +1059,21 @@ const deleteUser = async (userId) => {
   }
 };
 const deleteUnidad = async (placa) => {
+  // Mostrar mensaje de confirmación con SweetAlert
+  const confirmResult = await Swal.fire({
+    title: "¿Estás seguro?",
+    text: `Esta acción eliminará la unidad con placas ${placa}. ¿Deseas continuar?`,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar"
+  });
+
+  // Verificar si el usuario confirmó la eliminación
+  if (!confirmResult.isConfirmed) {
+    return; // Si no se confirma, se detiene la ejecución
+  }
+
   try {
     const response = await fetch(`/api/auth/unidades/${placa}`, {
       method: "DELETE",
@@ -582,14 +1081,33 @@ const deleteUnidad = async (placa) => {
     const result = await response.json();
 
     if (response.ok) {
-      loadUnidades();
+      // Mostrar mensaje de éxito con SweetAlert
+      Swal.fire({
+        title: "Eliminado",
+        text: "La unidad ha sido eliminada correctamente.",
+        icon: "success",
+      });
+      loadUnidades(); // Recargar las unidades después de la eliminación
     } else {
+      // Mostrar mensaje de error con SweetAlert
+      Swal.fire({
+        title: "Error",
+        text: result.message || "No se pudo eliminar la unidad.",
+        icon: "error",
+      });
       console.error(result.message);
     }
   } catch (error) {
+    // Mostrar mensaje de error en caso de fallo en la solicitud
+    Swal.fire({
+      title: "Error",
+      text: "Hubo un problema al intentar eliminar la unidad.",
+      icon: "error",
+    });
     console.error("Error deleting user:", error);
   }
 };
+
 function openPermissionsModal(userId) {
   showView("permission-view");
   loadPermisos(userId);
@@ -651,7 +1169,6 @@ function deletePermiso(permisoId, userId) {
       console.error("Error:", error);
     });
 }
-
 function embedSample(id, userId) {
   console.log(userId);
   var boldbiEmbedInstance = BoldBI.create({
@@ -667,12 +1184,19 @@ function embedSample(id, userId) {
     authorizationServer: {
       url: authorizationUrl,
     },
-    dashboardSettings: { showHeader: true, showExport: false, showRefresh: true, enableTheme: true, showMoreOption: true, enableFilterOverview: true, enableFullScreen: true, },
+    dashboardSettings: {
+      showHeader: true,
+      showExport: false,
+      showRefresh: true,
+      enableTheme: true,
+      showMoreOption: true,
+      enableFilterOverview: true,
+      enableFullScreen: true,
+    },
     expirationTime: "100000",
   });
   boldbiEmbedInstance.loadDashboard();
 }
-// Función para mostrar la vista seleccionada
 function openEditUserModal(userId) {
   fetch(`/api/auth/users/${userId}`)
     .then((response) => response.json())
@@ -725,7 +1249,6 @@ function openEditUserModal(userId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
-
 function openEditUnidadModal(unidadId) {
   fetch(`/api/auth/unidades/${unidadId}`)
     .then((response) => response.json())
@@ -739,13 +1262,7 @@ function openEditUnidadModal(unidadId) {
         const fechaComp = document.getElementById("editU_FechaDeCompra");
         const cargaMax = document.getElementById("editU_CargaMax");
         const estatus = document.getElementById("editU_Status");
-        if (
-          placas &&
-          estado &&
-          fechaComp &&
-          cargaMax &&
-          estatus
-        ) {
+        if (placas && estado && fechaComp && cargaMax && estatus) {
           placas.value = unidad.U_Placas;
           estado.value = unidad.U_Estado;
           fechaComp.value = unidad.U_FechaDeCompra;
@@ -771,7 +1288,6 @@ function openEditUnidadModal(unidadId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
-
 function openEditViajeModal(unidadId) {
   fetch(`/api/viaje/viajes/${unidadId}`)
     .then((response) => response.json())
@@ -817,7 +1333,8 @@ function openEditViajeModal(unidadId) {
           carga.value = unidad.V_CargaUtilizada;
           status.value = unidad.V_Status;
           // Mostrar el modal de edición
-          document.getElementById("updateAsignacionViajeModal").style.display = "block";
+          document.getElementById("updateAsignacionViajeModal").style.display =
+            "block";
         } else {
           console.error(
             "Uno o más elementos del formulario no fueron encontrados."
@@ -829,7 +1346,6 @@ function openEditViajeModal(unidadId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
-
 function openAsignarViajeUnidadModal(unidadId) {
   fetch(`/api/auth/unidades/${unidadId}`)
     .then((response) => response.json())
@@ -838,12 +1354,11 @@ function openAsignarViajeUnidadModal(unidadId) {
         const unidad = unidades[0];
         const placas = document.getElementById("addU_Placas");
 
-        if (
-          placas
-        ) {
+        if (placas) {
           placas.value = unidad.U_Placas;
           // Mostrar el modal de edición
-          document.getElementById("addAsignacionViajeModal").style.display = "block";
+          document.getElementById("addAsignacionViajeModal").style.display =
+            "block";
           loadUnidades();
         } else {
           console.error(
@@ -856,7 +1371,6 @@ function openAsignarViajeUnidadModal(unidadId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
-
 function eventoUnidad(unidadId) {
   fetch(`/api/auth/unidades/${unidadId}`)
     .then((response) => response.json())
@@ -865,9 +1379,7 @@ function eventoUnidad(unidadId) {
         const unidad = unidades[0];
         const placas = document.getElementById("E_Placas");
 
-        if (
-          placas
-        ) {
+        if (placas) {
           placas.value = unidad.U_Placas;
           // Mostrar el modal de edición
           document.getElementById("eventoModal").style.display = "block";
@@ -882,7 +1394,6 @@ function eventoUnidad(unidadId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
-
 function showView(viewId) {
   const views = document.querySelectorAll(".view");
   views.forEach((view) => {
@@ -890,7 +1401,6 @@ function showView(viewId) {
   });
   document.getElementById(viewId).style.display = "block";
 }
-// Cargar formularios permitidos para el usuario actual
 function loadForms() {
   const userId = localStorage.getItem("user_id"); // Obtener el ID del usuario del almacenamiento local
   const role = localStorage.getItem("userRole");
@@ -932,7 +1442,6 @@ function loadForms() {
       .catch((error) => console.error("Error fetching forms:", error));
   }
 }
-// Cargar dashboards permitidos para el usuario actual
 function loadDashboards() {
   const userId = localStorage.getItem("user_id");
   const role = localStorage.getItem("userRole"); // Obtener el ID del usuario del almacenamiento local
@@ -973,7 +1482,6 @@ function loadDashboards() {
       .catch((error) => console.error("Error fetching forms:", error));
   }
 }
-// Función para renderizar el formulario seleccionado
 function renderForm(formId) {
   fetch(`/api/forms/${formId}`)
     .then((response) => response.json())
@@ -1149,10 +1657,20 @@ function loadUnidades() {
     <div class="dropdown">
       <button class="dropbtn">Actions</button>
       <div class="dropdown-content">
-        <a href="#" onclick="eventoUnidad('${unidad.U_Placas}')">Agregar Evento</a>
-        <a href="#" onclick="${unidad.U_Status === 'Ocupado' ? `openEditViajeModal('${unidad.U_Placas}')` : `openAsignarViajeUnidadModal('${unidad.U_Placas}')`}">Modificar viaje</a>
-        <a href="#" onclick="openEditUnidadModal('${unidad.U_Placas}')">Editar Unidad</a>
-        <a href="#" onclick="deleteUnidad('${unidad.U_Placas}')">Borrar unidad</a>
+        <a href="#" onclick="eventoUnidad('${
+          unidad.U_Placas
+        }')">Agregar Evento</a>
+        <a href="#" onclick="${
+          unidad.U_Status === "Ocupado"
+            ? `openEditViajeModal('${unidad.U_Placas}')`
+            : `openAsignarViajeUnidadModal('${unidad.U_Placas}')`
+        }">Modificar viaje</a>
+        <a href="#" onclick="openEditUnidadModal('${
+          unidad.U_Placas
+        }')">Editar Unidad</a>
+        <a href="#" onclick="deleteUnidad('${
+          unidad.U_Placas
+        }')">Borrar unidad</a>
       </div>
     </div>
   </td>
@@ -1401,14 +1919,22 @@ function validateBitacoraTelcel_v2(data) {
   if (!data["Fecha Registro"]) {
     errors["Fecha Registro"] = "Fecha de registro inválida.";
   }
-  if (!data["Sistema que reporta"] || data["Sistema que reporta"].trim() === "") {
-    errors["Sistema que reporta"] = "El campo 'Sistema que reporta' es obligatorio.";
+  if (
+    !data["Sistema que reporta"] ||
+    data["Sistema que reporta"].trim() === ""
+  ) {
+    errors["Sistema que reporta"] =
+      "El campo 'Sistema que reporta' es obligatorio.";
   }
   if (!data["Tipo"] || data["Tipo"].trim() === "") {
     errors["Tipo"] = "El campo 'Tipo' es obligatorio.";
   }
-  if (!data["Herramienta de Seguimiento"] || data["Herramienta de Seguimiento"].trim() === "") {
-    errors["Herramienta de Seguimiento"] = "El campo 'Herramienta de Seguimiento' es obligatorio.";
+  if (
+    !data["Herramienta de Seguimiento"] ||
+    data["Herramienta de Seguimiento"].trim() === ""
+  ) {
+    errors["Herramienta de Seguimiento"] =
+      "El campo 'Herramienta de Seguimiento' es obligatorio.";
   }
   // Más validaciones específicas...
 
@@ -1418,7 +1944,6 @@ function validateBitacoraTelcel_v2(data) {
     errors,
   };
 }
-
 function validateCargaHoras(data) {
   const errors = {};
   // Validar el campo Fecha
@@ -1448,7 +1973,6 @@ function validateCargaHoras(data) {
     errors,
   };
 }
-
 function validaVehiculos(data) {
   const errors = {};
 
@@ -1462,13 +1986,18 @@ function validaVehiculos(data) {
   // Validar el campo Tipo
   const tiposValidos = ["Consulta", "Carga", "Servicio"];
   if (!data.tipo || !tiposValidos.includes(data.tipo)) {
-    errors.tipo = "El campo 'Tipo' es obligatorio y debe ser una opción válida.";
+    errors.tipo =
+      "El campo 'Tipo' es obligatorio y debe ser una opción válida.";
   }
 
   // Validar el campo Disponibilidad
   const disponibilidadValida = ["Disponible", "Ocupado"];
-  if (!data.disponibilidad || !disponibilidadValida.includes(data.disponibilidad)) {
-    errors.disponibilidad = "El campo 'Disponibilidad' es obligatorio y debe ser una opción válida.";
+  if (
+    !data.disponibilidad ||
+    !disponibilidadValida.includes(data.disponibilidad)
+  ) {
+    errors.disponibilidad =
+      "El campo 'Disponibilidad' es obligatorio y debe ser una opción válida.";
   }
 
   // Validar el campo Color
@@ -1478,7 +2007,8 @@ function validaVehiculos(data) {
 
   // Validar el campo Km
   if (data.km === undefined || isNaN(data.km) || data.km < 0) {
-    errors.km = "El campo 'Kilómetros' es obligatorio y debe ser un número mayor o igual a 0.";
+    errors.km =
+      "El campo 'Kilómetros' es obligatorio y debe ser un número mayor o igual a 0.";
   }
 
   // Validar el campo Marca
@@ -1488,7 +2018,8 @@ function validaVehiculos(data) {
 
   // Validar el campo VIN
   if (data.vin === undefined || isNaN(data.vin) || data.vin < 0) {
-    errors.vin = "El campo 'VIN' es obligatorio y debe ser un número mayor o igual a 0.";
+    errors.vin =
+      "El campo 'VIN' es obligatorio y debe ser un número mayor o igual a 0.";
   }
 
   // Validar el campo Estado
@@ -1508,7 +2039,6 @@ function validaVehiculos(data) {
     errors,
   };
 }
-
 function validaCalendario(data) {
   const errors = {};
 
@@ -1517,11 +2047,8 @@ function validaCalendario(data) {
     errors,
   };
 }
-
-
 function validaAsignacion(data) {
   const errors = {};
-
 
   return {
     isValid: Object.keys(errors).length === 0,
@@ -1536,8 +2063,6 @@ function validaCoordenadas(data) {
     errors,
   };
 }
-
-
 function validateOtroFormulario(data) {
   const errors = {};
   // Validaciones específicas para otro formulario
@@ -1636,8 +2161,6 @@ function showMenuBasedOnRole() {
   //   window.history.back();
   // });
 }
-
-// Función para agregar una nueva fila al formulario de costos
 function addCostoRow() {
   const tableBody = document.getElementById("costoTableBody");
 
@@ -1678,417 +2201,7 @@ function addCostoRow() {
   // Añadir la nueva fila al cuerpo de la tabla
   tableBody.appendChild(newRow);
 }
-
-// Función para eliminar una fila del formulario de costos
 function removeCostoRow(button) {
   const row = button.parentElement.parentElement;
   row.remove();
 }
-
-addCategoryButton.addEventListener("click", function () {
-  let groupData;
-
-    const categoryName = document.getElementById("categoryName").value;
-    const categoryDescription = document.getElementById("categoryDescription").value;
-    groupData = { name: categoryName, description: categoryDescription };
-
-    fetch("/api/category/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(groupData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Categoria añadida:", data);
-        addCategoryModal.style.display = "none"; // Cerrar modal
-      })
-      .catch((error) => console.error("Error adding group:", error));
-
-  // Enviar datos al backend (reemplaza con tu endpoint real)
-});
-
-document.querySelectorAll('input[name="category"]').forEach((radio) => {
-  radio.addEventListener("change", handleRadioChange);
-});
-// Enviar los datos seleccionados al servidor cuando se envíe el formulario
-document
-  .getElementById("addPermissionForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const userId = document.getElementById("userIdInput").value;
-    const entity = selectedEntity; // Assuming the first selected entity
-    const scope = selectedScope; // Assuming the first selected scope
-    const access_mode = selectedAccess; // Assuming the first selected access_mode
-
-    const permissionData = {
-      id_user: userId,
-      entity: entity,
-      scope: scope,
-      access_mode: access_mode,
-    };
-
-    fetch("/api/perm/permission/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(permissionData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Permission added:", data);
-        // Handle success, e.g., close the modal, refresh the permissions list, etc.
-        loadPermisos(userId);
-        addPermissionModal.style.display = "none";
-      })
-      .catch((error) => {
-        console.error("Error adding permission:", error);
-        // Handle error
-      });
-  });
-
-// Event listener para el formulario de edición
-document
-  .getElementById("editUserForm")
-  .addEventListener("submit", submitEditUserForm);
-
-  document
-  .getElementById("editUnidadForm")
-  .addEventListener("submit", submitEditUnidadForm);
-
-  document
-  .getElementById("updateAsignacionViajeForm")
-  .addEventListener("submit", submitEditViajeForm);
-
-  document
-  .getElementById("eventForm")
-  .addEventListener("submit", submitEventoForm);
-
-  document
-  .getElementById("costForm")
-  .addEventListener("submit", submitCostosForm);
-
-document
-  .getElementById("addPermissionForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const userId = document.getElementById("userIdInput").value;
-    const entity = selectedEntity; // Assuming the first selected entity
-    const scope = selectedScope; // Assuming the first selected scope
-    const access_mode = selectedAccess; // Assuming the first selected access_mode
-
-    const permissionData = {
-      id_user: userId,
-      entity: entity,
-      scope: scope,
-      access_mode: access_mode,
-    };
-
-    fetch("/api/perm/permission/add", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(permissionData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Permission added:", data);
-        // Handle success, e.g., close the modal, refresh the permissions list, etc.
-        loadPermisos(userId);
-        addPermissionModal.style.display = "none";
-      })
-      .catch((error) => {
-        console.error("Error adding permission:", error);
-        // Handle error
-      });
-  });
-// Manejar el envío del formulario para añadir un nuevo formulario
-document.getElementById("addForm").addEventListener("submit", function (event) {
-  event.preventDefault();
-  const formName = document.getElementById("formName").value;
-  const formFields = document.getElementById("formFields").value;
-
-  fetch("/api/forms", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ name: formName, config: formFields }),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      if (data.success) {
-        alert("Formulario añadido exitosamente");
-        modal.style.display = "none";
-        loadForms(); // Recargar la lista de formularios
-      } else {
-        alert("Error al añadir el formulario: " + data.error);
-      }
-    })
-    .catch((error) => console.error("Error:", error));
-});
-// Eventos para el menú
-document.getElementById("menu-dashboard").addEventListener("click", () => {
-  showView("dashboard-view");
-  addCategoryButton.style.display = "block";
-  loadDashboards();
-});
-
-document.getElementById("menu-upload").addEventListener("click", () => {
-  showView("upload-view");
-  loadForms();
-});
-
-document.getElementById("menu-users").addEventListener("click", () => {
-  showView("users-view");
-  loadUsers(); // Cargar y mostrar los usuarios
-  document
-    .querySelector("#users-table tbody")
-    .addEventListener("change", function (e) {
-      if (e.target && e.target.matches(".user-checkbox")) {
-        toggleActionButton();
-      }
-    });
-  document
-    .getElementById("selectedActionButton")
-    .addEventListener("click", function () {});
-});
-
-document.getElementById("menu-unidades").addEventListener("click", () => {
-  showView("unidades-view");
-  loadUnidades(); // Cargar y mostrar los usuarios
-  document
-    .querySelector("#unidades-table tbody")
-    .addEventListener("change", function (e) {
-      if (e.target && e.target.matches(".user-checkbox")) {
-        toggleActionButton();
-      }
-    });
-  document
-    .getElementById("selectedActionButton")
-    .addEventListener("click", function () {});
-});
-
-document.getElementById("signOut").addEventListener("click", () => {
-  localStorage.removeItem("authToken");
-  window.location.href = "../index.html";
-});
-document
-  .querySelectorAll("#upload-view .sidebar.secondary-sidebar ul li")
-  .forEach((item, index) => {
-    item.addEventListener("click", () => {
-      // Aquí puedes cargar y mostrar dinámicamente el contenido del formulario según el índice o identificador
-      const formIndex = index + 1; // Ajustar según tu lógica de datos
-      const formularioContainer = document.getElementById("formulario");
-      formularioContainer.innerHTML = `Aquí puedes cargar el contenido del Formulario ${formIndex}`;
-    });
-  });
-document
-  .getElementById("addUserForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const formData = {
-      id: generateUUID(),
-      name: document.getElementById("name").value,
-      last_name: document.getElementById("last_name").value,
-      email: document.getElementById("email").value,
-      password: document.getElementById("password").value,
-      user: document.getElementById("user").value,
-      status: document.getElementById("status").value,
-      verification: document.getElementById("verification").value,
-      image_url: document.getElementById("image_url").value,
-      tipo_user: document.getElementById("tipo_user").value,
-    };
-
-    fetch("/api/auth/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        addUserModal.style.display = "none";
-        loadUsers(); // Recargar la lista de usuarios
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  });
-
-  document
-  .getElementById("addUnidadForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const formData = {
-      placas: document.getElementById("U_Placas").value,
-      estado: document.getElementById("U_Estado").value,
-      fecha: document.getElementById("U_FechaDeCompra").value,
-      carga: document.getElementById("U_CargaMax").value,
-    };
-
-    fetch("/api/auth/unidades", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        addUnidadModal.style.display = "none";
-        loadUnidades(); // Recargar la lista de usuarios
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  });
-
-  document
-  .getElementById("addAsignacionViajeForm")
-  .addEventListener("submit", function (event) {
-    event.preventDefault();
-
-    const estadoISO = {
-      "Aguascalientes": "AGU",
-      "BajaCalifornia": "BCN",
-      "BajaCalifornia Sur": "BCS",
-      "Campeche": "CAM",
-      "CDMX": "CMX",
-      "Chiapas": "CHP",
-      "Chihuahua": "CHH",
-      "Coahuila": "COA",
-      "Colima": "COL",
-      "Durango": "DUR",
-      "Guanajuato": "GUA",
-      "Guerrero": "GRO",
-      "Hidalgo": "HID",
-      "Jalisco": "JAL",
-      "EdoMex": "MEX",
-      "Michoacan": "MIC",
-      "Morelos": "MOR",
-      "Nayarit": "NAY",
-      "NuevoLeon": "NLE",
-      "Oaxaca": "OAX",
-      "Puebla": "PUE",
-      "Querétaro": "QUE",
-      "QuintanaRoo": "ROO",
-      "SanLuisPotosí": "SLP",
-      "Sinaloa": "SIN",
-      "Sonora": "SON",
-      "Tabasco": "TAB",
-      "Tamaulipas": "TAM",
-      "Tlaxcala": "TLA",
-      "Veracruz": "VER",
-      "Yucatán": "YUC",
-      "Zacatecas": "ZAC"
-    };
-
-    const estadoOrigen = document.getElementById("V_EstadoOrigen").value;
-    const estadoDestino = document.getElementById("V_EstadoDestino").value;
-
-    // Obtener los códigos ISO de 3 dígitos
-    const codigoOrigen = estadoISO[estadoOrigen];
-    const codigoDestino = estadoISO[estadoDestino];
-
-    // Crear el V_NOM automáticamente
-    const V_NOM = `${codigoOrigen}-${codigoDestino}`;
-
-    const formData = {
-      placas: document.getElementById("addU_Placas").value,
-      viaje: document.getElementById("V_KeyViaje").value,
-      operador: document.getElementById("V_Operador").value,
-      estadoOr: estadoOrigen,
-      estadoDe: estadoDestino,
-      V_NOM: V_NOM, // Agregar V_NOM calculado
-      fInicio: document.getElementById("V_FInicio").value,
-      fFin: null,
-      costo: document.getElementById("V_Costo").value,
-      ingreso: document.getElementById("V_Ingreso").value,
-      carga: document.getElementById("V_CargaUtilizada").value,
-      estatus: document.getElementById("V_Status").value
-    };
-
-    fetch("/api/viaje/viajes", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-        addAsignacionViajeModal.style.display = "none";
-        loadUnidades(); // Recargar la lista de usuarios
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  });
-
-  // document
-  // .getElementById("addAsignacionViajeForm")
-  // .addEventListener("submit", function (event) {
-  //   event.preventDefault();
-
-
-  //   const formData = {
-  //     placas: document.getElementById("updateU_Placas").value,
-  //     viaje: document.getElementById("upadateV_KeyViaje").value,
-  //     operador: document.getElementById("updateV_Operador").value,
-  //     estadoOrigen : document.getElementById("updateV_EstadoOrigen").value,
-  //     estadoDestino : document.getElementById("updateV_EstadoDestino").value,
-  //     fInicio: document.getElementById("updateV_FInicio").value,
-  //     fFin: document.getElementById("updateV_FFin").value,
-  //     costo: document.getElementById("updateV_Costo").value,
-  //     ingreso: document.getElementById("updateV_Ingreso").value,
-  //     carga: document.getElementById("updateV_CargaUtilizada").value,
-  //     estatus: document.getElementById("updateV_Status").value
-  //   };
-
-  //   fetch("/api/viaje/viajes", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(formData),
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log("Success:", data);
-  //       addAsignacionViajeModal.style.display = "none";
-  //       loadUnidades(); // Recargar la lista de usuarios
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // });
-
-document.addEventListener("DOMContentLoaded", showMenuBasedOnRole);
-document.addEventListener("DOMContentLoaded", () => {
-  const permissionView = document.getElementById("permission-view");
-  const usersView = document.getElementById("users-view");
-  const tipoUser = localStorage.getItem("userRole");
-  // backToUsersButton.style.display = 'inline';
-  // // Ocultar el botón de añadir formulario si el rol es Visualizador y carga
-  if (tipoUser === "Visualizador y carga") {
-    addFormButton.style.display = "none";
-  }
-  // Manejar el clic en el botón de retroceso
-  backToUsersButton.addEventListener("click", () => {
-    permissionView.style.display = "none";
-    usersView.style.display = "block";
-  });
-});
-showView("dashboard-view");
