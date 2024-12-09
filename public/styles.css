@@ -13,6 +13,17 @@ body {
   color: #333;
 }
 
+#costForm{
+  max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+}
+
 #formulario {
   margin-left: 220px; /* Para no superponerse con el menú lateral */
   padding: 20px;
@@ -132,6 +143,36 @@ form button:hover {
   text-align: center;
   transition: background-color 0.3s ease;
 } 
+
+#addUnityButton{
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #FFBE61;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
+
+#addTareaButton{
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #FFBE61;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+}
 
 #addPermissionButton:hover {
   background-color: #72AFF8;

@@ -7,6 +7,8 @@ const permissionRoutes = require('./routes/permissionRoutes');
 const boldbiRoutes = require('./routes/boldbiRoutes');
 const dashboardsRoutes = require('./routes/dashboardsRoutes');
 const groupesRoutes = require('./routes/groupsRoutes');
+const viajesRoutes = require('./routes/viajesRoutes');
+const tareas_ACPRoutes = require('./routes/tareas_ACPRoutes');
 // const googleTrends = require('google-trends-api');
 const categoryRoutes = require('./routes/categoryRoutes');
 
@@ -30,6 +32,8 @@ app.use('/api/groups', groupesRoutes)
 // app.use('/api/dashboards', boldbiRoutes)
 app.use('/api/dash', dashboardsRoutes)
 app.use('/api/category', categoryRoutes)
+app.use('/api/viaje', viajesRoutes)
+app.use('/api/tareas', tareas_ACPRoutes)
 
 // Serve static files from the public folder
 app.use(express.static(path.join(__dirname, '..', '..', 'public')));
@@ -44,62 +48,75 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
 
-// const cors = require('cors');
-// const fs = require('fs');
-// const http = require('http');
-// const https = require('https');
-// const crypto = require('crypto');
-// const url = require('url');
 
+// var url = require("url");
+// var cors = require('cors');
+// var fs = require("fs");
 // app.use(cors());
+// var http = require("http");
+// var https = require("https");
+// var crypto = require('crypto');
+// // Parse JSON bodies (as sent by API clients)
 // app.use(express.json());
-// app.use(express.static('public'));
 
-// Usa el router de boldbiRoutes
-// app.use('/api', boldbiRoutes);
-// const appconfig = JSON.parse(fs.readFileSync('./server/api/embedConfig.json'));
-// const embedSecret = appconfig.EmbedSecret;
-// const configjson = {
-//   "DashboardId": appconfig.DashboardId,
-//   "ServerUrl": appconfig.ServerUrl,
-//   "SiteIdentifier": appconfig.SiteIdentifier,
-//   "Environment": appconfig.Environment,
-//   "EmbedType": appconfig.EmbedType
-// };
+// var appconfig = JSON.parse(fs.readFileSync('server/api/embedConfig.json'));
 
-// const userEmail = appconfig.UserEmail;
-// console.log(userEmail);
+// // Get the embedSecret key from Bold BI
+// var embedSecret = appconfig.EmbedSecret;
+
+// var configjson ={"DashboardId": appconfig.DashboardId, "ServerUrl": appconfig.ServerUrl, "SiteIdentifier": appconfig.SiteIdentifier, "Environment": appconfig.Environment, "EmbedType": appconfig.EmbedType};
+
+// //Enter your BoldBI credentials here
+// var userEmail = appconfig.UserEmail;
 
 // app.post('/embeddetail/get', function (req, response) {
-//   let embedQuerString = req.body.embedQuerString;
-//   let dashboardServerApiUrl = req.body.dashboardServerApiUrl;
+// var embedQuerString = req.body.embedQuerString;
+// var dashboardServerApiUrl = req.body.dashboardServerApiUrl;
 
-//   embedQuerString += "&embed_user_email=" + userEmail;
-//   embedQuerString += "&embed_server_timestamp=" + Math.round((new Date()).getTime() / 1000);
-//   const embedSignature = "&embed_signature=" + GetSignatureUrl(embedQuerString);
-//   const embedDetailsUrl = "/embed/authorize?" + embedQuerString + embedSignature;
+// embedQuerString += "&embed_user_email=" + userEmail;
+// embedQuerString += "&embed_server_timestamp=" + Math.round((new Date()).getTime() / 1000);
+// var embedSignature = "&embed_signature=" + GetSignatureUrl(embedQuerString);
+// var embedDetailsUrl = "/embed/authorize?" + embedQuerString+embedSignature;
 
-//   const serverProtocol = url.parse(dashboardServerApiUrl).protocol == 'https:' ? https : http;
-//   serverProtocol.get(dashboardServerApiUrl + embedDetailsUrl, function (res) {
-//     let str = '';
-//     res.on('data', function (chunk) {
-//       str += chunk;
-//     });
-//     res.on('end', function () {
-//       response.send(str);
-//     });
-//   });
-// });
+// var serverProtocol = url.parse(dashboardServerApiUrl).protocol == 'https:' ? https : http;
+// serverProtocol.get(dashboardServerApiUrl+embedDetailsUrl, function(res){
+//      var str = '';
+//      res.on('data', function (chunk) {
+//          str += chunk;
+//      });
+//      res.on('end', function () {
+//          response.send(str);
+//      });
+//  });
+//  })
 
-// function GetSignatureUrl(queryString) {
-//   const keyBytes = Buffer.from(embedSecret);
-//   const hmac = crypto.createHmac('sha256', keyBytes);
-//   const data = hmac.update(queryString);
-//   return data.digest().toString('base64');
-// }
+//  function GetSignatureUrl(queryString)
+//  {
+//    var keyBytes = Buffer.from(embedSecret);
+//    var hmac = crypto.createHmac('sha256', keyBytes);
+//    data = hmac.update(queryString);
+//    gen_hmac= data.digest().toString('base64');
 
-// const server = app.listen(8080, 'https://share-analytics.vercel.app/', function () {
-//   const host = server.address().address;
-//   const port = server.address().port;
-//   console.log("Example app listening at http://%s:%s", host, port);
-// });
+//    return gen_hmac;
+//  }
+
+//  app.get("/",function (request, response) {
+
+//  var pathname = url.parse(request.url).pathname;
+//  console.log("Request for " + pathname + " received.");
+
+//  response.writeHead(200);
+
+//  if(pathname == "/") {
+//  html = fs.readFileSync("index.html", "utf8");
+//  html = html.replace("<script>","<script>var configjsonstring='"+JSON.stringify(configjson)+"';var configjson=JSON.parse(configjsonstring);");
+//  response.write(html);
+//  }
+//  response.end();
+//  })
+
+//  var server = app.listen(8080, function () {
+//  var host = server.address().address
+//  var port = server.address().port
+//  console.log("Example app listening at http://%s:%s", host, port)
+//  })

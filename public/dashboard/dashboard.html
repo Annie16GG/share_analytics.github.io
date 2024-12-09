@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="../styles.css">
   <link rel="icon" type="image/png" href="../images/logo.png"> <!-- Añadir el favicon -->
   <script type="text/javascript" src="https://cdn.boldbi.com/embedded-sdk/v7.10.16/boldbi-embed.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
@@ -15,6 +16,8 @@
     <a href="#" id="menu-dashboard">Dashboards</a>
     <a href="#" id="menu-upload">Upload</a>
     <a href="#" id="menu-users">Users</a>
+    <a href="#" id="menu-unidades">Unidades</a>
+    <a href="#" id="menu-tareas">Tareas</a>
     <div class="sign-out-container">
       <a href="#" id="signOut">
         <img src="../images/apagar.png" alt="Sign out" class="sign-out-icon">
@@ -67,6 +70,46 @@
             <th>Status</th>
             <th>Verification</th>
             <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Sección de Unidades -->
+    <div id="unidades-view" class="view" style="display: none;">
+      <h1>Unidades</h1>
+      <button id="addUnityButton">Añadir vehículo</button>
+      <button id="selectedActionButton" style="display: none;">Añadir grupo</button>
+      <table id="unidades-table">
+        <thead>
+          <tr>
+            <th>Placas</th>
+            <th>Estado</th>
+            <th>Fecha de Compra</th>
+            <th>Carga Max.</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
+    </div>
+
+    <div id="tareas-view" class="view" style="display: none;">
+      <h1>Administración de tareas</h1>
+      <button id="addTareaButton">Añadir tarea</button>
+      <br>
+      <table id="tareas-table">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Prioridad</th>
+            <th>Asignado</th>
+            <th>Estatus</th>
           </tr>
         </thead>
         <tbody>
@@ -131,12 +174,318 @@
             <option value="Visualizador">Visualizador</option>
             <option value="Visualizador y carga">Visualizador y carga</option>
             <option value="Solo carga">Solo carga</option>
+            <option value="ACP">ACP</option>
+            <option value="ACP-Desarrollo">ACP-Desarrollo</option>
           </select><br>
 
           <button type="submit">Submit</button>
         </form>
       </div>
     </div>
+
+    <div id="addUnidadModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir unidad</h2>
+        <form id="addUnidadForm">
+
+          <!-- Placas -->
+          <label for="U_Placas">Placas:</label>
+          <input type="text" id="U_Placas" name="U_Placas" required>
+          <br><br>
+
+          <!-- Estado -->
+          <label for="U_Estado">Estado:</label>
+          <select id="U_Estado" name="U_Estado" required>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
+
+          <!-- Fecha de Compra -->
+          <label for="U_FechaDeCompra">Fecha de Compra:</label>
+          <input type="date" id="U_FechaDeCompra" name="U_FechaDeCompra" required>
+          <br><br>
+
+          <!-- Carga Máxima -->
+          <label for="U_CargaMax">Carga Máxima:</label>
+          <input type="text" id="U_CargaMax" name="U_CargaMax" required>
+          <br><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addTareaModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Tarea</h2>
+        <form id="addTareaForm">
+          
+          <!-- Título -->
+          <label for="Titulo">Título:</label>
+          <input type="text" id="Titulo" name="Titulo" maxlength="150" required>
+          <br><br>
+    
+          <!-- Descripción -->
+          <label for="Descripcion">Descripción:</label>
+          <textarea id="Descripcion" name="Descripcion" required></textarea>
+          <br><br>
+    
+          <!-- Proyecto -->
+          <label for="Proyecto">Proyecto:</label>
+          <input type="text" id="Proyecto" name="Proyecto" maxlength="150" required>
+          <br><br>
+    
+          <!-- Tipo de Tarea -->
+          <label for="Tipo_tarea">Tipo de Tarea:</label>
+          <select id="Tipo_tarea" name="Tipo_tarea" required>
+            <option value="">Selecciona el tipo de tarea</option>
+            <option value="Error">Error</option>
+            <option value="Blog técnico">Blog técnico</option>
+            <option value="Historia">Historia</option>
+          </select>
+          <br><br>
+    
+          <!-- Categoría -->
+          <label for="Categoria">Categoría:</label>
+          <input type="text" id="Categoria" name="Categoria" maxlength="150" required>
+          <br><br>
+    
+          <!-- Alcance -->
+          <label for="Alcance">Alcance:</label>
+          <select id="Alcance" name="Alcance" required>
+            <option value="">Selecciona el alcance</option>
+            <option value="Añadida">Añadida</option>
+            <option value="Eliminada">Eliminada</option>
+          </select>
+          <br><br>
+    
+          <!-- Prioridad -->
+          <label for="Prioridad">Prioridad:</label>
+          <select id="Prioridad" name="Prioridad" required>
+            <option value="">Selecciona la prioridad</option>
+            <option value="Bajo">Bajo</option>
+            <option value="Medio">Medio</option>
+            <option value="Alta">Alta</option>
+          </select>
+          <br><br>
+    
+          <!-- Asignado a -->
+          <label for="Asignado">Asignado a:</label>
+          <input type="text" id="Asignado" name="Asignado" maxlength="200" placeholder="Nombre o seleccionar de una lista">
+          <br><br>
+    
+          <!-- Estatus -->
+          <label for="Estatus">Estatus:</label>
+          <select id="Estatus" name="Estatus" required>
+            <option value="">Selecciona el estatus</option>
+            <option value="Abierto">Abierto</option>
+            <option value="Cerrado">Cerrado</option>
+            <option value="Validado">Validado</option>
+            <option value="Revision">Revisión</option>
+            <option value="En curso">En curso</option>
+            <option value="En espera">En espera</option>
+          </select>
+          <br><br>
+    
+          <!-- Puntos de Historia -->
+          <label for="Puntos_historia">Puntos de Historia:</label>
+          <input type="number" id="Puntos_historia" name="Puntos_historia" required>
+          <br><br>
+    
+          <!-- Fecha de Inicio del Sprint -->
+          <label for="Fecha_inicio_sprint">Fecha de Inicio del Sprint:</label>
+          <input type="date" id="Fecha_inicio_sprint" name="Fecha_inicio_sprint" required>
+          <br><br>
+    
+          <!-- Key del Sprint -->
+          <label for="Key_Sprint">Identificador del Sprint:</label>
+          <input type="text" id="Key_Sprint" name="Key_Sprint" maxlength="100" required>
+          <br><br>
+    
+          <!-- Fecha de Inicio del LIB -->
+          <label for="Fecha_inicio_lib">Fecha de inicio de liberación:</label>
+          <input type="date" id="Fecha_inicio_lib" name="Fecha_inicio_lib" required>
+          <br><br>
+    
+          <!-- Fecha de Liberación del Sprint -->
+          <label for="Fecha_lib_Sprint">Fecha de liberación del Sprint:</label>
+          <input type="date" id="Fecha_lib_Sprint" name="Fecha_lib_Sprint" required>
+          <br><br>
+    
+          <!-- Fecha Final de Liberación -->
+          <label for="Fecha_final_lib">Fecha final de Liberación:</label>
+          <input type="date" id="Fecha_final_lib" name="Fecha_final_lib" required>
+          <br><br>
+    
+          <!-- Entregable -->
+          <label for="Entregable">Entregable:</label>
+          <textarea id="Entregable" name="Entregable" required></textarea>
+          <br><br>
+    
+          <!-- Puntaje de Satisfacción -->
+          <label for="Puntaje_satisfaccion">Puntaje de Satisfacción:</label>
+          <input type="number" step="0.01" id="Puntaje_satisfaccion" name="Puntaje_satisfaccion" required>
+          <br><br>
+    
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="editTareaModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Tarea</h2>
+        <form id="editTareaForm">
+          <input type="hidden" id="editT_KeyTarea" name="T_KeyTarea" required>
+          <!-- Título (Deshabilitado) -->
+          <label for="editTitulo">Título:</label>
+          <input type="text" id="editTitulo" name="Titulo" maxlength="150" disabled>
+          <br><br>
+    
+          <!-- Descripción (Deshabilitado) -->
+          <label for="editDescripcion">Descripción:</label>
+          <textarea id="editDescripcion" name="Descripcion" disabled></textarea>
+          <br><br>
+    
+          <!-- Proyecto (Deshabilitado) -->
+          <label for="editProyecto">Proyecto:</label>
+          <input type="text" id="editProyecto" name="Proyecto" maxlength="150" disabled>
+          <br><br>
+    
+          <!-- Tipo de Tarea (Deshabilitado) -->
+          <label for="editTipo_tarea">Tipo de Tarea:</label>
+          <select id="editTipo_tarea" name="Tipo_tarea" disabled>
+            <option value="">Selecciona el tipo de tarea</option>
+            <option value="Error">Error</option>
+            <option value="Blog técnico">Blog técnico</option>
+            <option value="Historia">Historia</option>
+          </select>
+          <br><br>
+    
+          <!-- Categoría (Deshabilitado) -->
+          <label for="editCategoria">Categoría:</label>
+          <input type="text" id="editCategoria" name="Categoria" maxlength="150" disabled>
+          <br><br>
+    
+          <!-- Alcance (Deshabilitado) -->
+          <label for="editAlcance">Alcance:</label>
+          <select id="editAlcance" name="Alcance" disabled>
+            <option value="">Selecciona el alcance</option>
+            <option value="Añadida">Añadida</option>
+            <option value="Eliminada">Eliminada</option>
+            <option value="Planeada">Planeada</option>
+          </select>
+          <br><br>
+    
+          <!-- Prioridad (Deshabilitado) -->
+          <label for="editPrioridad">Prioridad:</label>
+          <select id="editPrioridad" name="Prioridad" disabled>
+            <option value="">Selecciona la prioridad</option>
+            <option value="Baja">Baja</option>
+            <option value="Media">Media</option>
+            <option value="Alta">Alta</option>
+          </select>
+          <br><br>
+    
+          <!-- Asignado a (Deshabilitado) -->
+          <label for="editAsignado">Asignado a:</label>
+          <input type="text" id="editAsignado" name="Asignado" maxlength="200" disabled>
+          <br><br>
+    
+          <!-- Estatus -->
+          <label for="editEstatus">Estatus:</label>
+          <select id="editEstatus" name="Estatus" required>
+            <option value="">Selecciona el estatus</option>
+            <option value="Abierto">Abierto</option>
+            <option value="Cerrado">Cerrado</option>
+            <option value="Validado">Validado</option>
+            <option value="Revision">Revisión</option>
+            <option value="En curso">En curso</option>
+            <option value="En espera">En espera</option>
+          </select>
+          <br><br>
+    
+          <!-- Puntos de Historia (Deshabilitado) -->
+          <label for="editPuntos_historia">Puntos de Historia:</label>
+          <input type="number" id="editPuntos_historia" name="Puntos_historia" disabled>
+          <br><br>
+    
+          <!-- Fecha de Inicio del Sprint (Deshabilitado) -->
+          <label for="editFecha_inicio_sprint">Fecha de Inicio del Sprint:</label>
+          <input type="date" id="editFecha_inicio_sprint" name="Fecha_inicio_sprint" disabled>
+          <br><br>
+    
+          <!-- Key del Sprint (Deshabilitado) -->
+          <label for="editKey_Sprint">Identificador del Sprint:</label>
+          <input type="text" id="editKey_Sprint" name="Key_Sprint" maxlength="100" disabled>
+          <br><br>
+    
+          <!-- Fecha de Inicio del LIB (Deshabilitado) -->
+          <label for="editFecha_inicio_lib">Fecha de inicio de liberación:</label>
+          <input type="date" id="editFecha_inicio_lib" name="Fecha_inicio_lib" disabled>
+          <br><br>
+    
+          <!-- Fecha de Liberación del Sprint (Deshabilitado) -->
+          <label for="editFecha_lib_Sprint">Fecha de liberación del Sprint:</label>
+          <input type="date" id="editFecha_lib_Sprint" name="Fecha_lib_Sprint" disabled>
+          <br><br>
+    
+          <!-- Fecha Final de Liberación (Deshabilitado) -->
+          <label for="editFecha_final_lib">Fecha final de Liberación:</label>
+          <input type="date" id="editFecha_final_lib" name="Fecha_final_lib" disabled>
+          <br><br>
+    
+          <!-- Entregable (Deshabilitado) -->
+          <label for="editEntregable">Entregable:</label>
+          <textarea id="editEntregable" name="Entregable" disabled></textarea>
+          <br><br>
+    
+          <!-- Puntaje de Satisfacción -->
+          <label for="editPuntaje_satisfaccion">Puntaje de Satisfacción:</label>
+          <input type="number" step="0.01" id="editPuntaje_satisfaccion" name="Puntaje_satisfaccion" required>
+          <br><br>
+    
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+    
+    
     <!-- Modal para editar usuario -->
     <div id="editUserModal" class="modal" style="display: none;">
       <div class="modal-content">
@@ -164,8 +513,76 @@
             <option value="Visualizador">Visualizador</option>
             <option value="Visualizador y carga">Visualizador y carga</option>
             <option value="Solo carga">Solo carga</option>
+            <option value="ACP">ACP</option>
+            <option value="ACP-Desarrollo">ACP-Desarrollo</option>
           </select><br>
           <input type="submit" value="Edit User">
+        </form>
+      </div>
+    </div>
+
+    <div id="editUnidadModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar unidad</h2>
+        <form id="editUnidadForm">
+          <input type="hidden" id="editU_Placas" name="U_Placas" required>
+          <!-- Estado -->
+          <label for="U_Estado">Estado:</label>
+          <select id="editU_Estado" name="U_Estado" required>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
+
+          <!-- Fecha de Compra -->
+          <label for="U_FechaDeCompra">Fecha de Compra:</label>
+          <input type="date" id="editU_FechaDeCompra" name="U_FechaDeCompra" required>
+          <br><br>
+
+          <!-- Carga Máxima -->
+          <label for="U_CargaMax">Carga Máxima:</label>
+          <input type="text" id="editU_CargaMax" name="U_CargaMax" required>
+          <br><br>
+
+          <label for="U_Status">Estado:</label>
+          <select id="editU_Status" name="U_Status" required>
+            <option value="Disponible">Disponible</option>
+            <option value="Fuera de servicio">Fuera de servicio</option>
+          </select>
+
+          <button type="submit">Submit</button>
         </form>
       </div>
     </div>
@@ -216,6 +633,380 @@
 
           <button type="submit">Add Permission</button>
         </form>
+      </div>
+    </div>
+
+    <div id="addAsignacionViajeModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Asignar Viaje</h2>
+        <form id="addAsignacionViajeForm">
+          <input type="hidden" id="addU_Placas" name="U_Placas" />
+          <!-- Clave Viaje -->
+          <label for="V_KeyViaje">Clave Viaje:</label>
+          <input type="number" id="V_KeyViaje" name="V_KeyViaje" required>
+          <br><br>
+
+          <!-- Operador -->
+          <label for="V_Operador">Operador:</label>
+          <input type="text" id="V_Operador" name="V_Operador" required>
+          <br><br>
+
+          <!-- Estado Origen -->
+          <label for="V_EstadoOrigen">Estado de Origen:</label>
+          <select id="V_EstadoOrigen" name="V_EstadoOrigen" required>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
+
+          <!-- Estado Destino -->
+          <label for="V_EstadoDestino">Estado de Destino:</label>
+          <select id="V_EstadoDestino" name="V_EstadoDestino" required>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
+
+          <!-- Fecha de Inicio -->
+          <label for="V_FInicio">Fecha de Inicio:</label>
+          <input type="datetime-local" id="V_FInicio" name="V_FInicio" required>
+          <br><br>
+
+          <!-- Fecha de Fin -->
+          <label for="V_FFin">Fecha de Fin:</label>
+          <input type="datetime-local" id="V_FFin" name="V_FFin" disabled>
+          <br><br>
+
+          <!-- Costo -->
+          <label for="V_Costo">Costo:</label>
+          <input type="number" step="0.01" id="V_Costo" name="V_Costo" required>
+          <br><br>
+
+          <!-- Ingreso -->
+          <label for="V_Ingreso">Ingreso:</label>
+          <input type="number" step="0.01" id="V_Ingreso" name="V_Ingreso" required>
+          <br><br>
+
+          <!-- Carga Utilizada -->
+          <label for="V_CargaUtilizada">Carga Utilizada:</label>
+          <input type="number" step="0.01" id="V_CargaUtilizada" name="V_CargaUtilizada" required>
+          <br><br>
+
+          <!-- Estatus -->
+          <label for="V_Status">Estatus:</label>
+          <select id="V_Status" name="V_Status" disabled>
+            <option value="En entrega">En entrega</option>
+          </select>
+          <br><br>
+
+
+          <button type="submit">Empezar viaje</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="updateAsignacionViajeModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Asignar Viaje</h2>
+        <form id="updateAsignacionViajeForm">
+          <input type="hidden" id="updateU_Placas" name="U_Placas" />
+          <!-- Clave Viaje -->
+          <label for="V_KeyViaje">Clave Viaje:</label>
+          <input type="number" id="upadateV_KeyViaje" name="V_KeyViaje" disabled>
+          <br><br>
+
+          <!-- Operador -->
+          <label for="V_Operador">Operador:</label>
+          <input type="text" id="updateV_Operador" name="V_Operador" disabled>
+          <br><br>
+
+          <!-- Estado Origen -->
+          <label for="V_EstadoOrigen">Estado de Origen:</label>
+          <select id="updateV_EstadoOrigen" name="V_EstadoOrigen" disabled>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
+
+          <!-- Estado Destino -->
+          <label for="V_EstadoDestino">Estado de Destino:</label>
+          <select id="updateV_EstadoDestino" name="V_EstadoDestino" disabled>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
+
+          <!-- Fecha de Inicio -->
+          <label for="V_FInicio">Fecha de Inicio:</label>
+          <input type="datetime-local" id="updateV_FInicio" name="V_FInicio" disabled>
+          <br><br>
+
+          <!-- Fecha de Fin -->
+          <label for="V_FFin">Fecha de Fin:</label>
+          <input type="datetime-local" id="updateV_FFin" name="V_FFin" required>
+          <br><br>
+
+          <!-- Costo -->
+          <label for="V_Costo">Costo:</label>
+          <input type="number" id="updateV_Costo" name="V_Costo" disabled>
+          <br><br>
+
+          <!-- Ingreso -->
+          <label for="V_Ingreso">Ingreso:</label>
+          <input type="number" step="0.01" id="updateV_Ingreso" name="V_Ingreso" disabled>
+          <br><br>
+
+          <!-- Carga Utilizada -->
+          <label for="V_CargaUtilizada">Carga Utilizada:</label>
+          <input type="number" step="0.01" id="updateV_CargaUtilizada" name="V_CargaUtilizada" disabled>
+          <br><br>
+
+          <!-- Estatus -->
+          <label for="V_Status">Estatus:</label>
+          <select id="updateV_Status" name="V_Status" required>
+            <option value="A tiempo ">A tiempo</option>
+            <option value="Retrasado">Retrasado</option>
+          </select>
+          <br><br>
+
+
+          <button type="submit">Finalizar viaje</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="eventoModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Evento</h2>
+        <form id="eventForm">
+          <input type="hidden" id="E_Placas" name="E_Placas">
+
+          <label for="E_Tipo">Tipo de Evento:</label>
+          <select id="E_Tipo" name="E_Tipo" required>
+            <option value="Servicio">Servicio</option>
+            <option value="Tenencia">Tenencia</option>
+            <option value="Verificacion">Verificación</option>
+          </select>
+          <br><br>
+
+          <label for="E_FechaEvento">Fecha del Evento:</label>
+          <input type="date" id="E_FechaEvento" name="E_FechaEvento" required>
+          <br><br>
+
+          <label for="E_Monto">Monto:</label>
+          <input type="number" id="E_Monto" name="E_Monto" required>
+          <br><br>
+
+          <div>
+            <button type="submit">Guardar Evento</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+    <div id="addRazonModal" class="modal" style="display: none;">
+      <div class="modal-content">
+          <span class="close">&times;</span>
+          <h2>Añadir Bloqueo</h2>
+          <form id="addRazonForm">
+            <input type="hidden" id="T_KeyTarea" name="T_KeyTarea" required>
+              <!-- Razon -->
+              <label for="Razon">Razón:</label>
+              <textarea id="Razon" name="Razon" rows="4" cols="50" required></textarea>
+              <br><br>
+  
+              <button type="submit">Agregar Bloqueo</button>
+          </form>
+      </div>
+  </div>
+  
+    <div id="costosModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Costos del viaje</h2>
+        <form id="costForm">
+          <input type="" id="C_Placas" name="C_Placas" required>
+          <input type="" id="C_KeyViaje" name="C_KeyViaje" required>
+          <br><br>
+
+          <!-- Contenedor de los costos dinámicos -->
+          <table id="costoTable">
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="costoTableBody">
+              <!-- Fila inicial -->
+              <tr>
+                <td>
+                  <select name="C_Categoria[]" required>
+                    <option value="Gasolina">Gasolina</option>
+                    <option value="Limpieza">Limpieza</option>
+                    <option value="Llantas">Llantas</option>
+                    <option value="Mensualidad">Mensualidad</option>
+                  </select>
+                </td>
+                <td>
+                  <select name="C_Tipo[]" required>
+                    <option value="Cambio de Llantas">Cambio de Llantas</option>
+                    <option value="Lavado Completo">Lavado Completo</option>
+                    <option value="Lavado Exterior">Lavado Exterior</option>
+                    <option value="Limpieza Interior">Limpieza Interior</option>
+                    <option value="Limpieza Interior y Exterior">Limpieza Interior y Exterior</option>
+                    <option value="Pago de Arrendamiento">Pago de Arrendamiento</option>
+                    <option value="Recarga Completa">Recarga Completa</option>
+                    <option value="Revision de Llantas">Revision de Llantas</option>
+                    <option value="Revision de Presión">Revision de Presión</option>
+                  </select>
+                </td>
+                <td>
+                  <input type="number" name="C_Monto[]" step="0.01" required />
+                </td>
+                <td>
+                  <button type="button" onclick="removeCostoRow(this)">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <button type="button" onclick="addCostoRow()">Añadir otra fila</button>
+          <br />
+          <button type="submit">Guardar Costos</button>
+        </form>
+
+
       </div>
     </div>
 

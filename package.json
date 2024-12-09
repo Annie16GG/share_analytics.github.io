@@ -1,7 +1,7 @@
 {
   "name": "shareanalytics",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "embed.js",
   "scripts": {
     "start": "node server/api/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
