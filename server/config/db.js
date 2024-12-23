@@ -1,13 +1,15 @@
 const mysql = require('mysql2');
 
+// Configuración de la conexión a la base de datos
 const connection = mysql.createConnection({
-  host: 'localhost',
-  port: '3306',
-  user: 'annie',
-  password: '1234',
-  database: 'share_analytics'
+  host: "172.178.34.90",
+  port: 3306,
+  database: "dvh",
+  user: "ShareData",
+  password: "$$Share123+$$"
 });
 
+// Conexión a la base de datos
 connection.connect((err) => {
   if (err) {
     console.error('Error connecting to the database:', err);
@@ -16,4 +18,5 @@ connection.connect((err) => {
   console.log('Connected to the MySQL database.');
 });
 
+// Exportación de la conexión
 module.exports = connection;

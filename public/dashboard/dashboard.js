@@ -24,10 +24,11 @@ checkSession();
 
 var dashboardId = "5655907d-2104-4b98-b152-7f88c99bab33";
 var rootUrl = "https://login.shareanalytics.com.mx/bi";
-var siteIdentifier = "site/sharedemos";
+var siteIdentifier = "site/acp";
 var environment = "onpremise";
 var embedType = "component";
-var authorizationUrl = "http://localhost:8080/embeddetail/get";
+var authorizationUrl = "https://dbd4-20-121-192-203.ngrok-free.app";
+// var authorizationUrl = "http://localhost:8080/embeddetail/get";
 // var authorizationUrl = "https://api-boldbi.vercel.app/api/embeddetail/get";
 let selectedAccess = null;
 let selectedEntity = null;
@@ -2493,7 +2494,7 @@ function showMenuBasedOnRole() {
       "Visualizador y carga": ["#menu-dashboard", "#menu-upload", "#signOut"],
       "Solo carga": ["#menu-upload", "#signOut"],
       ACP: ["#menu-tareas", "#signOut"],
-      "ACP-Desarrollo": ["#menu-tareas", "#signOut"],
+      "ACP-Desarrollo": ["#menu-tareas", "#menu-dashboard", "#signOut"],
     };
 
     // Limpiar el menú actual
