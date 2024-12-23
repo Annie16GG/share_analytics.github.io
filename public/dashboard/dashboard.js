@@ -2493,7 +2493,7 @@ function showMenuBasedOnRole() {
       ],
       "Visualizador y carga": ["#menu-dashboard", "#menu-upload", "#signOut"],
       "Solo carga": ["#menu-upload", "#signOut"],
-      ACP: ["#menu-tareas", "#signOut"],
+      ACP: ["#menu-tareas", "#menu-dashboard", "#signOut"],
       "ACP-Desarrollo": ["#menu-tareas", "#menu-dashboard", "#signOut"],
     };
 
