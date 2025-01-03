@@ -9,6 +9,9 @@ const dashboardsRoutes = require('./routes/dashboardsRoutes');
 const groupesRoutes = require('./routes/groupsRoutes');
 const viajesRoutes = require('./routes/viajesRoutes');
 const tareas_ACPRoutes = require('./routes/tareas_ACPRoutes');
+const estudiantesRoutes = require('./routes/estudiantesRoutes');
+const agileRoutes = require('./routes/agileRoutes');
+
 // const googleTrends = require('google-trends-api');
 const categoryRoutes = require('./routes/categoryRoutes');
 
@@ -34,6 +37,8 @@ app.use('/api/dash', dashboardsRoutes)
 app.use('/api/category', categoryRoutes)
 app.use('/api/viaje', viajesRoutes)
 app.use('/api/tareas', tareas_ACPRoutes)
+app.use('/api/estudiantes', estudiantesRoutes)
+app.use('/api/agile', agileRoutes)
 
 // Serve static files from the public folder
 app.use(express.static(path.join(__dirname, '..', '..', 'public')));

@@ -18,6 +18,8 @@
     <a href="#" id="menu-users">Users</a>
     <a href="#" id="menu-unidades">Unidades</a>
     <a href="#" id="menu-tareas">Tareas</a>
+    <a href="#" id="menu-estudiantes">Estudiantes</a>
+    <a href="#" id="menu-team-agile">Agile</a>
     <div class="sign-out-container">
       <a href="#" id="signOut">
         <img src="../images/apagar.png" alt="Sign out" class="sign-out-icon">
@@ -77,7 +79,6 @@
         </tbody>
       </table>
     </div>
-
     <!-- Sección de Unidades -->
     <div id="unidades-view" class="view" style="display: none;">
       <h1>Unidades</h1>
@@ -98,7 +99,6 @@
         </tbody>
       </table>
     </div>
-
     <div id="tareas-view" class="view" style="display: none;">
       <h1>Administración de tareas</h1>
       <button id="addTareaButton">Añadir tarea</button>
@@ -110,6 +110,48 @@
             <th>Prioridad</th>
             <th>Asignado</th>
             <th>Estatus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
+    </div>
+
+    <div id="estudiantes-view" class="view" style="display: none;">
+      <h1>Administración de estudiantes</h1>
+      <button id="addEstudButton">Añadir estudiante</button>
+      <br>
+      <table id="estudiantes-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Año</th>
+            <th>Grado</th>
+            <th>Fecha inscripción</th>
+            <th>Estatus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
+    </div>
+
+    <div id="agile-view" class="view" style="display: none;">
+      <h1>Team Agile</h1>
+      <button id="addTareaAButton">Añadir tarea</button>
+      <br>
+      <table id="agile-table">
+        <thead>
+          <tr>
+            <th>Proyecto</th>
+            <th>Status</th>
+            <th>Tipo</th>
+            <th>Prioridad</th>
+            <th>Miembro del equipo</th>
+            <th>Fecha asignacion</th>
+            <th>Horas planeadas</th>
           </tr>
         </thead>
         <tbody>
@@ -366,6 +408,376 @@
       </div>
     </div>
 
+    <div id="addEstudianteModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Estudiante</h2>
+        <form id="addStudentForm">
+          <!-- Nombre del estudiante -->
+          <label for="Student_Name">Nombre del Estudiante:</label>
+          <input type="text" id="Student_Name" name="Student_Name" maxlength="150" required>
+          <br><br>
+      
+          <!-- Año -->
+          <label for="Year">Año:</label>
+          <select id="Year" name="Year" required>
+            <option value="">Selecciona el año</option>
+            <option value="1125899906842625">2022</option>
+            <option value="1125899906842626">2023</option>
+            <option value="1125899906842627">2024</option>
+            <!-- Aquí se insertarán dinámicamente los grados existentes -->
+          </select>
+          <br><br>
+      
+          <!-- Género -->
+          <label for="Gender">Género:</label>
+          <select id="Gender" name="Gender" required>
+            <option value="">Selecciona el género</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Masculino">Masculino</option>
+          </select>
+          <br><br>
+      
+          <!-- Grado -->
+          <label for="Grade_Id">Grado:</label>
+          <select id="Grade_Id" name="Grade_Id" required>
+            <option value="">Selecciona el grado</option>
+            <option value="1125899906842625">Grado 1</option>
+            <option value="1125899906842626">Grado 2</option>
+            <option value="1125899906842627">Grado 3</option>
+            <option value="1125899906842628">Grado 4</option>
+            <option value="1125899906842629">Grado 5</option>
+            <!-- Aquí se insertarán dinámicamente los grados existentes -->
+          </select>
+          <br><br>
+      
+          <!-- Cuotas -->
+          <label for="Fees">Cuotas:</label>
+          <input type="number" id="Fees" name="Fees" required>
+          <br><br>
+      
+          <!-- Fecha de inscripción -->
+          <label for="Date_Enrolment">Fecha de Inscripción:</label>
+          <input type="date" id="Date_Enrolment" name="Date_Enrolment" required>
+          <br><br>
+      
+          <!-- <label for="dropped_out">Estado del Estudiante:</label>
+          <select id="dropped_out" name="dropped_out" required>
+            <option value="">Selecciona el estado</option>
+            <option value="1">Dado de baja</option>
+            <option value="0">Activo</option>
+          </select>
+          <br><br> -->
+
+          <!-- Satisfacción del estudiante -->
+        <label for="student_satisfaction">Satisfacción del Estudiante:</label>
+        <input type="range" id="student_satisfaction" name="student_satisfaction" min="1" max="5" step="1" value="3" oninput="document.getElementById('studentSatisfactionValue').textContent = this.value">
+        <span id="studentSatisfactionValue">3</span>/5
+        <br><br>
+
+        <!-- Satisfacción de los padres -->
+        <label for="parent_satisfaction">Satisfacción de los Padres:</label>
+        <input type="range" id="parent_satisfaction" name="parent_satisfaction" min="1" max="5" step="1" value="3" oninput="document.getElementById('parentSatisfactionValue').textContent = this.value">
+        <span id="parentSatisfactionValue">3</span>/5
+        <br><br>
+      
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+      
+    </div>
+
+    <div id="addTaskModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Tarea</h2>
+        <form id="addTaskForm">
+          <!-- Tipo de Proyecto -->
+          <label for="Proyect_Type">Tipo de Proyecto:</label>
+          <input type="text" id="Proyect_Type" name="Proyect_Type" maxlength="150" required>
+          <br><br>
+    
+          <!-- Miembro del Equipo -->
+          <label for="Team_Member">Miembro del Equipo:</label>
+          <select id="Team_Member" name="Team_Member" required>
+            <option value="">Selecciona el miembro del equipo</option>
+            <option value="Desarrollador de Software">Desarrollador de Software</option>
+            <option value="Ingeniero QA">Ingeniero QA</option>
+            <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
+          </select>
+          <br><br>
+    
+          <!-- Estatus de Tarea -->
+          <label for="Task_Status">Estatus de la Tarea:</label>
+          <select id="Task_Status" name="Task_Status" required>
+            <option value="">Selecciona el estatus</option>
+            <option value="Cerrada">Cerrada</option>
+            <option value="Pruebas">Pruebas</option>
+            <option value="En Espera">En Espera</option>
+            <option value="En Proceso">En Proceso</option>
+            <option value="Abierta">Abierta</option>
+            <option value="Validada">Validada</option>
+            <option value="En Revisión">En Revisión</option>
+          </select>
+          <br><br>
+    
+          <!-- Tipo de Tarea -->
+          <label for="Task_Type">Tipo de Tarea:</label>
+          <select id="Task_Type" name="Task_Type" required>
+            <option value="">Selecciona el tipo de tarea</option>
+            <option value="Bug">Bug</option>
+            <option value="Funcionalidad">Funcionalidad</option>
+            <option value="Historia">Historia</option>
+          </select>
+          <br><br>
+    
+          <!-- Puntos de Historia -->
+          <label for="Task_StoryPoints">Puntos de Historia:</label>
+          <input type="number" id="Task_StoryPoints" name="Task_StoryPoints" min="0">
+          <br><br>
+    
+          <!-- Rol del Recurso -->
+          <label for="Resource_Role">Rol del Recurso:</label>
+          <select id="Resource_Role" name="Resource_Role" required>
+            <option value="">Selecciona el rol del recurso</option>
+            <option value="Desarrollador de Software">Desarrollador de Software</option>
+            <option value="Diseñador Gráfico">Diseñador Gráfico</option>
+            <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
+          </select>
+          <br><br>
+    
+          <!-- Fecha Asignada -->
+          <label for="Assigned_Date">Fecha Asignada:</label>
+          <input type="date" id="Assigned_Date" name="Assigned_Date" required>
+          <br><br>
+    
+          <!-- Fecha Cerrada -->
+          <label for="Closed_Date">Fecha Cerrada:</label>
+          <input type="date" id="Closed_Date" name="Closed_Date">
+          <br><br>
+    
+          <!-- Horas Planeadas -->
+          <label for="Planned_Hours">Horas Planeadas:</label>
+          <input type="number" id="Planned_Hours" name="Planned_Hours" min="0">
+          <br><br>
+    
+          <!-- Horas Trabajadas -->
+          <label for="Worked_Hours">Horas Trabajadas:</label>
+          <input type="number" id="Worked_Hours" name="Worked_Hours" min="0">
+          <br><br>
+    
+          <!-- Prioridad -->
+          <label for="Task_Priority">Prioridad:</label>
+          <select id="Task_Priority" name="Task_Priority" required>
+            <option value="">Selecciona la prioridad</option>
+            <option value="Baja">Baja</option>
+            <option value="Media">Media</option>
+            <option value="Alta">Alta</option>
+            <option value="Crítica">Crítica</option>
+          </select>
+          <br><br>
+    
+          <!-- Total de Recursos -->
+          <label for="Total_Resource">Total de Recursos:</label>
+          <input type="number" id="Total_Resource" name="Total_Resource" min="0">
+          <br><br>
+    
+          <!-- Botón para guardar -->
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+    
+    
+
+    <div id="editEstudModal" class="modal" style="display: none;"> 
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Estudiante</h2>
+        <form id="editStudentForm">
+          <!-- ID del estudiante (oculto) -->
+          <input type="hidden" id="editStudentId" name="Student_Id" required>
+      
+          <!-- Nombre del Estudiante -->
+          <label for="editStudentName">Nombre del Estudiante:</label>
+          <input type="text" id="editStudentName" name="Student_Name" maxlength="150" required>
+          <br><br>
+      
+          <!-- Año -->
+          <label for="editYear">Año:</label>
+          <select id="editYear" name="Year" required>
+            <option value="">Selecciona el año</option>
+            <option value="1125899906842625">2022</option>
+            <option value="1125899906842626">2023</option>
+            <option value="1125899906842627">2024</option>
+          </select>
+          <br><br>
+      
+          <!-- Género -->
+          <label for="editGender">Género:</label>
+          <select id="editGender" name="Gender" required>
+            <option value="">Selecciona el género</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+          </select>
+          <br><br>
+      
+          <!-- Grado -->
+          <label for="editGradeId">Grado:</label>
+          <select id="editGradeId" name="Grade_Id" required>
+            <option value="">Selecciona el grado</option>
+            <option value="1125899906842625">Grado 1</option>
+            <option value="1125899906842626">Grado 2</option>
+            <option value="1125899906842627">Grado 3</option>
+            <option value="1125899906842628">Grado 4</option>
+            <option value="1125899906842629">Grado 5</option>
+            <!-- Aquí se insertarán dinámicamente los grados existentes -->
+          </select>
+          <br><br>
+      
+          <!-- Matrícula -->
+          <label for="editFees">Cuotas:</label>
+          <input type="number" id="editFees" name="Fees" min="0" required>
+          <br><br>
+      
+          <!-- Fecha de inscripción -->
+          <label for="editDateEnrolment">Fecha de inscripción:</label>
+          <input type="date" id="editDateEnrolment" name="Date_Enrolment" required>
+          <br><br>
+      
+          <!-- Estado de Baja -->
+          <label for="editDroppedOut">Estatus:</label>
+          <select id="editDroppedOut" name="dropped_out" required>
+            <option value="0">Activo</option>
+            <option value="1">Dado de baja</option>
+          </select>
+          <br><br>
+      
+          <!-- Satisfacción del Estudiante -->
+          <label for="editStudentSatisfaction">Satisfacción del Estudiante:</label>
+          <input type="number" id="editStudentSatisfaction" name="student_satisfaction" step="0.01" min="0" max="100" required>
+          <br><br>
+      
+          <!-- Satisfacción de los Padres -->
+          <label for="editParentSatisfaction">Satisfacción de los Padres:</label>
+          <input type="number" id="editParentSatisfaction" name="parent_satisfaction" step="0.01" min="0" max="100" required>
+          <br><br>
+      
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+      
+    </div>
+
+    <div id="editTaskModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Tarea</h2>
+        <form id="editTaskForm">
+          <!-- ID de la tarea (oculto y automático) -->
+          <input type="hidden" id="editTaskId" name="Task_ID" required>
+    
+          <!-- Tipo de Proyecto -->
+          <label for="editProjectType">Tipo de Proyecto:</label>
+          <input type="text" id="editProjectType" name="Proyect_Type" required placeholder="Escribe el nombre del Proyecto">
+          <br><br>
+          
+    
+          <!-- Miembro del Equipo -->
+          <label for="editTeamMember">Miembro del Equipo:</label>
+          <select id="editTeamMember" name="Team_Member" required>
+            <option value="">Selecciona el miembro</option>
+            <option value="Desarrollador de Software">Desarrollador de Software</option>
+            <option value="Ingeniero de QA">Ingeniero QA</option>
+            <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
+          </select>
+          <br><br>
+    
+          <!-- Estatus de la Tarea -->
+          <label for="editTaskStatus">Estatus de la Tarea:</label>
+          <select id="editTaskStatus" name="Task_Status" required>
+            <option value="">Selecciona el estatus</option>
+            <option value="Cerrada">Cerrada</option>
+            <option value="En Pruebas">En Pruebas</option>
+            <option value="En Espera">En Espera</option>
+            <option value="En Progreso">En Progreso</option>
+            <option value="Abierta">Abierta</option>
+            <option value="Validada">Validada</option>
+            <option value="En Revisión">En Revisión</option>
+          </select>
+          <br><br>
+    
+          <!-- Tipo de Tarea -->
+          <label for="editTaskType">Tipo de Tarea:</label>
+          <select id="editTaskType" name="Task_Type" required>
+            <option value="">Selecciona el tipo</option>
+            <option value="Error">Error</option>
+            <option value="Funcionalidad">Funcionalidad</option>
+            <option value="Historia">Historia</option>
+          </select>
+          <br><br>
+    
+          <!-- Puntos de Historia -->
+          <label for="editStoryPoints">Puntos de Historia:</label>
+          <input type="number" id="editStoryPoints" name="Task_StoryPoints" min="0" required>
+          <br><br>
+    
+          <!-- Rol del Recurso -->
+          <label for="editResourceRole">Rol del Recurso:</label>
+          <select id="editResourceRole" name="Resource_Role" required>
+            <option value="">Selecciona el rol</option>
+            <option value="Desarrollador de Software">Desarrollador de Software</option>
+            <option value="Diseñador Gráfico">Diseñador Gráfico</option>
+            <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
+          </select>
+          <br><br>
+    
+          <!-- Fecha de Asignación -->
+          <label for="editAssignedDate">Fecha de Asignación:</label>
+          <input type="date" id="editAssignedDate" name="Assigned_Date" required>
+          <br><br>
+    
+          <!-- Fecha de Cierre -->
+          <label for="editClosedDate">Fecha de Cierre:</label>
+          <input type="date" id="editClosedDate" name="Closed_Date">
+          <br><br>
+    
+          <!-- Horas Planificadas -->
+          <label for="editPlannedHours">Horas Planificadas:</label>
+          <input type="number" id="editPlannedHours" name="Planned_Hours" min="0" required>
+          <br><br>
+    
+          <!-- Horas Trabajadas -->
+          <label for="editWorkedHours">Horas Trabajadas:</label>
+          <input type="number" id="editWorkedHours" name="Worked_Hours" min="0" required>
+          <br><br>
+    
+          <!-- Prioridad de la Tarea -->
+          <label for="editTaskPriority">Prioridad de la Tarea:</label>
+          <select id="editTaskPriority" name="Task_Priority" required>
+            <option value="">Selecciona la prioridad</option>
+            <option value="Baja">Baja</option>
+            <option value="Media">Media</option>
+            <option value="Alta">Alta</option>
+            <option value="Crítica">Crítica</option>
+          </select>
+          <br><br>
+    
+          <!-- Total de Recursos -->
+          <label for="editTotalResource">Total de Recursos:</label>
+          <input type="number" id="editTotalResource" name="Total_Resource" min="0" required>
+          <br><br>
+    
+          <!-- Puntuación -->
+          <label for="editScore">Puntuación:</label>
+          <input type="number" id="editScore" name="Score" min="1" max="5" step="1" required>
+          <br><br>
+    
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
     <div id="editTareaModal" class="modal" style="display: none;">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -484,7 +896,6 @@
         </form>
       </div>
     </div>
-    
     
     <!-- Modal para editar usuario -->
     <div id="editUserModal" class="modal" style="display: none;">

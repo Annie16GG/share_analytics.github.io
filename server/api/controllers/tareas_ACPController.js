@@ -1,5 +1,6 @@
 // server/controllers/userController.js
-const db = require("../../config/db_singlestore");
+const db = require("../../config/db");
+const db2 = require("../../config/db_singlestore");
 const { v4: uuidv4 } = require("uuid");
 
 exports.obtenerTareas = (req, res) => {

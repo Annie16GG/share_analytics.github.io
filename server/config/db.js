@@ -4,7 +4,7 @@ const mysql = require('mysql2');
 const connection = mysql.createConnection({
   host: "172.178.34.90",
   port: 3306,
-  database: "dvh",
+  database: "share_analytics2",
   user: "ShareData",
   password: "$$Share123+$$"
 });

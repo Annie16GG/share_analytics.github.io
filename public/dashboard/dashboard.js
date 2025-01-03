@@ -38,6 +38,8 @@ const addUnidadModal = document.getElementById("addUnidadModal");
 const addUserButton = document.getElementById("addUserButton");
 const addUnityButton = document.getElementById("addUnityButton");
 const addTareaButton = document.getElementById("addTareaButton");
+const addEstudButton = document.getElementById("addEstudButton");
+const addTaskButton = document.getElementById("addTareaAButton");
 const addUnidadButton = document.getElementById("addUnidadButton");
 const addPermissionModal = document.getElementById("addPermissionModal");
 const addPermissionButton = document.getElementById("addPermissionButton");
@@ -83,6 +85,14 @@ addTareaButton.onclick = function () {
   addTareaModal.style.display = "block";
 };
 
+addEstudButton .onclick = function () {
+  addEstudianteModal.style.display = "block";
+};
+
+addTareaAButton .onclick = function () {
+  addTaskModal.style.display = "block";
+};
+
 addPermissionButton.onclick = function () {
   addPermissionModal.style.display = "block";
   selectedAccess = null;
@@ -98,6 +108,8 @@ closeModal.onclick = function () {
   addFormModal.style.display = "none";
   selectGroupModal.style.display = "none";
   addTareaModal.style.display = "none";
+  addEstudianteModal.style.display = "none";
+  addTaskModal.style.display = "none";
 };
 window.onclick = function (event) {
   if (event.target == addUserModal) {
@@ -395,6 +407,14 @@ document
 document
   .getElementById("editTareaModal")
   .addEventListener("submit", submitEditTareaForm);
+  document
+  .getElementById("editEstudModal")
+  .addEventListener("submit", submitEditEstudForm);
+
+  document
+  .getElementById("editTaskModal")
+  .addEventListener("submit", submitEditTaskForm);
+
 document
   .getElementById("addPermissionForm")
   .addEventListener("submit", function (event) {
@@ -486,6 +506,30 @@ document.getElementById("menu-unidades").addEventListener("click", () => {
       if (e.target && e.target.matches(".user-checkbox")) {
         toggleActionButton();
       }
+    });
+  document
+    .getElementById("selectedActionButton")
+    .addEventListener("click", function () {});
+});
+
+document.getElementById("menu-estudiantes").addEventListener("click", () => {
+  showView("estudiantes-view");
+  loadEstudiantes();
+  document
+    .querySelector("#estudiantes-table tbody")
+    .addEventListener("change", function (e) {
+    });
+  document
+    .getElementById("selectedActionButton")
+    .addEventListener("click", function () {});
+});
+
+document.getElementById("menu-team-agile").addEventListener("click", () => {
+  showView("agile-view");
+  loadTareas_Agile();
+  document
+    .querySelector("#agile-table tbody")
+    .addEventListener("change", function (e) {
     });
   document
     .getElementById("selectedActionButton")
@@ -682,6 +726,145 @@ document
       }
     });
   });
+
+  document
+  .getElementById("addEstudianteModal")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    // Capturar los datos del formulario
+    const formData = {
+      student_name: document.getElementById("Student_Name").value.trim(),
+      year: parseInt(document.getElementById("Year").value, 10),
+      gender: document.getElementById("Gender").value.trim(),
+      grade_id: parseInt(document.getElementById("Grade_Id").value, 10),
+      fees: parseFloat(document.getElementById("Fees").value),
+      date_enrolment: document.getElementById("Date_Enrolment").value,
+      student_satisfaction: parseInt(
+        document.getElementById("student_satisfaction").value,
+        10
+      ),
+      parent_satisfaction: parseInt(
+        document.getElementById("parent_satisfaction").value,
+        10
+      ),
+    };
+
+    // Confirmación con SweetAlert2
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas agregar este estudiante?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, agregarlo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Enviar los datos al backend
+        fetch("/api/estudiantes/agregarEstudiante", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Success:", data);
+            Swal.fire(
+              "Estudiante agregado!",
+              "El estudiante ha sido agregado exitosamente.",
+              "success"
+            );
+            document.getElementById("addEstudianteModal").style.display = "none"; // Cerrar el modal
+            loadEstudiantes(); // Recargar la lista de estudiantes
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire(
+              "Error",
+              "Ocurrió un error al agregar el estudiante.",
+              "error"
+            );
+          });
+      }
+    });
+  });
+
+  document
+  .getElementById("addTaskForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    // Capturar los datos del formulario
+    const formData = {
+      proyect_type: document.getElementById("Proyect_Type").value,
+      team_member: document.getElementById("Team_Member").value.trim(),
+      task_status: document.getElementById("Task_Status").value.trim(),
+      task_type: document.getElementById("Task_Type").value.trim(),
+      task_story_points: parseInt(
+        document.getElementById("Task_StoryPoints").value,
+        10
+      ),
+      resource_role: document.getElementById("Resource_Role").value.trim(),
+      assigned_date: document.getElementById("Assigned_Date").value,
+      closed_date: document.getElementById("Closed_Date").value,
+      planned_hours: parseFloat(
+        document.getElementById("Planned_Hours").value
+      ),
+      worked_hours: parseFloat(
+        document.getElementById("Worked_Hours").value
+      ),
+      task_priority: document.getElementById("Task_Priority").value.trim(),
+      total_resource: parseFloat(
+        document.getElementById("Total_Resource").value
+      ),
+    };
+    console.log(formData)
+
+    // Confirmación con SweetAlert2
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas agregar esta tarea?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, agregarla",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Enviar los datos al backend
+        fetch("/api/agile/agregarTask", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Éxito:", data);
+            Swal.fire(
+              "¡Tarea agregada!",
+              "La tarea ha sido agregada exitosamente.",
+              "success"
+            );
+            document.getElementById("addTaskModal").style.display = "none"; // Cerrar el modal
+            loadTareas_Agile(); // Recargar la lista de tareas
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire(
+              "Error",
+              "Ocurrió un error al agregar la tarea.",
+              "error"
+            );
+          });
+      }
+    });
+  });
+
 
 document
   .getElementById("addAsignacionViajeForm")
@@ -1128,7 +1311,7 @@ function submitEditTareaForm(event) {
   const updatedTarea = {
     idtarea: keyTarea,
     estatust: tareaEstatus,
-    satist: tareaSatisfaccion,
+    satist: tareaSatisfaccion
   };
   Swal.fire({
     title: "¿Estás seguro?",
@@ -1171,6 +1354,144 @@ function submitEditTareaForm(event) {
     }
   });
 }
+
+function submitEditEstudForm(event) {
+  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+  const studentId = document.getElementById("editStudentId").value;
+  const studentName = document.getElementById("editStudentName").value;
+  const studentYear = document.getElementById("editYear").value;
+  const studentGender = document.getElementById("editGender").value;
+  const studentGradeId = document.getElementById("editGradeId").value;
+  const studentFees = document.getElementById("editFees").value;
+  const studentDateEnrolment = document.getElementById("editDateEnrolment").value;
+  const studentDroppedOut = document.getElementById("editDroppedOut").value;
+  const studentSatisfaction = document.getElementById("editStudentSatisfaction").value;
+  const parentSatisfaction = document.getElementById("editParentSatisfaction").value;
+
+  const updatedStudent = {
+    Student_Id: studentId,
+    Student_Name: studentName,
+    Year: studentYear,
+    Gender: studentGender,
+    Grade_Id: studentGradeId,
+    Fees: studentFees,
+    Date_Enrolment: studentDateEnrolment,
+    dropped_out: studentDroppedOut,
+    student_satisfaction: studentSatisfaction,
+    parent_satisfaction: parentSatisfaction
+  };
+
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción modificará los detalles del estudiante.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, actualizar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/api/estudiantes/modificarStudent/${studentId}`, {
+        method: "PUT", // Método HTTP para actualizar datos
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedStudent),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Mostrar alerta de éxito si se actualizó correctamente
+          Swal.fire("Actualizado", "Los detalles del estudiante se han modificado.", "success");
+          // Cerrar el modal
+          document.getElementById("editEstudModal").style.display = "none";
+          loadEstudiantes(); // Asegúrate de cargar los estudiantes de nuevo si es necesario
+        })
+        .catch((error) => {
+          console.error("Error updating student details:", error);
+          // Mostrar alerta de error si algo salió mal
+          Swal.fire("Error", "Hubo un problema al modificar los detalles del estudiante.", "error");
+        });
+    }
+  });
+}
+
+function submitEditTaskForm(event) {
+  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+  const taskId = document.getElementById("editTaskId").value;
+  const projectType = document.getElementById("editProjectType").value;
+  const teamMember = document.getElementById("editTeamMember").value;
+  const taskStatus = document.getElementById("editTaskStatus").value;
+  const taskType = document.getElementById("editTaskType").value;
+  const storyPoints = document.getElementById("editStoryPoints").value;
+  const resourceRole = document.getElementById("editResourceRole").value;
+  const assignedDate = document.getElementById("editAssignedDate").value;
+  const closedDate = document.getElementById("editClosedDate").value;
+  const plannedHours = document.getElementById("editPlannedHours").value;
+  const workedHours = document.getElementById("editWorkedHours").value;
+  const taskPriority = document.getElementById("editTaskPriority").value;
+  const totalResource = document.getElementById("editTotalResource").value;
+  const score = document.getElementById("editScore").value;
+
+  const updatedTask = {
+    Task_ID: taskId,
+    Proyect_Type: projectType,
+    Team_Member: teamMember,
+    Task_Status: taskStatus,
+    Task_Type: taskType,
+    Task_StoryPoints: storyPoints,
+    Resource_Role: resourceRole,
+    Assigned_Date: assignedDate,
+    Closed_Date: closedDate,
+    Planned_Hours: plannedHours,
+    Worked_Hours: workedHours,
+    Task_Priority: taskPriority,
+    Total_Resource: totalResource,
+    Score: score,
+  };
+
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción modificará los detalles de la tarea.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, actualizar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/api/agile/modificarTask/${taskId}`, {
+        method: "PUT", // Método HTTP para actualizar datos
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Error al actualizar la tarea");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Mostrar alerta de éxito si se actualizó correctamente
+          Swal.fire("Actualizado", "Los detalles de la tarea se han modificado.", "success");
+          // Cerrar el modal
+          document.getElementById("editTaskModal").style.display = "none";
+          loadTareas_Agile(); // Asegúrate de cargar las tareas de nuevo si es necesario
+        })
+        .catch((error) => {
+          console.error("Error updating task details:", error);
+          // Mostrar alerta de error si algo salió mal
+          Swal.fire("Error", "Hubo un problema al modificar los detalles de la tarea.", "error");
+        });
+    }
+  });
+}
+
 
 function submitCostosForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
@@ -1310,7 +1631,6 @@ const deleteUnidad = async (placa) => {
     console.error("Error deleting user:", error);
   }
 };
-
 const FinalizarTarea = async (tareaId) => {
   // Confirmación con SweetAlert2 antes de finalizar la tarea
   Swal.fire({
@@ -1364,7 +1684,6 @@ const FinalizarTarea = async (tareaId) => {
     }
   });
 };
-
 function openPermissionsModal(userId) {
   showView("permission-view");
   loadPermisos(userId);
@@ -1604,6 +1923,133 @@ function openEditViajeModal(unidadId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
+function openEditEstudModal(Student_Id) {
+  fetch(`/api/estudiantes/modificar/${Student_Id}`)
+    .then((response) => response.json())
+    .then((estudiantes) => {
+      if (estudiantes.length > 0) {
+        const student = estudiantes[0]; // Acceder al primer (y único) objeto en el array
+        console.log(student);
+
+        // Verificar y asignar los campos del formulario con los datos del estudiante
+        const editStudentId = document.getElementById("editStudentId");
+        const editStudentName = document.getElementById("editStudentName");
+        const editYear = document.getElementById("editYear");
+        const editGender = document.getElementById("editGender");
+        const editGradeId = document.getElementById("editGradeId");
+        const editFees = document.getElementById("editFees");
+        const editDateEnrolment = document.getElementById("editDateEnrolment");
+        const editDroppedOut = document.getElementById("editDroppedOut");
+        const editStudentSatisfaction = document.getElementById("editStudentSatisfaction");
+        const editParentSatisfaction = document.getElementById("editParentSatisfaction");
+
+        if (
+          editStudentId &&
+          editStudentName &&
+          editYear &&
+          editGender &&
+          editGradeId &&
+          editFees &&
+          editDateEnrolment &&
+          editDroppedOut &&
+          editStudentSatisfaction &&
+          editParentSatisfaction
+        ) {
+          editStudentId.value = student.Student_Id || ""; // Manejar valores nulos
+          editStudentName.value = student.Student_Name || "";
+          editYear.value = student.Year_Id || "";
+          editGender.value = student.Gender || "";
+          editGradeId.value = student.Grade_Id || "";
+          editFees.value = student.Fees || "";
+          editDateEnrolment.value = student.Date_Enrolment || "";
+          editDroppedOut.value = student.dropped_out || "0"; // Predeterminado a "No"
+          editStudentSatisfaction.value = student.student_satisfaction || "";
+          editParentSatisfaction.value = student.parent_satisfaction || "";
+
+          // Mostrar el modal de edición
+          document.getElementById("editEstudModal").style.display = "block";
+        } else {
+          console.error(
+            "Uno o más elementos del formulario no fueron encontrados."
+          );
+        }
+      } else {
+        console.error("No student data found.");
+      }
+    })
+    .catch((error) => console.error("Error fetching student details:", error));
+}
+
+function openEditTaskModal(Task_ID) {
+  fetch(`/api/agile/modificar/${Task_ID}`)
+    .then((response) => response.json())
+    .then((tareas) => {
+      if (tareas.length > 0) {
+        const tarea = tareas[0]; // Acceder al primer (y único) objeto en el array
+        console.log(tarea);
+
+        // Verificar y asignar los campos del formulario con los datos de la tarea
+        const editTaskId = document.getElementById("editTaskId");
+        const editProjectType = document.getElementById("editProjectType");
+        const editTeamMember = document.getElementById("editTeamMember");
+        const editTaskStatus = document.getElementById("editTaskStatus");
+        const editTaskType = document.getElementById("editTaskType");
+        const editStoryPoints = document.getElementById("editStoryPoints");
+        const editResourceRole = document.getElementById("editResourceRole");
+        const editAssignedDate = document.getElementById("editAssignedDate");
+        const editClosedDate = document.getElementById("editClosedDate");
+        const editPlannedHours = document.getElementById("editPlannedHours");
+        const editWorkedHours = document.getElementById("editWorkedHours");
+        const editTaskPriority = document.getElementById("editTaskPriority");
+        const editTotalResource = document.getElementById("editTotalResource");
+        const editScore = document.getElementById("editScore");
+
+        if (
+          editTaskId &&
+          editProjectType &&
+          editTeamMember &&
+          editTaskStatus &&
+          editTaskType &&
+          editStoryPoints &&
+          editResourceRole &&
+          editAssignedDate &&
+          editClosedDate &&
+          editPlannedHours &&
+          editWorkedHours &&
+          editTaskPriority &&
+          editTotalResource &&
+          editScore
+        ) {
+          editTaskId.value = tarea.Task_ID || ""; // Manejar valores nulos
+          editProjectType.value = tarea.Proyect_Type || "";
+          editTeamMember.value = tarea.Team_Member || "";
+          editTaskStatus.value = tarea.Task_Status || "";
+          editTaskType.value = tarea.Task_Type || "";
+          editStoryPoints.value = tarea.Task_StoryPoints || "";
+          editResourceRole.value = tarea.Resource_Role || "";
+          editAssignedDate.value = tarea.Assigned_Date || "";
+          editClosedDate.value = tarea.Closed_Date || "";
+          editPlannedHours.value = tarea.Planned_Hours || "";
+          editWorkedHours.value = tarea.Worked_Hours || "";
+          editTaskPriority.value = tarea.Task_Priority || "";
+          editTotalResource.value = tarea.Total_Resource || "";
+          editScore.value = tarea.Score || "";
+
+          // Mostrar el modal de edición
+          document.getElementById("editTaskModal").style.display = "block";
+        } else {
+          console.error(
+            "Uno o más elementos del formulario no fueron encontrados."
+          );
+        }
+      } else {
+        console.error("No se encontraron datos de la tarea.");
+      }
+    })
+    .catch((error) => console.error("Error fetching task details:", error));
+}
+
+
 function openAsignarViajeUnidadModal(unidadId) {
   fetch(`/api/auth/unidades/${unidadId}`)
     .then((response) => response.json())
@@ -1652,7 +2098,6 @@ function eventoUnidad(unidadId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
-
 function openEditTareaModal(tareaId) {
   console.log(tareaId);
   // Realizar una solicitud para obtener los detalles de la tarea específica
@@ -1701,8 +2146,7 @@ function openEditTareaModal(tareaId) {
     .catch((error) =>
       console.error("Error al obtener los detalles de la tarea:", error)
     );
-}
-
+} 
 function bloqueoTarea(tareaId) {
   fetch(`/api/tareas/bloqueos/${tareaId}`)
     .then((response) => response.json())
@@ -1727,7 +2171,6 @@ function bloqueoTarea(tareaId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
-
 function showView(viewId) {
   const views = document.querySelectorAll(".view");
   views.forEach((view) => {
@@ -2005,6 +2448,71 @@ function loadUnidades() {
         <a href="#" onclick="deleteUnidad('${
           unidad.U_Placas
         }')">Borrar unidad</a>
+      </div>
+    </div>
+  </td>
+
+              `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error fetching users:", error));
+}
+
+function loadEstudiantes() {
+  fetch("/api/estudiantes/estudiantes")
+    .then((response) => response.json())
+    .then((data) => {
+      const tbody = document.querySelector("#estudiantes-table tbody");
+      tbody.innerHTML = "";
+      data.forEach((estudiante) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                <td>${estudiante.Student_Name}</td>
+                <td>${estudiante.Academic_Year_Number}</td>
+                <td>${estudiante.Grade_Name}</td>
+                <td>${estudiante.Date_Enrolment}</td>
+                <td>${estudiante.dropped_out}</td>
+                <td>
+    <div class="dropdown">
+      <button class="dropbtn">Actions</button>
+      <div class="dropdown-content">
+        <a href="#" onclick="openEditEstudModal('${estudiante.Student_Id}')">Editar Estudiante</a>
+        <a href="#" onclick="deleteUnidad('${
+          estudiante.Student_Id
+        }')">Registrar calificación</a>
+      </div>
+    </div>
+  </td>
+
+              `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error fetching users:", error));
+}
+
+function loadTareas_Agile() {
+  fetch("/api/agile/tareas")
+    .then((response) => response.json())
+    .then((data) => {
+      const tbody = document.querySelector("#agile-table tbody");
+      tbody.innerHTML = "";
+      data.forEach((tarea) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                <td>${tarea.Proyect_Type}</td>
+                <td>${tarea.Task_Status}</td>
+                <td>${tarea.Task_Type}</td>
+                <td>${tarea.Task_Priority}</td>
+                <td>${tarea.Team_Member}</td>
+                <td>${tarea.Assigned_Date}</td>
+                <td>${tarea.Planned_Hours}</td>
+                <td>
+    <div class="dropdown">
+      <button class="dropbtn">Actions</button>
+      <div class="dropdown-content">
+        <a href="#" onclick="openEditTaskModal('${tarea.Task_ID}')">Editar Tarea</a>
       </div>
     </div>
   </td>
@@ -2489,6 +2997,8 @@ function showMenuBasedOnRole() {
         "#menu-users",
         "#menu-unidades",
         "#menu-tareas",
+        "#menu-team-agile",
+        "#menu-estudiantes",
         "#signOut",
       ],
       "Visualizador y carga": ["#menu-dashboard", "#menu-upload", "#signOut"],
