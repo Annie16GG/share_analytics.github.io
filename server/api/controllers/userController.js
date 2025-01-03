@@ -1,56 +1,54 @@
-// server/controllers/userController.js
-const db2 = require('../../config/db_singlestore');
 const db = require('../../config/db');
 
-exports.getUsers = (req, res) => {
+exports.getUsers = async (req, res) => {
   const query = 'SELECT * FROM users';
-  
-  db.query(query, (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+
+  try {
+    const [results] = await db.query(query);
     return res.status(200).json(results);
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.getUnidades = (req, res) => {
+exports.getUnidades = async (req, res) => {
   const query = `
     SELECT U_Placas, U_Estado, DATE_FORMAT(U_FechaDeCompra, '%Y-%m-%d') AS U_FechaDeCompra, 
            U_CargaMax, U_Status 
     FROM Unidades ORDER BY U_Placas ASC`;
-  
-  db.query(query, (err, results) => {
+
+  try {
+    const [results] = await db.query(query);
     console.log(results);
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
     return res.status(200).json(results);
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-
-exports.getUsers_id = (req, res) => {
+exports.getUsers_id = async (req, res) => {
   const { id } = req.params;
   const query = 'SELECT * FROM users WHERE id = ?';
-  
-  db.query(query, [id], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+
+  try {
+    const [results] = await db.query(query, [id]);
     return res.status(200).json(results);
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.getUnidades_id = (req, res) => {
+exports.getUnidades_id = async (req, res) => {
   const { id } = req.params;
-  const query = `SELECT U_Placas, U_Estado, DATE_FORMAT(U_FechaDeCompra, '%Y-%m-%d') AS U_FechaDeCompra, 
-           U_CargaMax, U_Status FROM Unidades WHERE U_Placas = ?`;
-  
-  db.query(query, [id], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    return res.status(200).json(results);
-  });
-};
+  const query = `
+    SELECT U_Placas, U_Estado, DATE_FORMAT(U_FechaDeCompra, '%Y-%m-%d') AS U_FechaDeCompra, 
+           U_CargaMax, U_Status 
+    FROM Unidades WHERE U_Placas = ?`;
 
+  try {
+    const [results] = await db.query(query, [id]);
+    return res.status(200).json(results);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};

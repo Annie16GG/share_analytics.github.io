@@ -1,128 +1,113 @@
 const db = require('../../config/db');
-const db2 = require('../../config/db_singlestore');
 const { v4: uuidv4 } = require('uuid');
 
-exports.getAccess = (req, res) => {
-  const { selectedEn }  = req.params;
-  console.log(req.params);
+exports.getAccess = async (req, res) => {
+  const { selectedEn } = req.params;
   const query = `SELECT * FROM access WHERE entity LIKE ?`;
-  console.log(query);
-  
-  db.query(query, [`%${selectedEn}%`], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+
+  try {
+    const [results] = await db.query(query, [`%${selectedEn}%`]);
     return res.status(200).json(results);
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.getScope = (req, res) => {
+exports.getScope = async (req, res) => {
   const query = 'SELECT * FROM forms';
-  
-  db.query(query, (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+
+  try {
+    const [results] = await db.query(query);
     return res.status(200).json(results);
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.getEntities = (req, res) => {
+exports.getEntities = async (req, res) => {
   const query = 'SELECT * FROM entities';
-  
-  db.query(query, (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+
+  try {
+    const [results] = await db.query(query);
     return res.status(200).json(results);
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.addPermission = (req, res) => {
+exports.addPermission = async (req, res) => {
   const { id_user, entity, scope, access_mode } = req.body;
   const id = uuidv4();
 
-  console.log('Received data:', req.body); // Log de los datos recibidos
-
   const query = 'INSERT INTO permissions (id, id_user, entity, scope, access_mode) VALUES (?, ?, ?, ?, ?)';
-  db.query(query, [id, id_user, entity, scope, access_mode], (err, results) => {
-    if (err) {
-      console.error('Error inserting permission:', err);
-      return res.status(500).json({ error: err.message });
-    }
+
+  try {
+    const [results] = await db.query(query, [id, id_user, entity, scope, access_mode]);
     return res.status(201).json({ message: 'Permission created successfully', id_user });
-  });
+  } catch (err) {
+    console.error('Error inserting permission:', err);
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.getPermittedItems = (req, res) => {
+exports.getPermittedItems = async (req, res) => {
   const { id_user } = req.params;
 
-  // Consultar los formularios y dashboards a los que el usuario tiene permiso
   const query = `
     SELECT DISTINCT scope 
     FROM permissions 
     WHERE id_user = ?`;
 
-  db.query(query, [id_user], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-
+  try {
+    const [results] = await db.query(query, [id_user]);
     const permittedScopes = results.map(row => row.scope);
-    console.log(permittedScopes);
 
     // Obtener formularios permitidos
     const formsQuery = 'SELECT * FROM forms WHERE name IN (?)';
-    db.query(formsQuery, [permittedScopes], (err, formsResults) => {
-      if (err) {
-        return res.status(500).json({ error: err.message });
-      }
+    const [formsResults] = await db.query(formsQuery, [permittedScopes]);
 
-      // Obtener dashboards permitidos
-      const dashboardsQuery = 'SELECT * FROM dashboards WHERE name_dashboard IN (?)';
-      db.query(dashboardsQuery, [permittedScopes], (err, dashboardsResults) => {
-        if (err) {
-          return res.status(500).json({ error: err.message });
-        }
-        // Responder con los resultados
-        return res.status(200).json({
-          forms: formsResults,
-          dashboards: dashboardsResults
-        });
-      });
+    // Obtener dashboards permitidos
+    const dashboardsQuery = 'SELECT * FROM dashboards WHERE name_dashboard IN (?)';
+    const [dashboardsResults] = await db.query(dashboardsQuery, [permittedScopes]);
+
+    return res.status(200).json({
+      forms: formsResults,
+      dashboards: dashboardsResults
     });
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.getGropus = (req, res) => {
+exports.getGroups = async (req, res) => {
   const query = 'SELECT * FROM grupos';
-  
-  db.query(query, (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+
+  try {
+    const [results] = await db.query(query);
     return res.status(200).json(results);
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.getForms = (req, res) => {
+exports.getForms = async (req, res) => {
   const query = 'SELECT * FROM forms';
-  
-  db.query(query, (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+
+  try {
+    const [results] = await db.query(query);
     return res.status(200).json(results);
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.getCategories = (req, res) => {
+exports.getCategories = async (req, res) => {
   const query = 'SELECT * FROM categories';
-  
-  db.query(query, (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+
+  try {
+    const [results] = await db.query(query);
     return res.status(200).json(results);
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };

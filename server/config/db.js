@@ -1,22 +1,19 @@
+// dbConnection.js
 const mysql = require('mysql2');
 
-// Configuración de la conexión a la base de datos
-const connection = mysql.createConnection({
+// Configuración del pool de conexiones
+const pool = mysql.createPool({
   host: "172.178.34.90",
   port: 3306,
   database: "share_analytics2",
   user: "ShareData",
-  password: "$$Share123+$$"
+  password: "$$Share123+$$",
+  waitForConnections: true,
+  connectionLimit: 10, // Número máximo de conexiones en el pool
+  queueLimit: 0 // No limita la cola de conexiones
 });
 
-// Conexión a la base de datos
-connection.connect((err) => {
-  if (err) {
-    console.error('Error connecting to the database:', err);
-    return;
-  }
-  console.log('Connected to the MySQL database.');
-});
+// Usamos .promise() para poder usar promesas
+const promisePool = pool.promise();
 
-// Exportación de la conexión
-module.exports = connection;
+module.exports = promisePool;
