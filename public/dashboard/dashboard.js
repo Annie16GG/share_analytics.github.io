@@ -27,7 +27,7 @@ var rootUrl = "https://login.shareanalytics.com.mx/bi";
 var siteIdentifier = "site/acp";
 var environment = "onpremise";
 var embedType = "component";
-var authorizationUrl = "https://dbd4-20-121-192-203.ngrok-free.app/embeddetail/get";
+var authorizationUrl = "https://3686-2806-2a0-1220-80ca-24bc-7224-6e42-bed7.ngrok-free.app/embeddetail/get";
 // var authorizationUrl = "http://localhost:8080/embeddetail/get";
 // var authorizationUrl = "https://api-boldbi.vercel.app/api/embeddetail/get";
 let selectedAccess = null;
@@ -39,6 +39,7 @@ const addUserButton = document.getElementById("addUserButton");
 const addUnityButton = document.getElementById("addUnityButton");
 const addTareaButton = document.getElementById("addTareaButton");
 const addEstudButton = document.getElementById("addEstudButton");
+const addProfButton = document.getElementById("addProfButton");
 const addTaskButton = document.getElementById("addTareaAButton");
 const addUnidadButton = document.getElementById("addUnidadButton");
 const addPermissionModal = document.getElementById("addPermissionModal");
@@ -89,6 +90,10 @@ addEstudButton .onclick = function () {
   addEstudianteModal.style.display = "block";
 };
 
+addProfButton .onclick = function () {
+  addProfesorModal.style.display = "block";
+};
+
 addTareaAButton .onclick = function () {
   addTaskModal.style.display = "block";
 };
@@ -110,6 +115,7 @@ closeModal.onclick = function () {
   addTareaModal.style.display = "none";
   addEstudianteModal.style.display = "none";
   addTaskModal.style.display = "none";
+  addProfesorModal.style.display = "none";
 };
 window.onclick = function (event) {
   if (event.target == addUserModal) {
@@ -414,6 +420,9 @@ document
   document
   .getElementById("editTaskModal")
   .addEventListener("submit", submitEditTaskForm);
+  document
+  .getElementById("graduationForm")
+  .addEventListener("submit", submitEditViajeForm);
 
 document
   .getElementById("addPermissionForm")
@@ -732,6 +741,11 @@ document
   .addEventListener("submit", function (event) {
     event.preventDefault();
 
+    // Capturar los valores de los checkboxes seleccionados
+    const selectedInterests = Array.from(
+      document.querySelectorAll('input[name="Interests"]:checked')
+    ).map((checkbox) => checkbox.value);
+
     // Capturar los datos del formulario
     const formData = {
       student_name: document.getElementById("Student_Name").value.trim(),
@@ -748,6 +762,7 @@ document
         document.getElementById("parent_satisfaction").value,
         10
       ),
+      interests: selectedInterests, // Agregar los intereses seleccionados al formData
     };
 
     // Confirmación con SweetAlert2
@@ -858,6 +873,65 @@ document
             Swal.fire(
               "Error",
               "Ocurrió un error al agregar la tarea.",
+              "error"
+            );
+          });
+      }
+    });
+  });
+
+  document
+  .getElementById("addProfesorModal")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    // Capturar los valores de los campos seleccionados
+    const formData = {
+      grade_id: parseInt(document.getElementById("Grade_ID").value, 10),
+      branch_id: parseInt(document.getElementById("Branch_Id_prof").value, 10),
+      teacher_name: document.getElementById("Teacher_Name").value.trim(),
+      lesson_percentage: parseFloat(document.getElementById("Lesson_Percentage").value),
+      contact: document.getElementById("Contact").value.trim(),
+      year_id: parseInt(document.getElementById("Year_prof").value, 10),
+      satisfaction_rating: document.getElementById("Satisfaction_Rating").value.trim(),
+      salary: parseFloat(document.getElementById("salary").value),
+    };
+
+    // Confirmación con SweetAlert2
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas agregar esta información?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, agregarlo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Enviar los datos al backend
+        fetch("/api/estudiantes/agregarProfesor", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Success:", data);
+            Swal.fire(
+              "Información agregada!",
+              "La información ha sido agregada exitosamente.",
+              "success"
+            );
+            document.getElementById("addProfesorModal").style.display = "none"; // Cerrar el modal
+            loadEstudiantes(); // Recargar la lista de estudiantes o realizar alguna otra acción
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire(
+              "Error",
+              "Ocurrió un error al agregar la información.",
               "error"
             );
           });
@@ -1206,6 +1280,64 @@ function submitEditViajeForm(event) {
     }
   });
 }
+
+function submitGraduationForm(event) {
+  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+  // Obtener el ID del estudiante
+  const studentId = document.getElementById("Student_Id").value;
+  const studentGrade = document.getElementById("studentGrade").value;
+
+  // Obtener el estado del checkbox de graduación
+  const isGraduated = document.getElementById("isGraduated").checked;
+
+  // Crear el objeto con la información de graduación
+  const graduationData = {
+    studentGrade: studentGrade,
+    graduado: isGraduated ? true : false, // Si está seleccionado, graduado será true
+  };
+
+  // Mostrar la confirmación antes de enviar la solicitud
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción confirmará que el alumno se ha graduado.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, graduarlo",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Enviar la solicitud de graduación
+      fetch(`/api/graduacion/${studentId}`, {
+        method: "PUT", // Método HTTP para actualizar datos
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(graduationData),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Mostrar alerta de éxito si se actualizó correctamente
+          Swal.fire("Graduado", "El alumno ha sido graduado.", "success");
+          // Cerrar el modal
+          document.getElementById("graduationModal").style.display = "none";
+          loadStudents(); // Recargar la lista de estudiantes si es necesario
+        })
+        .catch((error) => {
+          console.error("Error updating graduation status:", error);
+          // Mostrar alerta de error si algo salió mal
+          Swal.fire(
+            "Error",
+            "Hubo un problema al graduar al alumno.",
+            "error"
+          );
+        });
+    }
+  });
+}
+
 function submitEventoForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -1298,7 +1430,6 @@ function submitBloqueoForm(event) {
     }
   });
 }
-
 function submitEditTareaForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -1980,6 +2111,133 @@ function openEditEstudModal(Student_Id) {
     .catch((error) => console.error("Error fetching student details:", error));
 }
 
+function openGraduationModal(Student_Id) {
+  fetch(`/api/estudiantes/modificar/${Student_Id}`)
+    .then((response) => response.json())
+    .then((estudiantes) => {
+      if (estudiantes.length > 0) {
+        const student = estudiantes[0]; // Acceder al primer (y único) objeto en el array
+
+        // Extraer el nombre, grado y estado de graduación del estudiante
+        const studentName = student.Student_Name || "Nombre no disponible";
+        const studentGrade = student.Grade_Name || "Grado no disponible";
+        const graduationStatus = student.Graduation_Status || 0; // 0: no graduado, 1: graduado
+
+        // Verificar si el alumno ya está graduado
+        if (graduationStatus === 1) {
+          // Mostrar un SweetAlert indicando que el alumno ya se graduó
+          Swal.fire({
+            title: "El alumno ya está graduado",
+            text: `${studentName} ya se graduó del ${studentGrade}.`,
+            icon: "info",
+            confirmButtonText: "Aceptar"
+          });
+        } else {
+          // Asignar los valores al modal
+          document.getElementById("studentName").textContent = studentName;
+          document.getElementById("studentGrade").textContent = studentGrade;
+
+          // Mostrar el modal
+          document.getElementById("graduationModal").style.display = "block";
+        }
+      } else {
+        console.error("No se encontraron datos del estudiante.");
+        Swal.fire("Error", "No se encontraron datos del estudiante.", "error");
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching student details:", error);
+      Swal.fire("Error", "Ocurrió un error al obtener los datos del estudiante.", "error");
+    });
+}
+
+
+
+function openCalifEstudModal(Student_Id) {
+  // Mostrar el modal de edición sin cargar datos del backend
+  document.getElementById("addCalifModal").style.display = "block";
+
+  // Agregar evento para manejar el envío del formulario
+  const editForm = document.getElementById("addCalifForm");
+  editForm.onsubmit = function (event) {
+    event.preventDefault(); // Evitar el envío tradicional del formulario
+
+    // Obtener los valores del formulario
+    const updatedBranchData = {
+      Branch_Id: document.getElementById("Branch_Id").value.trim(),
+      Marks: document.getElementById("Marks").value.trim(),
+      Participation: document.getElementById("Participation").value.trim(),
+      Days_Abscent: document.getElementById("Days_Abscent").value.trim(),
+    };
+
+    // Validar los datos antes de confirmar
+    if (
+      !updatedBranchData.Branch_Id ||
+      !updatedBranchData.Marks ||
+      !updatedBranchData.Participation ||
+      !updatedBranchData.Days_Abscent
+    ) {
+      Swal.fire({
+        icon: "warning",
+        title: "Campos incompletos",
+        text: "Por favor, completa todos los campos requeridos.",
+      });
+      return;
+    }
+
+    // Confirmación con SweetAlert2
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas guardar los cambios?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, guardarlos",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma, hacer el fetch
+        fetch(`/api/estudiantes/modificarCalif/${Student_Id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedBranchData),
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json().then(() => {
+                Swal.fire(
+                  "Actualizado",
+                  "Los datos del estudiante se han actualizado exitosamente.",
+                  "success"
+                );
+                document.getElementById("addCalifModal").style.display = "none"; // Cerrar el modal
+              });
+            } else if (response.status === 404) {
+              throw new Error(
+                "El alumno no está inscrito en esa materia."
+              );
+            } else {
+              return response.json().then((data) => {
+                const errorMessage =
+                  data.message || "Error al actualizar los datos.";
+                throw new Error(errorMessage);
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire("Error", error.message, "error");
+          });
+      }
+    });
+  };
+}
+
+
+
+
 function openEditTaskModal(Task_ID) {
   fetch(`/api/agile/modificar/${Task_ID}`)
     .then((response) => response.json())
@@ -2478,9 +2736,12 @@ function loadEstudiantes() {
       <button class="dropbtn">Actions</button>
       <div class="dropdown-content">
         <a href="#" onclick="openEditEstudModal('${estudiante.Student_Id}')">Editar Estudiante</a>
-        <a href="#" onclick="deleteUnidad('${
+        <a href="#" onclick="openCalifEstudModal('${
           estudiante.Student_Id
         }')">Registrar calificación</a>
+        <a href="#" onclick="openGraduationModal('${
+          estudiante.Student_Id
+        }')">Pase de año</a>
       </div>
     </div>
   </td>

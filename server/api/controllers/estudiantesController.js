@@ -1,7 +1,6 @@
 // server/controllers/userController.js
 const db2 = require("../../config/db");
 const db = require("../../config/db_singlestore");
-const { v4: uuidv4 } = require("uuid");
 
 exports.obtenerEstudiantes = (req, res) => {
     const query = `SELECT * FROM student_details sd 
@@ -53,121 +52,133 @@ exports.getTareas_id = (req, res) => {
 };
 
 exports.agregarEstud = (req, res) => {
-    // Obtener los datos del cuerpo de la solicitud
-    const {
-      student_name,
-      year,
-      gender,
-      grade_id,
-      fees,
-      date_enrolment,
-      student_satisfaction,
-      parent_satisfaction,
-    } = req.body;
-  
-    // Definir la consulta SQL para insertar el nuevo estudiante en la tabla
-    const query = `
-      INSERT INTO student_details (
-        Student_Name,
-        Year_Id,
-        Gender,
-        Grade_Id,
-        Fees,
-        Date_Enrolment,
-        dropped_out,
-        student_satisfaction,
-        parent_satisfaction
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-  
-    // Ejecutar la consulta, pasando los valores en el mismo orden que en el query
-    db.query(
-      query,
-      [
-        student_name,
-        year,
-        gender,
-        grade_id,
-        fees,
-        date_enrolment,
-        0, // Valor predeterminado de dropped_out
-        student_satisfaction,
-        parent_satisfaction,
-      ],
-      (err, results) => {
-        if (err) {
-          // Enviar una respuesta de error en caso de fallo
-          return res.status(500).json({ error: err.message });
-        }
-        // Enviar una respuesta de éxito si la inserción es correcta
-        return res.status(201).json({
-          message: "Estudiante agregado exitosamente",
-          studentId: results.insertId,
-        });
+  const {
+    student_name,
+    year,
+    gender,
+    grade_id,
+    fees,
+    date_enrolment,
+    student_satisfaction,
+    parent_satisfaction,
+    interests, // Arreglo con los IDs de las materias seleccionadas
+  } = req.body;
+
+  // Obtener una conexión del pool
+  db.getConnection((err, connection) => {
+    if (err) {
+      return res.status(500).json({ error: "Error al obtener conexión: " + err.message });
+    }
+
+    // Iniciar la transacción
+    connection.beginTransaction((err) => {
+      if (err) {
+        connection.release();
+        return res.status(500).json({ error: "Error al iniciar la transacción: " + err.message });
       }
-    );
-  };
-  
 
-exports.createBloqueo = (req, res) => {
-  const { id_tarea, razon } = req.body;
-  const id = uuidv4();
-  const query = `
-      INSERT INTO TareasBloqueos (B_KeyBloqueo, Razon, B_KeyTarea) VALUES  (?, ?, ?)`;
+      // Insertar en student_details
+      const insertStudentQuery = `
+        INSERT INTO student_details (
+          Student_Name,
+          Year_Id,
+          Gender,
+          Grade_Id,
+          Fees,
+          Date_Enrolment,
+          Student_Satisfaction,
+          Parent_Satisfaction
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+      `;
 
-  db.query(query, [id, razon, id_tarea], (err, results) => {
-    if (err) {
-      // Enviar una respuesta de error en caso de fallo
-      return res.status(500).json({ error: err.message });
-    }
-    // Enviar una respuesta de éxito si la inserción es correcta
-    return res
-      .status(201)
-      .json({
-        message: "Tarea creada exitosamente",
-        tareaId: results.insertId,
-      });
+      connection.query(
+        insertStudentQuery,
+        [
+          student_name,
+          year,
+          gender,
+          grade_id,
+          fees,
+          date_enrolment,
+          student_satisfaction,
+          parent_satisfaction,
+        ],
+        (err, studentResult) => {
+          if (err) {
+            return connection.rollback(() => {
+              connection.release();
+              return res.status(500).json({ error: "Error al insertar el estudiante: " + err.message });
+            });
+          }
+
+          const studentId = studentResult.insertId;
+
+          // Preparar los valores para insertar en student_branch
+          const branchInsertValues = interests.map((branchId) => [
+            studentId,
+            branchId,
+            0, // Marks
+            0, // Participation
+            0, // Days_Abscent
+          ]);
+
+          const insertBranchQuery = `
+            INSERT INTO students_marks_details (
+              Student_Id,
+              Branch_Id,
+              Marks,
+              Participation,
+              Days_Abscent
+            ) VALUES ?
+          `;
+
+          connection.query(insertBranchQuery, [branchInsertValues], (err) => {
+            if (err) {
+              return connection.rollback(() => {
+                connection.release();
+                return res.status(500).json({ error: "Error al insertar en Student_Branch: " + err.message });
+              });
+            }
+
+            // Insertar en students_graduation_status
+            const insertGraduationQuery = `
+              INSERT INTO graduation_details (
+                Student_ID,
+                Grade_ID,
+                Graduation_Status
+              ) VALUES (?, ?, ?)
+            `;
+
+            connection.query(insertGraduationQuery, [studentId, grade_id, 0], (err) => {
+              if (err) {
+                return connection.rollback(() => {
+                  connection.release();
+                  return res.status(500).json({ error: "Error al insertar en Graduation_Status: " + err.message });
+                });
+              }
+
+              // Confirmar la transacción
+              connection.commit((err) => {
+                if (err) {
+                  return connection.rollback(() => {
+                    connection.release();
+                    return res.status(500).json({ error: "Error al confirmar la transacción: " + err.message });
+                  });
+                }
+
+                connection.release();
+                res.status(201).json({
+                  message: "Estudiante, ramas y estatus de graduación agregados exitosamente",
+                  studentId,
+                });
+              });
+            });
+          });
+        }
+      );
+    });
   });
 };
-
-exports.finalizarTarea = (req, res) => {
-    console.log(req.body);
-  // Ruta para actualizar la fecha de término de una tarea
-  const { id } = req.params;
-  // Obtener la fecha y hora actual en formato AAAA-MM-DD HH:MM:SS
-  const now = new Date();
-  const fechaTermino = `${now.getFullYear()}-${String(
-    now.getMonth() + 1
-  ).padStart(2, "0")}-${String(now.getDate()).padStart(2, "0")} ${String(
-    now.getHours()
-  ).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")}:${String(
-    now.getSeconds()
-  ).padStart(2, "0")}`;
-
-  // Consulta SQL para actualizar la fecha de término en la tabla de tareas
-  const query = `UPDATE Tareas SET Fecha_termino = ? WHERE T_KeyTarea = ?`;
-
-  // Ejecutar la consulta, pasando los valores necesarios
-  db.query(query, [fechaTermino, id], (err, result) => {
-    if (err) {
-      return res
-        .status(500)
-        .json({
-          message: "Error al actualizar la fecha de término",
-          error: err.message,
-        });
-    }
-
-    if (result.affectedRows === 0) {
-      return res.status(404).json({ message: "Tarea no encontrada" });
-    }
-
-    return res
-      .status(200)
-      .json({ message: "Fecha de término actualizada exitosamente" });
-  });
-};
-
 
 exports.getEstudianteporid = (req, res) => {
     const { id } = req.params;
@@ -208,7 +219,6 @@ exports.getEstudianteporid = (req, res) => {
       return res.status(200).json(formattedResults);
     });
   };
-  
   exports.updateStudent = (req, res) => {
     const { id } = req.params; // Obtener el ID del estudiante desde los parámetros de la URL
     const { Student_Name, Year, Gender, Grade_Id, Fees, Date_Enrolment, dropped_out, student_satisfaction, parent_satisfaction } = req.body; // Obtener los datos a actualizar desde el cuerpo de la solicitud
@@ -244,4 +254,115 @@ exports.getEstudianteporid = (req, res) => {
     });
 };
 
-  
+exports.updateCalif = (req, res) => {
+  const { id } = req.params; // Obtener el ID del estudiante desde los parámetros de la URL
+  const { Branch_Id, Marks, Participation, Days_Abscent } = req.body; // Obtener los datos a actualizar desde el cuerpo de la solicitud
+
+  const query = `
+    UPDATE students_marks_details 
+    SET Marks = ?, 
+        Participation = ?, 
+        Days_Abscent = ?
+    WHERE Student_Id = ? AND
+    Branch_Id = ?
+  `;
+
+  // Ejecutar la consulta con los valores recibidos
+  db.query(query, [Marks, Participation, Days_Abscent, id, Branch_Id,], (err, results) => {
+    if (err) {
+      console.error("Error al actualizar los detalles del estudiante:", err.message);
+      return res.status(500).json({ error: "Error al actualizar los detalles del estudiante" });
+    }
+
+    // Si el estudiante no fue encontrado o no se actualizó ninguna fila
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: "Estudiante no encontrado" });
+    }
+
+    // Respuesta exitosa
+    return res.status(200).json({ message: "Estudiante actualizado exitosamente" });
+  });
+};
+
+exports.updateGrad = (req, res) => {
+  const { id } = req.params; // Obtener el ID del estudiante desde los parámetros de la URL
+  const { studentGrade} = req.body; // Obtener los datos a actualizar desde el cuerpo de la solicitud
+
+  const query = `
+    UPDATE graduation_details 
+    SET Graduation_Status = ?
+    WHERE Student_ID = ? AND
+    Grade_ID = ?
+  `;
+
+  // Ejecutar la consulta con los valores recibidos
+  db.query(query, [1, id, studentGrade], (err, results) => {
+    if (err) {
+      console.error("Error al actualizar los detalles del estudiante:", err.message);
+      return res.status(500).json({ error: "Error al actualizar los detalles del estudiante" });
+    }
+
+    // Si el estudiante no fue encontrado o no se actualizó ninguna fila
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: "Estudiante no encontrado" });
+    }
+
+    // Respuesta exitosa
+    return res.status(200).json({ message: "Estudiante actualizado exitosamente" });
+  });
+};
+
+
+exports.agregarProf = (req, res) => {
+  // Obtener los datos de la solicitud
+  const {
+    grade_id,
+      branch_id,
+      teacher_name,
+      lesson_percentage,
+      contact,
+      year_id,
+      satisfaction_rating,
+      salary // Si se requiere este campo, aún se puede agregar en el futuro
+  } = req.body;
+
+  // Definir la consulta SQL para insertar el nuevo estudiante en la tabla
+  const query = `
+    INSERT INTO faculty_details (
+      Grade_ID,
+      Branch_Id,
+      Teacher_Name,
+      Lesson_Percentage,
+      Contact,
+      Year_Id,
+      Satisfaction_Rating,
+      salary
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+  // Ejecutar la consulta, pasando los valores en el mismo orden que en el query
+  db.query(
+    query,
+    [
+      grade_id,
+      branch_id,
+      teacher_name,
+      lesson_percentage,
+      contact,
+      year_id,
+      satisfaction_rating,
+      salary
+    ],
+    (err, results) => {
+      if (err) {
+        // Enviar una respuesta de error en caso de fallo
+        return res.status(500).json({ error: err.message });
+      }
+      // Enviar una respuesta de éxito si la inserción es correcta
+      return res.status(201).json({
+        message: "Estudiante agregado exitosamente",
+        studentId: results.insertId,
+      });
+    }
+  );
+};

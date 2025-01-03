@@ -6,12 +6,11 @@ const estudiantesController = require('../controllers/estudiantesController');
 
 router.get('/estudiantes', estudiantesController.obtenerEstudiantes); 
 router.post('/agregarEstudiante', estudiantesController.agregarEstud);
+router.post('/agregarProfesor', estudiantesController.agregarProf);
 router.get('/modificar/:id', estudiantesController.getEstudianteporid);
-// router.get('/modificar/:id', estudiantesController.getEstudianteporid);
-// router.get('/bloqueos/:id', tareasController.getTareas_id);
-// router.post('/agregarBloqueo', tareasController.createBloqueo);
 router.put('/modificarStudent/:id', estudiantesController.updateStudent);
-// router.put('/modificarTarea/:id', tareasController.updateTarea);
+router.put('/modificarCalif/:id', estudiantesController.updateCalif);
+router.put('/graduacion/:id', estudiantesController.updateGrad);
 
 
 module.exports = router;
