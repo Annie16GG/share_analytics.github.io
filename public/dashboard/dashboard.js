@@ -27,7 +27,7 @@ var rootUrl = "https://login.shareanalytics.com.mx/bi";
 var siteIdentifier = "site/acp";
 var environment = "onpremise";
 var embedType = "component";
-var authorizationUrl = "https://78c4-20-121-192-203.ngrok-free.app/embeddetail/get";
+var authorizationUrl = "https://caf7-2605-59c8-7073-f710-58e0-b568-2b98-8ba5.ngrok-free.app/embeddetail/get";
 // var authorizationUrl = "http://localhost:8080/embeddetail/get";
 // var authorizationUrl = "https://api-boldbi.vercel.app/api/embeddetail/get";
 let selectedAccess = null;
@@ -37,10 +37,13 @@ const addUserModal = document.getElementById("addUserModal");
 const addUnidadModal = document.getElementById("addUnidadModal");
 const addUserButton = document.getElementById("addUserButton");
 const addUnityButton = document.getElementById("addUnityButton");
+const addRolButton = document.getElementById("addTareaRolButton");
 const addTareaButton = document.getElementById("addTareaButton");
 const addEstudButton = document.getElementById("addEstudButton");
 const addProfButton = document.getElementById("addProfButton");
 const addTaskButton = document.getElementById("addTareaAButton");
+const addTareaProyButton = document.getElementById("addTareaProyButton");
+const addTareaRecursoButton = document.getElementById("addTareaRecursoButton");
 const addUnidadButton = document.getElementById("addUnidadButton");
 const addPermissionModal = document.getElementById("addPermissionModal");
 const addPermissionButton = document.getElementById("addPermissionButton");
@@ -82,6 +85,10 @@ addUnityButton.onclick = function () {
   addUnidadModal.style.display = "block";
 };
 
+addRolButton.onclick = function () {
+  addRolModal.style.display = "block";
+};
+
 addTareaButton.onclick = function () {
   addTareaModal.style.display = "block";
 };
@@ -92,6 +99,14 @@ addEstudButton .onclick = function () {
 
 addProfButton .onclick = function () {
   addProfesorModal.style.display = "block";
+};
+
+addTareaProyButton .onclick = function () {
+  addProyectoModal.style.display = "block";
+};
+
+addTareaRecursoButton .onclick = function () {
+  addRecursoModal.style.display = "block";
 };
 
 addTareaAButton .onclick = function () {
@@ -579,6 +594,7 @@ document
       formularioContainer.innerHTML = `Aquí puedes cargar el contenido del Formulario ${formIndex}`;
     });
   });
+
 document
   .getElementById("addUserForm")
   .addEventListener("submit", function (event) {
@@ -669,6 +685,222 @@ document
     });
   });
 
+
+  document
+  .getElementById("addRolForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const formData = {
+      rol: document.getElementById("Nombre_rol").value,
+      tarifa: document.getElementById("Tarifa_rol").value,
+    };
+
+    // Usar SweetAlert2 para la confirmación
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas agregar este rol?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, agregarlo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma, hacer el fetch
+        fetch("/api/tareas/agregarRol", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Success:", data);
+            Swal.fire(
+              "Rol agregado!",
+              "El rol ha sido agregado exitosamente.",
+              "success"
+            );
+            addRolModal.style.display = "none"; // Cerrar el modal
+            loadTareas(); // Recargar la lista de unidades
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire(
+              "Error",
+              "Ocurrió un error al agregar el rol.",
+              "error"
+            );
+          });
+      }
+    });
+  });
+
+  document
+  .getElementById("addProyectoForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const formData = {
+      proyecto: document.getElementById("Nombre_proyecto").value,
+      responsable: document.getElementById("Responsable_proyecto").value,
+    };
+
+    // Usar SweetAlert2 para la confirmación
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas agregar este proyecto?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, agregarlo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Si el usuario confirma, hacer el fetch
+        fetch("/api/tareas/agregarProyecto", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Success:", data);
+            Swal.fire(
+              "Proyecto agregado!",
+              "El proyecto ha sido agregado exitosamente.",
+              "success"
+            );
+            addProyectoModal.style.display = "none"; // Cerrar el modal
+            loadTareas(); // Recargar la lista de unidades
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire(
+              "Error",
+              "Ocurrió un error al agregar el proyecto.",
+              "error"
+            );
+          });
+      }
+    });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Cargar los proyectos al cargar la página o el modal
+    fetch("/api/tareas/obtenerProy") // Reemplaza con la ruta de tu consulta
+      .then((response) => response.json())
+      .then((data) => {
+        const proyectoSelect = document.getElementById("Proyecto");
+        data.forEach((proyecto) => {
+          const option = document.createElement("option");
+          option.value = proyecto.Nombre_Proyecto; // Usa el campo que represente el ID del proyecto
+          option.textContent = proyecto.Nombre_Proyecto; // Usa el campo que represente el nombre del proyecto
+          proyectoSelect.appendChild(option);
+        });
+      })
+      .catch((error) => {
+        console.error("Error al cargar los proyectos:", error);
+      });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Cargar los proyectos al cargar la página o el modal
+    fetch("/api/tareas/obtenerRecurso") // Reemplaza con la ruta de tu consulta
+      .then((response) => response.json())
+      .then((data) => {
+        const proyectoSelect = document.getElementById("Asignado");
+        data.forEach((proyecto) => {
+          const option = document.createElement("option");
+          option.value = proyecto.Nombre_Recurso; // Usa el campo que represente el ID del proyecto
+          option.textContent = proyecto.Nombre_Recurso; // Usa el campo que represente el nombre del proyecto
+          proyectoSelect.appendChild(option);
+        });
+      })
+      .catch((error) => {
+        console.error("Error al cargar los proyectos:", error);
+      });
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Cargar los proyectos al cargar la página o el modal
+    fetch("/api/tareas/obtenerProy") // Reemplaza con la ruta de tu consulta
+      .then((response) => response.json())
+      .then((data) => {
+        const proyectoSelect = document.getElementById("editProyecto");
+        data.forEach((proyecto) => {
+          const option = document.createElement("option");
+          option.value = proyecto.Nombre_Proyecto; // Usa el campo que represente el ID del proyecto
+          option.textContent = proyecto.Nombre_Proyecto; // Usa el campo que represente el nombre del proyecto
+          proyectoSelect.appendChild(option);
+        });
+      })
+      .catch((error) => {
+        console.error("Error al cargar los proyectos:", error);
+      });
+  });
+
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Cargar los proyectos al cargar la página o el modal
+    fetch("/api/tareas/obtenerRecurso") // Reemplaza con la ruta de tu consulta
+      .then((response) => response.json())
+      .then((data) => {
+        const proyectoSelect = document.getElementById("editAsignado");
+        data.forEach((proyecto) => {
+          const option = document.createElement("option");
+          option.value = proyecto.Nombre_Recurso; // Usa el campo que represente el ID del proyecto
+          option.textContent = proyecto.Nombre_Recurso; // Usa el campo que represente el nombre del proyecto
+          proyectoSelect.appendChild(option);
+        });
+      })
+      .catch((error) => {
+        console.error("Error al cargar los proyectos:", error);
+      });
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Cargar los proyectos al cargar la página o el modal
+    fetch("/api/tareas/obtenerRecurso") // Reemplaza con la ruta de tu consulta
+      .then((response) => response.json())
+      .then((data) => {
+        const proyectoSelect = document.getElementById("Responsable_proyecto");
+        data.forEach((proyecto) => {
+          const option = document.createElement("option");
+          option.value = proyecto.Nombre_Recurso; // Usa el campo que represente el ID del proyecto
+          option.textContent = proyecto.Nombre_Recurso; // Usa el campo que represente el nombre del proyecto
+          proyectoSelect.appendChild(option);
+        });
+      })
+      .catch((error) => {
+        console.error("Error al cargar los proyectos:", error);
+      });
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Cargar los proyectos al cargar la página o el modal
+    fetch("/api/tareas/obtenerRol") // Reemplaza con la ruta de tu consulta
+      .then((response) => response.json())
+      .then((data) => {
+        const proyectoSelect = document.getElementById("Rol_recurso");
+        data.forEach((proyecto) => {
+          const option = document.createElement("option");
+          option.value = proyecto.Nombre_Rol; // Usa el campo que represente el ID del proyecto
+          option.textContent = proyecto.Nombre_Rol; // Usa el campo que represente el nombre del proyecto
+          proyectoSelect.appendChild(option);
+        });
+      })
+      .catch((error) => {
+        console.error("Error al cargar los proyectos:", error);
+      });
+  });
+
 document
   .getElementById("addTareaModal")
   .addEventListener("submit", function (event) {
@@ -685,6 +917,9 @@ document
       asignado: document.getElementById("Asignado").value,
       estatus: document.getElementById("Estatus").value,
       puntos: document.getElementById("Puntos_historia").value,
+      fechaIE: document.getElementById("Fecha_inicio_estimada").value,
+      fechaFE: document.getElementById("Fecha_final_estimada").value,
+      horas_estimadas: document.getElementById("Horas_estimadas").value,
       fecha_ini: document.getElementById("Fecha_inicio_sprint").value,
       sprint: document.getElementById("Key_Sprint").value,
       fecha_ini_lib: document.getElementById("Fecha_inicio_lib").value,
@@ -806,6 +1041,7 @@ document
       }
     });
   });
+
 
   document
   .getElementById("addTaskForm")
@@ -939,6 +1175,61 @@ document
     });
   });
 
+
+  document
+  .getElementById("addRecursoForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    // Capturar los datos del formulario
+    const formData = {
+      recurso: document.getElementById("Nombre_recurso").value,
+      fecha_inicio: document.getElementById("Fecha_inicio_recurso").value,
+      fecha_fin: document.getElementById("Fecha_fin_recurso").value,
+      rol: document.getElementById("Rol_recurso").value,
+    };
+
+    // Confirmación con SweetAlert2
+    Swal.fire({
+      title: "¿Estás seguro?",
+      text: "¿Deseas agregar este recurso?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, agregarlo",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Enviar los datos al backend
+        fetch("/api/tareas/agregarRecurso", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Éxito:", data);
+            Swal.fire(
+              "¡Recurso agregado!",
+              "El recurso ha sido agregada exitosamente.",
+              "success"
+            );
+            document.getElementById("addRecursoModal").style.display = "none"; // Cerrar el modal
+            loadTareas(); // Recargar la lista de tareas
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            Swal.fire(
+              "Error",
+              "Ocurrió un error al agregar el recurso.",
+              "error"
+            );
+          });
+      }
+    });
+  });
 
 document
   .getElementById("addAsignacionViajeForm")
@@ -1434,14 +1725,50 @@ function submitEditTareaForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
   const keyTarea = document.getElementById("editT_KeyTarea").value;
+  const tareaTitulo = document.getElementById("editTitulo").value;
+  const tareaDescripcion = document.getElementById("editDescripcion").value;
+  const tareaProyecto = document.getElementById("editProyecto").value;
+  const tareaTipo = document.getElementById("editTipo_tarea").value;
+  const tareaCtegoria = document.getElementById("editCategoria").value;
+  const tareaAlcance = document.getElementById("editAlcance").value;
+  const tareaPrioridad = document.getElementById("editPrioridad").value;
+  const tareaAsignado = document.getElementById("editAsignado").value;
   const tareaEstatus = document.getElementById("editEstatus").value;
+  const tareaPuntos_historia = document.getElementById("editPuntos_historia").value;
+  const tareaInicioE = document.getElementById("editInicio_Estimado").value;
+  const tareaFinE = document.getElementById("editFin_Estimado").value;
+  const tareaHoras_estimadas = document.getElementById("editHoras_estimadas").value;
+  const tareaInicioS = document.getElementById("editFecha_inicio_sprint").value;
+  const tareaKeySprint = document.getElementById("editKey_Sprint").value;
+  const tareaInicioL = document.getElementById("editFecha_inicio_lib").value;
+  const tareaLibSprint = document.getElementById("editFecha_lib_Sprint").value;
+  const tareaFinalL = document.getElementById("editFecha_final_lib").value;
+  const tareaEntregable = document.getElementById("editEntregable").value;
   const tareaSatisfaccion = document.getElementById(
     "editPuntaje_satisfaccion"
   ).value;
 
   const updatedTarea = {
     idtarea: keyTarea,
+    titulot: tareaTitulo,
+    descripciont: tareaDescripcion,
+    proyectot: tareaProyecto,
+    tipot: tareaTipo,
+    categoriat: tareaCtegoria,
+    alcancet: tareaAlcance,
+    prioridadt: tareaPrioridad,
+    asignadot: tareaAsignado,
     estatust: tareaEstatus,
+    puntost: tareaPuntos_historia,
+    inicioE: tareaInicioE,
+    finE: tareaFinE,
+    hestimadas: tareaHoras_estimadas,
+    inicios: tareaInicioS,
+    sprint: tareaKeySprint,
+    iniciol: tareaInicioL,
+    libsprint: tareaLibSprint,
+    finall: tareaFinalL,
+    entregable: tareaEntregable,
     satist: tareaSatisfaccion
   };
   Swal.fire({
@@ -2380,6 +2707,9 @@ function openEditTareaModal(tareaId) {
         document.getElementById("editEstatus").value = tarea.Estatus || "";
         document.getElementById("editPuntos_historia").value =
           tarea.Puntos_historia || "";
+          document.getElementById("editInicio_Estimado").value = tarea.Fecha_inicio_estimada || "";
+          document.getElementById("editFin_Estimado").value = tarea.Fecha_fin_estimada || "";
+          document.getElementById("editHoras_estimadas").value = tarea.Horas_estimadas || "";
         document.getElementById("editFecha_inicio_sprint").value =
           tarea.Fecha_inicio_sprint || "";
         document.getElementById("editKey_Sprint").value =

@@ -2,61 +2,45 @@ const db = require("../../config/db");
 const db2 = require("../../config/db_singlestore");
 // const db_ss = require("../../config/db_singlestore");
 
-exports.getForms = (req, res) => {
-  const query = "SELECT id, name FROM forms";
-  db.query(query, (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    return res.status(200).json(results);
-  });
+exports.getForms = async (req, res) => {
+  try {
+    const [rows, fields] = await db.query("SELECT id, name FROM forms");
+    return res.status(200).json(rows);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.getFormById = (req, res) => {
+
+exports.getFormById = async (req, res) => {
   const { id } = req.params;
-  const query = "SELECT * FROM forms WHERE id = ?";
-  db.query(query, [id], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
+  try {
+    const [results] = await db.query("SELECT * FROM forms WHERE id = ?", [id]);
     if (results.length > 0) {
-      try {
-        console.log(results);
-        const name = results[0].name;
-        // Asegúrate de que la configuración es una cadena JSON
-        const configString = JSON.stringify(results[0].config);
-        console.log("Config obtenida de la base de datos:", configString);
-        const config = JSON.parse(configString);
-        return res.status(200).json({
-          name: name,
-          config: config
-        });
-      } catch (error) {
-        console.error("Error parsing JSON:", error);
-        return res
-          .status(500)
-          .json({ error: "Invalid JSON format in database" });
-      }
+      const name = results[0].name;
+      const configString = JSON.stringify(results[0].config);
+      const config = JSON.parse(configString);
+      return res.status(200).json({
+        name: name,
+        config: config
+      });
     } else {
       return res.status(404).json({ message: "Form not found" });
     }
-  });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
 };
 
-exports.addForm = (req, res) => {
-  const { name, config } = req.body;
-  const query = "INSERT INTO forms (name, config) VALUES (?, ?)";
-  db.query(query, [name, config], (err, results) => {
-    if (err) {
-      return res.status(500).json({ error: err.message });
-    }
-    console.log(query);
-    // Crear una nueva tabla basada en la configuración del formulario
-    const formConfig = JSON.parse(config);
-    console.log(formConfig);
-    const tableName = name.replace(/\s+/g, "_").toLowerCase(); // Asegurarse de que el nombre de la tabla sea válido
 
-    // Construir la consulta de creación de tabla
+exports.addForm = async (req, res) => {
+  const { name, config } = req.body;
+  const tableName = name.replace(/\s+/g, "_").toLowerCase();
+  const formConfig = JSON.parse(config);
+
+  try {
+    const [result] = await db.query("INSERT INTO forms (name, config) VALUES (?, ?)", [name, config]);
+
     let createTableQuery = `CREATE TABLE ${tableName} (id INT AUTO_INCREMENT PRIMARY KEY`;
     formConfig.fields.forEach((field) => {
       if (field.name.toLowerCase() !== "id") {
@@ -85,40 +69,35 @@ exports.addForm = (req, res) => {
       }
     });
     createTableQuery += ")";
-    console.log(createTableQuery);
-    // Ejecutar la consulta de creación de tabla
-    db.query(createTableQuery, (err, results) => {
-      if (err) {
-        return res.status(500).json({ success: false, error: err.message });
-      }
-      res
-        .status(201)
-        .json({
-          success: true,
-          message: "Formulario y tabla creados exitosamente",
-        });
+
+    await db.query(createTableQuery);
+
+    return res.status(201).json({
+      success: true,
+      message: "Formulario y tabla creados exitosamente",
     });
-  });
+  } catch (err) {
+    return res.status(500).json({ success: false, error: err.message });
+  }
 };
 
 
-exports.submitForm = (req, res) => {
-  console.log('Request body:', req.body); // Registro del cuerpo de la solicitud
+
+exports.submitForm = async (req, res) => {
+  console.log('Request body:', req.body);
 
   const formData = req.body;
-  
-  // Verificar que formName esté presente en formData
   if (!formData.formName) {
     return res.status(400).json({ success: false, error: 'Form name is required' });
   }
 
-  const tableName = formData.formName.replace(/\s+/g, '_').toLowerCase(); // El nombre de la tabla basada en el nombre del formulario
-
-  // Eliminar formName de formData
+  const tableName = formData.formName.replace(/\s+/g, '_').toLowerCase();
   delete formData.formName;
 
   // Variables para almacenar los datos a insertar
   let datosParaGuardar = { ...formData };
+
+  try {
 
   if (tableName === 'registros') {
     // Conversión de horas a formato decimal fraccionario
@@ -390,19 +369,16 @@ exports.submitForm = (req, res) => {
 
   // Construir la consulta de inserción, escapando los nombres de columna
   const columns = Object.keys(datosParaGuardar).map(column => `\`${column}\``).join(', ');
-  const values = Object.values(datosParaGuardar).map(value => db.escape(value)).join(', ');
+    const values = Object.values(datosParaGuardar).map(value => db.escape(value)).join(', ');
 
-  console.log('Datos para guardar:', datosParaGuardar);
-  console.log('Consulta SQL:', `INSERT INTO \`${tableName}\` (${columns}) VALUES (${values})`);
+    const query = `INSERT INTO \`${tableName}\` (${columns}) VALUES (${values})`;
 
-  const query = `INSERT INTO \`${tableName}\` (${columns}) VALUES (${values})`;
+    await db.query(query);
 
-  db.query(query, (err, results) => {
-    if (err) {
-      console.error('Error en la consulta:', err.message);
-      return res.status(500).json({ success: false, error: err.message });
-    }
     return res.status(201).json({ success: true, message: 'Datos guardados exitosamente' });
-  });
+  } catch (err) {
+    console.error('Error en la consulta:', err.message);
+    return res.status(500).json({ success: false, error: err.message });
+  };
 };
 

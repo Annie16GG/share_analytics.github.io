@@ -102,6 +102,9 @@
     <div id="tareas-view" class="view" style="display: none;">
       <h1>Administración de tareas</h1>
       <button id="addTareaButton">Añadir tarea</button>
+      <button id="addTareaProyButton">Añadir proyecto</button>
+      <button id="addTareaRecursoButton">Añadir Recurso</button>
+      <button id="addTareaRolButton">Añadir Rol</button>
       <br>
       <table id="tareas-table">
         <thead>
@@ -291,6 +294,75 @@
       </div>
     </div>
 
+    <div id="addProyectoModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir proyecto</h2>
+        <form id="addProyectoForm">
+
+          <label for="Nombre_proyecto">Nombre del proyecto:</label>
+          <input type="text" id="Nombre_proyecto" name="Nombre_proyecto" required>
+          <br><br>
+
+          <label for="Responsable_proyecto">Responsable del proyecto:</label>
+          <select id="Responsable_proyecto" name="Responsable_proyecto" required>
+            <option value="" disabled selected>Seleccione un recurso</option>
+          </select>
+          <br><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addRecursoModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Recurso</h2>
+        <form id="addRecursoForm">
+
+          <label for="Nombre_recurso">Nombre del recurso:</label>
+          <input type="text" id="Nombre_recurso" name="Nombre_recurso" required>
+          <br><br>
+
+          <label for="Fecha_inicio_recurso">Fecha de Inicio del Recurso:</label>
+          <input type="date" id="Fecha_inicio_recurso" name="Fecha_inicio_recurso" required>
+          <br><br>
+
+          <label for="Fecha_fin_recurso">Fecha de Fin del Recurso:</label>
+          <input type="date" id="Fecha_fin_recurso" name="Fecha_fin_recurso" required>
+          <br><br>
+
+          <label for="Rol_recurso">Rol del recurso:</label>
+          <select id="Rol_recurso" name="Rol_recurso" required>
+            <option value="" disabled selected>Seleccione un rol</option>
+          </select>
+          <br><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addRolModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Rol</h2>
+        <form id="addRolForm">
+
+          <label for="Nombre_rol">Nombre del recurso:</label>
+          <input type="text" id="Nombre_rol" name="Nombre_rol" required>
+          <br><br>
+
+          <label for="Tarifa_rol">Tarifa:</label>
+          <input type="number" id="Tarifa_rol" name="Tarifa_rol" required>
+          <br><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
     <div id="addTareaModal" class="modal" style="display: none;">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -309,8 +381,11 @@
 
           <!-- Proyecto -->
           <label for="Proyecto">Proyecto:</label>
-          <input type="text" id="Proyecto" name="Proyecto" maxlength="150" required>
+          <select id="Proyecto" name="Proyecto" required>
+            <option value="" disabled selected>Seleccione un proyecto</option>
+          </select>
           <br><br>
+
 
           <!-- Tipo de Tarea -->
           <label for="Tipo_tarea">Tipo de Tarea:</label>
@@ -346,10 +421,11 @@
           </select>
           <br><br>
 
-          <!-- Asignado a -->
+
           <label for="Asignado">Asignado a:</label>
-          <input type="text" id="Asignado" name="Asignado" maxlength="200"
-            placeholder="Nombre o seleccionar de una lista">
+          <select id="Asignado" name="Asignado" required>
+            <option value="" disabled selected>Seleccione un recurso</option>
+          </select>
           <br><br>
 
           <!-- Estatus -->
@@ -368,6 +444,18 @@
           <!-- Puntos de Historia -->
           <label for="Puntos_historia">Puntos de Historia:</label>
           <input type="number" id="Puntos_historia" name="Puntos_historia" required>
+          <br><br>
+
+          <label for="Fecha_inicio_estimada">Fecha de Inicio Estimada:</label>
+          <input type="date" id="Fecha_inicio_estimada" name="Fecha_inicio_estimada" required>
+          <br><br>
+
+          <label for="Fecha_final_estimada">Fecha de Fin Estimada:</label>
+          <input type="date" id="Fecha_final_estimada" name="Fecha_final_estimada" required>
+          <br><br>
+
+          <label for="Horas_estimadas">Horas estimadas:</label>
+          <input type="number" id="Horas_estimadas" name="Horas_estimadas" required>
           <br><br>
 
           <!-- Fecha de Inicio del Sprint -->
@@ -527,7 +615,7 @@
             <!-- Aquí se insertarán dinámicamente los grados existentes -->
           </select>
           <br><br>
-    
+
           <!-- Rama -->
           <label for="Branch_Id_prof">Materia:</label>
           <select id="Branch_Id_prof" name="Branch_Id_prof" required>
@@ -540,22 +628,22 @@
             <!-- Opciones adicionales pueden agregarse dinámicamente -->
           </select>
           <br><br>
-    
+
           <!-- Nombre del profesor -->
           <label for="Teacher_Name">Nombre del Profesor:</label>
           <input type="text" id="Teacher_Name" name="Teacher_Name" maxlength="150" required>
           <br><br>
-    
+
           <!-- Porcentaje de la lección -->
           <label for="Lesson_Percentage">Porcentaje de la Lección:</label>
           <input type="number" id="Lesson_Percentage" name="Lesson_Percentage" required>
           <br><br>
-    
+
           <!-- Correo de contacto -->
           <label for="Contact">Correo de Contacto:</label>
           <input type="email" id="Contact" name="Contact" required>
           <br><br>
-    
+
           <!-- Año -->
           <label for="Year_prof">Año:</label>
           <select id="Year_prof" name="Year" required>
@@ -566,7 +654,7 @@
             <!-- Aquí se insertarán dinámicamente los grados existentes -->
           </select>
           <br><br>
-    
+
           <!-- Satisfacción -->
           <label for="Satisfaction_Rating">Calificación de Satisfacción:</label>
           <select id="Satisfaction_Rating" name="Satisfaction_Rating" required>
@@ -577,18 +665,16 @@
             <option value="Bueno">Bueno</option>
           </select>
           <br><br>
-    
+
           <!-- Salario -->
           <label for="salary">Salario:</label>
           <input type="number" id="salary" name="salary" required>
           <br><br>
-    
+
           <button type="submit">Guardar</button>
         </form>
       </div>
     </div>
-    
-
 
     <div id="addCalifModal" class="modal" style="display: none;">
       <div class="modal-content">
@@ -607,22 +693,22 @@
             <!-- Opciones adicionales pueden agregarse dinámicamente -->
           </select>
           <br><br>
-    
+
           <!-- Calificación -->
           <label for="Marks">Calificación:</label>
           <input type="number" id="Marks" name="Marks" min="0" max="100" required>
           <br><br>
-    
+
           <!-- Participación -->
           <label for="Participation">Participación:</label>
           <input type="number" id="Participation" name="Participation" min="0" max="100" required>
           <br><br>
-    
+
           <!-- Faltas -->
           <label for="Days_Abscent">Faltas:</label>
           <input type="number" id="Days_Abscent" name="Days_Abscent" min="0" required>
           <br><br>
-    
+
           <button type="submit">Guardar</button>
         </form>
       </div>
@@ -635,29 +721,25 @@
         <form id="graduationForm">
           <!-- Campo oculto para el ID del estudiante -->
           <input type="hidden" id="Student_Id" name="Student_Id" required>
-    
+
           <!-- Texto con nombre y grado -->
           <p style="font-size: 1.2em;">
-            ¿El alumno <strong id="studentName">[Nombre del Alumno]</strong> 
+            ¿El alumno <strong id="studentName">[Nombre del Alumno]</strong>
             se gradúa del grado <strong id="studentGrade">[Grado]</strong>?
           </p>
-    
+
           <!-- Checkbox para confirmar la graduación -->
           <label style="font-size: 1.1em;">
             <input type="checkbox" id="isGraduated" name="isGraduated" required>
             Sí, alumno graduado
           </label>
           <br><br>
-    
+
           <!-- Botón para confirmar -->
           <button type="submit" style="font-size: 1.1em; padding: 10px 20px;">Confirmar Graduación</button>
         </form>
       </div>
     </div>
-    
-    
-
-
 
     <div id="addTaskModal" class="modal" style="display: none;">
       <div class="modal-content">
@@ -959,22 +1041,24 @@
           <input type="hidden" id="editT_KeyTarea" name="T_KeyTarea" required>
           <!-- Título (Deshabilitado) -->
           <label for="editTitulo">Título:</label>
-          <input type="text" id="editTitulo" name="Titulo" maxlength="150" disabled>
+          <input type="text" id="editTitulo" name="Titulo" maxlength="150">
           <br><br>
 
           <!-- Descripción (Deshabilitado) -->
           <label for="editDescripcion">Descripción:</label>
-          <textarea id="editDescripcion" name="Descripcion" disabled></textarea>
+          <textarea id="editDescripcion" name="Descripcion"></textarea>
           <br><br>
 
-          <!-- Proyecto (Deshabilitado) -->
+
           <label for="editProyecto">Proyecto:</label>
-          <input type="text" id="editProyecto" name="Proyecto" maxlength="150" disabled>
+          <select id="editProyecto" name="editProyecto" required>
+            <option value="" disabled selected>Seleccione un proyecto</option>
+          </select>
           <br><br>
 
           <!-- Tipo de Tarea (Deshabilitado) -->
           <label for="editTipo_tarea">Tipo de Tarea:</label>
-          <select id="editTipo_tarea" name="Tipo_tarea" disabled>
+          <select id="editTipo_tarea" name="Tipo_tarea">
             <option value="">Selecciona el tipo de tarea</option>
             <option value="Error">Error</option>
             <option value="Blog técnico">Blog técnico</option>
@@ -984,12 +1068,12 @@
 
           <!-- Categoría (Deshabilitado) -->
           <label for="editCategoria">Categoría:</label>
-          <input type="text" id="editCategoria" name="Categoria" maxlength="150" disabled>
+          <input type="text" id="editCategoria" name="Categoria" maxlength="150">
           <br><br>
 
           <!-- Alcance (Deshabilitado) -->
           <label for="editAlcance">Alcance:</label>
-          <select id="editAlcance" name="Alcance" disabled>
+          <select id="editAlcance" name="Alcance">
             <option value="">Selecciona el alcance</option>
             <option value="Añadida">Añadida</option>
             <option value="Eliminada">Eliminada</option>
@@ -999,7 +1083,7 @@
 
           <!-- Prioridad (Deshabilitado) -->
           <label for="editPrioridad">Prioridad:</label>
-          <select id="editPrioridad" name="Prioridad" disabled>
+          <select id="editPrioridad" name="Prioridad">
             <option value="">Selecciona la prioridad</option>
             <option value="Baja">Baja</option>
             <option value="Media">Media</option>
@@ -1007,9 +1091,11 @@
           </select>
           <br><br>
 
-          <!-- Asignado a (Deshabilitado) -->
+
           <label for="editAsignado">Asignado a:</label>
-          <input type="text" id="editAsignado" name="Asignado" maxlength="200" disabled>
+          <select id="editAsignado" name="editAsignado" required>
+            <option value="" disabled selected>Seleccione un recurso</option>
+          </select>
           <br><br>
 
           <!-- Estatus -->
@@ -1027,37 +1113,48 @@
 
           <!-- Puntos de Historia (Deshabilitado) -->
           <label for="editPuntos_historia">Puntos de Historia:</label>
-          <input type="number" id="editPuntos_historia" name="Puntos_historia" disabled>
+          <input type="number" id="editPuntos_historia" name="Puntos_historia">
           <br><br>
 
+          <label for="editInicio_Estimado">Fecha de Inicio Estimada:</label>
+          <input type="date" id="editInicio_Estimado" name="editInicio_Estimado" required>
+          <br><br>
+
+          <label for="editFin_Estimado">Fecha de Fin Estimada:</label>
+          <input type="date" id="editFin_Estimado" name="editFin_Estimado" required>
+          <br><br>
+
+          <label for="editHoras_estimadas">Horas estimadas:</label>
+          <input type="number" id="editHoras_estimadas" name="editHoras_estimadas" required>
+          <br><br>
           <!-- Fecha de Inicio del Sprint (Deshabilitado) -->
           <label for="editFecha_inicio_sprint">Fecha de Inicio del Sprint:</label>
-          <input type="date" id="editFecha_inicio_sprint" name="Fecha_inicio_sprint" disabled>
+          <input type="date" id="editFecha_inicio_sprint" name="Fecha_inicio_sprint">
           <br><br>
 
           <!-- Key del Sprint (Deshabilitado) -->
           <label for="editKey_Sprint">Identificador del Sprint:</label>
-          <input type="text" id="editKey_Sprint" name="Key_Sprint" maxlength="100" disabled>
+          <input type="text" id="editKey_Sprint" name="Key_Sprint" maxlength="100">
           <br><br>
 
           <!-- Fecha de Inicio del LIB (Deshabilitado) -->
           <label for="editFecha_inicio_lib">Fecha de inicio de liberación:</label>
-          <input type="date" id="editFecha_inicio_lib" name="Fecha_inicio_lib" disabled>
+          <input type="date" id="editFecha_inicio_lib" name="Fecha_inicio_lib">
           <br><br>
 
           <!-- Fecha de Liberación del Sprint (Deshabilitado) -->
           <label for="editFecha_lib_Sprint">Fecha de liberación del Sprint:</label>
-          <input type="date" id="editFecha_lib_Sprint" name="Fecha_lib_Sprint" disabled>
+          <input type="date" id="editFecha_lib_Sprint" name="Fecha_lib_Sprint">
           <br><br>
 
           <!-- Fecha Final de Liberación (Deshabilitado) -->
           <label for="editFecha_final_lib">Fecha final de Liberación:</label>
-          <input type="date" id="editFecha_final_lib" name="Fecha_final_lib" disabled>
+          <input type="date" id="editFecha_final_lib" name="Fecha_final_lib">
           <br><br>
 
           <!-- Entregable (Deshabilitado) -->
           <label for="editEntregable">Entregable:</label>
-          <textarea id="editEntregable" name="Entregable" disabled></textarea>
+          <textarea id="editEntregable" name="Entregable"></textarea>
           <br><br>
 
           <!-- Puntaje de Satisfacción -->
