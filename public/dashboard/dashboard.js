@@ -431,7 +431,12 @@ document
   document
   .getElementById("editEstudModal")
   .addEventListener("submit", submitEditEstudForm);
-
+  document
+  .getElementById("editRecursoModal")
+  .addEventListener("submit", submitEditRecursoForm);
+  document
+  .getElementById("editRolModal")
+  .addEventListener("submit", submitEditRolForm);
   document
   .getElementById("editTaskModal")
   .addEventListener("submit", submitEditTaskForm);
@@ -559,6 +564,33 @@ document.getElementById("menu-team-agile").addEventListener("click", () => {
     .getElementById("selectedActionButton")
     .addEventListener("click", function () {});
 });
+
+document.getElementById("menu-team-agile-roles").addEventListener("click", () => {
+  showView("roles-view");
+  loadRoles_Agile();
+  document
+    .querySelector("#agile-roles-table tbody")
+    .addEventListener("change", function (e) {
+    });
+  document
+    .getElementById("selectedActionButton")
+    .addEventListener("click", function () {});
+});
+
+document.getElementById("menu-team-agile-recursos").addEventListener("click", () => {
+  showView("recursos-view");
+  loadRecursos_Agile();
+  document
+    .querySelector("#agile-recursos-table tbody")
+    .addEventListener("change", function (e) {
+    });
+  document
+    .getElementById("selectedActionButton")
+    .addEventListener("click", function () {});
+});
+
+
+
 document.getElementById("menu-tareas").addEventListener("click", () => {
   const tipoUser = localStorage.getItem("userRole");
   // backToUsersButton.style.display = 'inline';
@@ -724,7 +756,7 @@ document
               "success"
             );
             addRolModal.style.display = "none"; // Cerrar el modal
-            loadTareas(); // Recargar la lista de unidades
+            loadRoles_Agile(); // Recargar la lista de unidades
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -915,6 +947,7 @@ document
       alcance: document.getElementById("Alcance").value,
       prioridad: document.getElementById("Prioridad").value,
       asignado: document.getElementById("Asignado").value,
+      rol: document.getElementById("Rol_recurso").value,
       estatus: document.getElementById("Estatus").value,
       puntos: document.getElementById("Puntos_historia").value,
       fechaIE: document.getElementById("Fecha_inicio_estimada").value,
@@ -1217,7 +1250,7 @@ document
               "success"
             );
             document.getElementById("addRecursoModal").style.display = "none"; // Cerrar el modal
-            loadTareas(); // Recargar la lista de tareas
+            loadRecursos_Agile(); // Recargar la lista de tareas
           })
           .catch((error) => {
             console.error("Error:", error);
@@ -1571,7 +1604,6 @@ function submitEditViajeForm(event) {
     }
   });
 }
-
 function submitGraduationForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -1628,7 +1660,6 @@ function submitGraduationForm(event) {
     }
   });
 }
-
 function submitEventoForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -1812,7 +1843,6 @@ function submitEditTareaForm(event) {
     }
   });
 }
-
 function submitEditEstudForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -1874,7 +1904,102 @@ function submitEditEstudForm(event) {
     }
   });
 }
+function submitEditRecursoForm(event) {
+  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
+  const RecursoId = document.getElementById("editRecursoId").value;
+  const RecursoName = document.getElementById("editNombre_recurso").value;
+  const RecursoFI = document.getElementById("editFecha_inicio_recurso").value;
+  const RecursoFF = document.getElementById("editFecha_fin_recurso").value;
+
+  const updatedStudent = {
+    recurso_Id: RecursoId,
+    recurso_name: RecursoName,
+    recurso_fi: RecursoFI,
+    recurso_ff: RecursoFF
+  };
+
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción modificará los detalles del recurso.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, actualizar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/api/tareas/modificarRecurso/${RecursoId}`, {
+        method: "PUT", // Método HTTP para actualizar datos
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedStudent),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Mostrar alerta de éxito si se actualizó correctamente
+          Swal.fire("Actualizado", "Los detalles del recurso se han modificado.", "success");
+          // Cerrar el modal
+          document.getElementById("editRecursoModal").style.display = "none";
+          loadRecursos_Agile(); // Asegúrate de cargar los estudiantes de nuevo si es necesario
+        })
+        .catch((error) => {
+          console.error("Error updating student details:", error);
+          // Mostrar alerta de error si algo salió mal
+          Swal.fire("Error", "Hubo un problema al modificar los detalles del recurso.", "error");
+        });
+    }
+  });
+}
+function submitEditRolForm(event) {
+  event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+
+  const RolId = document.getElementById("editRolId").value;
+  const RolName = document.getElementById("editNombre_rol").value;
+  const RolTarifa = document.getElementById("editTarifa_rol").value;
+
+  const updatedStudent = {
+    rol_Id: RolId,
+    rol_name: RolName,
+    rol_tarifa: RolTarifa
+  };
+
+  Swal.fire({
+    title: "¿Estás seguro?",
+    text: "Esta acción modificará los detalles del recurso.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, actualizar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/api/tareas/modificarRol/${RolId}`, {
+        method: "PUT", // Método HTTP para actualizar datos
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedStudent),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Mostrar alerta de éxito si se actualizó correctamente
+          Swal.fire("Actualizado", "Los detalles del rol se han modificado.", "success");
+          // Cerrar el modal
+          document.getElementById("editRolModal").style.display = "none";
+          loadRoles_Agile(); // Asegúrate de cargar los estudiantes de nuevo si es necesario
+        })
+        .catch((error) => {
+          console.error("Error updating student details:", error);
+          // Mostrar alerta de error si algo salió mal
+          Swal.fire("Error", "Hubo un problema al modificar los detalles del rol.", "error");
+        });
+    }
+  });
+}
 function submitEditTaskForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -1949,8 +2074,6 @@ function submitEditTaskForm(event) {
     }
   });
 }
-
-
 function submitCostosForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -2038,6 +2161,40 @@ const deleteUser = async (userId) => {
     }
   } catch (error) {
     console.error("Error deleting user:", error);
+  }
+};
+
+const deleteRol = async (rolId) => {
+  try {
+    const response = await fetch(`/api/tareas/eliminarRol/${rolId}`, {
+      method: "DELETE",
+    });
+    const result = await response.json();
+
+    if (response.ok) {
+      loadRoles_Agile();
+    } else {
+      console.error(result.message);
+    }
+  } catch (error) {
+    console.error("Error deleting user:", error);
+  }
+};
+
+const deleteRecurso = async (recursoId) => {
+  try {
+    const response = await fetch(`/api/tareas/eliminarRecurso/${recursoId}`, {
+      method: "DELETE",
+    });
+    const result = await response.json();
+
+    if (response.ok) {
+      loadRecursos_Agile();
+    } else {
+      console.error(result.message);
+    }
+  } catch (error) {
+    console.error("Error deleting recurso:", error);
   }
 };
 const deleteUnidad = async (placa) => {
@@ -2437,7 +2594,6 @@ function openEditEstudModal(Student_Id) {
     })
     .catch((error) => console.error("Error fetching student details:", error));
 }
-
 function openGraduationModal(Student_Id) {
   fetch(`/api/estudiantes/modificar/${Student_Id}`)
     .then((response) => response.json())
@@ -2477,9 +2633,6 @@ function openGraduationModal(Student_Id) {
       Swal.fire("Error", "Ocurrió un error al obtener los datos del estudiante.", "error");
     });
 }
-
-
-
 function openCalifEstudModal(Student_Id) {
   // Mostrar el modal de edición sin cargar datos del backend
   document.getElementById("addCalifModal").style.display = "block";
@@ -2561,10 +2714,6 @@ function openCalifEstudModal(Student_Id) {
     });
   };
 }
-
-
-
-
 function openEditTaskModal(Task_ID) {
   fetch(`/api/agile/modificar/${Task_ID}`)
     .then((response) => response.json())
@@ -2633,8 +2782,6 @@ function openEditTaskModal(Task_ID) {
     })
     .catch((error) => console.error("Error fetching task details:", error));
 }
-
-
 function openAsignarViajeUnidadModal(unidadId) {
   fetch(`/api/auth/unidades/${unidadId}`)
     .then((response) => response.json())
@@ -2649,6 +2796,75 @@ function openAsignarViajeUnidadModal(unidadId) {
           document.getElementById("addAsignacionViajeModal").style.display =
             "block";
           loadUnidades();
+        } else {
+          console.error(
+            "Uno o más elementos del formulario no fueron encontrados."
+          );
+        }
+      } else {
+        console.error("No user data found.");
+      }
+    })
+    .catch((error) => console.error("Error fetching user details:", error));
+}
+function openEditRolModal(rolId) {
+  fetch(`/api/tareas/obtenerRolporId/${rolId}`)
+    .then((response) => response.json())
+    .then((users) => {
+      if (users.length > 0) {
+        const user = users[0]; // Acceder al primer (y único) objeto en el array
+
+        // Verificar y asignar los campos del formulario con los datos del usuario
+        const editId = document.getElementById("editRolId");
+        const editNombre = document.getElementById("editNombre_rol");
+        const editTarifa = document.getElementById("editTarifa_rol");
+
+        if (
+          editId &&
+          editNombre &&
+          editTarifa 
+        ) {
+          editId.value = user.ID_Rol;
+          editNombre.value = user.Nombre_Rol;
+          editTarifa.value = user.Tarifa;
+          // Mostrar el modal de edición
+          document.getElementById("editRolModal").style.display = "block";
+        } else {
+          console.error(
+            "Uno o más elementos del formulario no fueron encontrados."
+          );
+        }
+      } else {
+        console.error("No user data found.");
+      }
+    })
+    .catch((error) => console.error("Error fetching user details:", error));
+}
+function openEditRecursoModal(recursoId) {
+  fetch(`/api/tareas/obtenerRecursoporId/${recursoId}`)
+    .then((response) => response.json())
+    .then((users) => {
+      if (users.length > 0) {
+        const user = users[0]; // Acceder al primer (y único) objeto en el array
+
+        // Verificar y asignar los campos del formulario con los datos del usuario
+        const editId = document.getElementById("editRecursoId");
+        const editNombre = document.getElementById("editNombre_recurso");
+        const editInicio = document.getElementById("editFecha_inicio_recurso");
+        const editFin = document.getElementById("editFecha_fin_recurso");
+
+        if (
+          editId &&
+          editNombre &&
+          editInicio &&
+          editFin
+        ) {
+          editId.value = user.ID_Recurso;
+          editNombre.value = user.Nombre_Recurso;
+          editInicio.value = user.Fecha_inicio;
+          editFin.value = user.Fecha_fin;
+          // Mostrar el modal de edición
+          document.getElementById("editRecursoModal").style.display = "block";
         } else {
           console.error(
             "Uno o más elementos del formulario no fueron encontrados."
@@ -3046,7 +3262,6 @@ function loadUnidades() {
     })
     .catch((error) => console.error("Error fetching users:", error));
 }
-
 function loadEstudiantes() {
   fetch("/api/estudiantes/estudiantes")
     .then((response) => response.json())
@@ -3082,7 +3297,65 @@ function loadEstudiantes() {
     })
     .catch((error) => console.error("Error fetching users:", error));
 }
+function loadRecursos_Agile() {
+  fetch("/api/tareas/obtenerRecurso")
+    .then((response) => response.json())
+    .then((data) => {
+      const tbody = document.querySelector("#agile-recursos-table tbody");
+      tbody.innerHTML = "";
+      data.forEach((estudiante) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                <td>${estudiante.Nombre_Recurso}</td>
+                <td>${estudiante.Fecha_inicio}</td>
+                <td>${estudiante.Fecha_fin}</td>
+                <td>${estudiante.Rol}</td>
+                <td>
+    <div class="dropdown">
+      <button class="dropbtn">Actions</button>
+      <div class="dropdown-content">
+        <a href="#" onclick="openEditRecursoModal('${estudiante.ID_Recurso}')">Editar Recurso</a>
+        <a href="#" onclick="deleteRecurso('${
+          estudiante.ID_Recurso
+        }')">Eliminar recurso</a>
+      </div>
+    </div>
+  </td>
+              `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error fetching users:", error));
+}
+function loadRoles_Agile() {
+  fetch("/api/tareas/obtenerRol")
+    .then((response) => response.json())
+    .then((data) => {
+      const tbody = document.querySelector("#agile-roles-table tbody");
+      tbody.innerHTML = "";
+      data.forEach((estudiante) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                <td>${estudiante.Nombre_Rol}</td>
+                <td>${estudiante.Tarifa}</td>
+                <td>
+    <div class="dropdown">
+      <button class="dropbtn">Actions</button>
+      <div class="dropdown-content">
+        <a href="#" onclick="openEditRolModal('${estudiante.ID_Rol}')">Editar Rol</a>
+        <a href="#" onclick="deleteRol('${
+          estudiante.ID_Rol
+        }')">Borrar rol</a>
+      </div>
+    </div>
+  </td>
 
+              `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error fetching users:", error));
+}
 function loadTareas_Agile() {
   fetch("/api/agile/tareas")
     .then((response) => response.json())
@@ -3114,7 +3387,6 @@ function loadTareas_Agile() {
     })
     .catch((error) => console.error("Error fetching users:", error));
 }
-
 function loadTareas() {
   fetch("/api/tareas/tareas")
     .then((response) => response.json())
@@ -3520,7 +3792,6 @@ function validaAsignacion(data) {
     errors,
   };
 }
-
 function validaCoordenadas(data) {
   const errors = {};
   return {
@@ -3590,11 +3861,13 @@ function showMenuBasedOnRole() {
         "#menu-tareas",
         "#menu-team-agile",
         "#menu-estudiantes",
+        "#menu-team-agile-roles",
+        "#menu-team-agile-recursos",
         "#signOut",
       ],
       "Visualizador y carga": ["#menu-dashboard", "#menu-upload", "#signOut"],
       "Solo carga": ["#menu-upload", "#signOut"],
-      ACP: ["#menu-tareas", "#menu-dashboard", "#signOut"],
+      ACP: ["#menu-tareas", "#menu-dashboard", "#menu-team-agile-roles", "#menu-team-agile-recursos", "#signOut"],
       "ACP-Desarrollo": ["#menu-tareas", "#menu-dashboard", "#signOut"],
     };
 

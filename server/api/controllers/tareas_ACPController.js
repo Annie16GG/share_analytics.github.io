@@ -35,6 +35,7 @@ exports.createTarea = async (req, res) => {
     alcance,
     prioridad,
     asignado,
+    rol,
     estatus,
     puntos,
     fechaIE,
@@ -53,7 +54,7 @@ exports.createTarea = async (req, res) => {
   const query = `
         INSERT INTO Tareas (T_KeyTarea,
             Titulo, Descripcion, Proyecto, Tipo_tarea, Categoria, Alcance,
-            Prioridad, Asignado, Estatus, Puntos_historia,Fecha_inicio_estimada, Fecha_fin_estimada,Horas_estimadas, Fecha_inicio_sprint, Key_Sprint,
+            Prioridad, Asignado, Rol, Estatus, Puntos_historia,Fecha_inicio_estimada, Fecha_fin_estimada,Horas_estimadas, Fecha_inicio_sprint, Key_Sprint,
             Fecha_inicio_lib, Fecha_lib_Sprint, Fecha_final_lib, Entregable, Puntaje_satisfaccion
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
@@ -69,6 +70,7 @@ exports.createTarea = async (req, res) => {
       alcance,
       prioridad,
       asignado,
+      rol,
       estatus,
       puntos,
       fechaIE,
@@ -303,9 +305,74 @@ exports.updateTarea = async (req, res) => {
   }
 };
 
-exports.getRol = async (req, res) => {
+exports.updateRecurso = async (req, res) => {
   const { id } = req.params;
-  const query = `SELECT * FROM rol_ACP`;
+  const { recurso_name, recurso_fi, recurso_ff} = req.body;
+
+  const query = `
+    UPDATE recursos_acp
+    SET 
+      Nombre_Recurso = ?,
+      Fecha_inicio = ?,
+      Fecha_fin = ?
+    WHERE ID_Recurso = ?
+  `;
+
+  try {
+    const [results] = await db.query(query, [recurso_name, recurso_fi, recurso_ff, id]);
+
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: "Tarea no encontrada" });
+    }
+
+    return res.status(200).json({ message: "Tarea actualizada exitosamente" });
+  } catch (err) {
+    console.error("Error al actualizar los detalles de la tarea:", err.message);
+    return res.status(500).json({ error: "Error al actualizar los detalles de la tarea" });
+  }
+};
+
+exports.updateRol = async (req, res) => {
+  const { id } = req.params;
+  const { rol_name, rol_tarifa} = req.body;
+
+  const query = `
+    UPDATE rol_acp
+    SET 
+      Nombre_Rol = ?,
+      Tarifa = ?
+    WHERE ID_Rol = ?
+  `;
+
+  console.log(id);
+  try {
+    const [results] = await db.query(query, [rol_name, rol_tarifa, id]);
+
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ error: "Tarea no encontrada" });
+    }
+
+    return res.status(200).json({ message: "Tarea actualizada exitosamente" });
+  } catch (err) {
+    console.error("Error al actualizar los detalles de la tarea:", err.message);
+    return res.status(500).json({ error: "Error al actualizar los detalles de la tarea" });
+  }
+};
+
+exports.getRol= async (req, res) => {
+  const query = `SELECT * FROM rol_acp`;
+
+  try {
+    const [results] = await db.query(query);
+    return res.status(200).json(results);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getRolporId = async (req, res) => {
+  const { id } = req.params;
+  const query = `SELECT * FROM rol_acp WHERE ID_Rol = ?`;
 
   try {
     const [results] = await db.query(query, [id]);
@@ -317,11 +384,47 @@ exports.getRol = async (req, res) => {
 
 exports.getRecursos = async (req, res) => {
   const { id } = req.params;
-  const query = `SELECT * FROM recursos_ACP `;
+  const query = `SELECT * FROM recursos_acp`;
 
   try {
     const [results] = await db.query(query, [id]);
-    return res.status(200).json(results);
+
+    // Si hay resultados, formateamos las fechas
+    const formattedResults = results.map((row) => {
+      if (row.Fecha_inicio) {
+        row.Fecha_inicio = new Date(row.Fecha_inicio).toISOString().split('T')[0];
+      }
+      if (row.Fecha_fin) {
+        row.Fecha_fin = new Date(row.Fecha_fin).toISOString().split('T')[0];
+      }
+      return row;
+    });
+
+    return res.status(200).json(formattedResults);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+exports.getRecursosporId = async (req, res) => {
+  const { id } = req.params;
+  const query = `SELECT * FROM recursos_acp WHERE ID_Recurso = ?`;
+
+  try {
+    const [results] = await db.query(query, [id]);
+
+    // Si hay resultados, formateamos las fechas
+    const formattedResults = results.map((row) => {
+      if (row.Fecha_inicio) {
+        row.Fecha_inicio = new Date(row.Fecha_inicio).toISOString().split('T')[0];
+      }
+      if (row.Fecha_fin) {
+        row.Fecha_fin = new Date(row.Fecha_fin).toISOString().split('T')[0];
+      }
+      return row;
+    });
+
+    return res.status(200).json(formattedResults);
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
@@ -334,6 +437,39 @@ exports.getProyectos = async (req, res) => {
   try {
     const [results] = await db.query(query, [id]);
     return res.status(200).json(results);
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+exports.deleteRoles = async (req, res) => {
+  const { id } = req.params;
+
+  const query = 'DELETE FROM rol_acp WHERE ID_Rol = ?';
+
+  try {
+    const [results] = await db.execute(query, [id]);
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'Rol not found' });
+    }
+    return res.status(200).json({ message: 'Rol deleted successfully' });
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+
+exports.deleteRecurso = async (req, res) => {
+  const { id } = req.params;
+
+  const query = 'DELETE FROM recursos_acp WHERE ID_Recurso = ?';
+
+  try {
+    const [results] = await db.execute(query, [id]);
+    if (results.affectedRows === 0) {
+      return res.status(404).json({ message: 'Recurso not found' });
+    }
+    return res.status(200).json({ message: 'Recurso deleted successfully' });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }

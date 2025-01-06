@@ -17,9 +17,11 @@
     <a href="#" id="menu-upload">Upload</a>
     <a href="#" id="menu-users">Users</a>
     <a href="#" id="menu-unidades">Unidades</a>
-    <a href="#" id="menu-tareas">Tareas</a>
-    <a href="#" id="menu-estudiantes">Estudiantes</a>
     <a href="#" id="menu-team-agile">Agile</a>
+    <a href="#" id="menu-estudiantes">Estudiantes</a>
+    <a href="#" id="menu-tareas">Tareas</a>
+    <a href="#" id="menu-team-agile-roles">Roles</a>
+    <a href="#" id="menu-team-agile-recursos">Recursos</a>
     <div class="sign-out-container">
       <a href="#" id="signOut">
         <img src="../images/apagar.png" alt="Sign out" class="sign-out-icon">
@@ -44,6 +46,7 @@
         <!-- Contenido principal de tu dashboard -->
       </div>
     </div>
+
     <div id="upload-view" class="view" style="display: none;">
       <!-- Contenido de la vista de Upload -->
       <div class="sidebar secondary-sidebar">
@@ -103,8 +106,6 @@
       <h1>Administración de tareas</h1>
       <button id="addTareaButton">Añadir tarea</button>
       <button id="addTareaProyButton">Añadir Proyecto</button>
-      <button id="addTareaRecursoButton">Añadir Recurso</button>
-      <button id="addTareaRolButton">Añadir Rol</button>
       <br>
       <table id="tareas-table">
         <thead>
@@ -156,6 +157,42 @@
             <th>Miembro del equipo</th>
             <th>Fecha asignacion</th>
             <th>Horas planeadas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
+    </div>
+
+    <div id="roles-view" class="view" style="display: none;">
+      <h1>Team Agile</h1>
+      <button id="addTareaRolButton">Añadir Rol</button>
+      <br>
+      <table id="agile-roles-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tarifa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
+    </div>
+
+    <div id="recursos-view" class="view" style="display: none;">
+      <h1>Team Agile</h1>
+      <button id="addTareaRecursoButton">Añadir Recurso</button>
+      <br>
+      <table id="agile-recursos-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Fecha inicio</th>
+            <th>Fecha fin</th>
+            <th>Rol</th>
           </tr>
         </thead>
         <tbody>
@@ -839,6 +876,53 @@
 
           <!-- Botón para guardar -->
           <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="editRecursoModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Recurso</h2>
+        <form id="editRecursoForm">
+
+          <input type="hidden" id="editRecursoId" name="editRecurso_ID" required>
+
+          <label for="editNombre_recurso">Nombre del recurso:</label>
+          <input type="text" id="editNombre_recurso" name="editNombre_recurso" required>
+          <br><br>
+
+          <label for="editFecha_inicio_recurso">Fecha de Inicio del Recurso:</label>
+          <input type="date" id="editFecha_inicio_recurso" name="editFecha_inicio_recurso" required>
+          <br><br>
+
+          <label for="editFecha_fin_recurso">Fecha de Fin del Recurso:</label>
+          <input type="date" id="editFecha_fin_recurso" name="editFecha_fin_recurso" required>
+          <br><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="editRolModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Rol</h2>
+        <form id="editRolForm">
+
+          <input type="hidden" id="editRolId" name="editRol_ID" required>
+
+          <label for="editNombre_rol">Nombre del rol:</label>
+          <input type="text" id="editNombre_rol" name="editNombre_rol" required>
+          <br><br>
+
+          <label for="editTarifa_rol">Tarifa:</label>
+          <input type="number" id="editTarifa_rol" name="editTarifa_rol" step="0.01" required>
+          <br><br>
+
+
+          <button type="submit">Submit</button>
         </form>
       </div>
     </div>
