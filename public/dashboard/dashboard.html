@@ -102,7 +102,7 @@
     <div id="tareas-view" class="view" style="display: none;">
       <h1>Administración de tareas</h1>
       <button id="addTareaButton">Añadir tarea</button>
-      <button id="addTareaProyButton">Añadir proyecto</button>
+      <button id="addTareaProyButton">Añadir Proyecto</button>
       <button id="addTareaRecursoButton">Añadir Recurso</button>
       <button id="addTareaRolButton">Añadir Rol</button>
       <br>
@@ -333,12 +333,6 @@
           <input type="date" id="Fecha_fin_recurso" name="Fecha_fin_recurso" required>
           <br><br>
 
-          <label for="Rol_recurso">Rol del recurso:</label>
-          <select id="Rol_recurso" name="Rol_recurso" required>
-            <option value="" disabled selected>Seleccione un rol</option>
-          </select>
-          <br><br>
-
           <button type="submit">Submit</button>
         </form>
       </div>
@@ -350,7 +344,7 @@
         <h2>Añadir Rol</h2>
         <form id="addRolForm">
 
-          <label for="Nombre_rol">Nombre del recurso:</label>
+          <label for="Nombre_rol">Nombre del rol:</label>
           <input type="text" id="Nombre_rol" name="Nombre_rol" required>
           <br><br>
 
@@ -425,6 +419,12 @@
           <label for="Asignado">Asignado a:</label>
           <select id="Asignado" name="Asignado" required>
             <option value="" disabled selected>Seleccione un recurso</option>
+          </select>
+          <br><br>
+
+          <label for="Rol_recurso">Rol del recurso:</label>
+          <select id="Rol_recurso" name="Rol_recurso" required>
+            <option value="" disabled selected>Seleccione un rol</option>
           </select>
           <br><br>
 
