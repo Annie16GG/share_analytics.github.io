@@ -1,5 +1,5 @@
-const db2 = require("../../config/db");
-const db = require("../../config/db_singlestore");
+const db = require("../../config/db");
+const db2 = require("../../config/db_singlestore");
 const { v4: uuidv4 } = require("uuid");
 
 exports.obtenerTareas = async (req, res) => {
@@ -305,7 +305,7 @@ exports.updateTarea = async (req, res) => {
 
 exports.getRol = async (req, res) => {
   const { id } = req.params;
-  const query = `SELECT * FROM Rol_ACP`;
+  const query = `SELECT * FROM rol_ACP`;
 
   try {
     const [results] = await db.query(query, [id]);
@@ -317,7 +317,7 @@ exports.getRol = async (req, res) => {
 
 exports.getRecursos = async (req, res) => {
   const { id } = req.params;
-  const query = `SELECT * FROM Recursos_ACP `;
+  const query = `SELECT * FROM recursos_ACP `;
 
   try {
     const [results] = await db.query(query, [id]);
@@ -329,7 +329,7 @@ exports.getRecursos = async (req, res) => {
 
 exports.getProyectos = async (req, res) => {
   const { id } = req.params;
-  const query = `SELECT * FROM Proyectos_ACP`;
+  const query = `SELECT * FROM proyectos_ACP`;
 
   try {
     const [results] = await db.query(query, [id]);
