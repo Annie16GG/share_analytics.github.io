@@ -2166,37 +2166,105 @@ const deleteUser = async (userId) => {
 
 const deleteRol = async (rolId) => {
   try {
-    const response = await fetch(`/api/tareas/eliminarRol/${rolId}`, {
-      method: "DELETE",
+    // Mostrar una alerta de confirmación antes de eliminar
+    const confirmation = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "No podrás revertir esta acción",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
     });
-    const result = await response.json();
 
-    if (response.ok) {
-      loadRoles_Agile();
-    } else {
-      console.error(result.message);
+    if (confirmation.isConfirmed) {
+      // Si el usuario confirma, realizar la eliminación
+      const response = await fetch(`/api/tareas/eliminarRol/${rolId}`, {
+        method: "DELETE",
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        // Mostrar notificación de éxito
+        await Swal.fire({
+          title: "¡Eliminado!",
+          text: "El rol ha sido eliminado correctamente.",
+          icon: "success",
+        });
+        // Recargar la lista de roles
+        loadRoles_Agile();
+      } else {
+        // Mostrar error si la eliminación falla
+        await Swal.fire({
+          title: "Error",
+          text: result.message || "Hubo un problema al eliminar el rol.",
+          icon: "error",
+        });
+      }
     }
   } catch (error) {
+    // Mostrar error si ocurre un problema con la solicitud
+    await Swal.fire({
+      title: "Error",
+      text: "Ocurrió un error al intentar eliminar el rol.",
+      icon: "error",
+    });
     console.error("Error deleting user:", error);
   }
 };
 
+
 const deleteRecurso = async (recursoId) => {
   try {
-    const response = await fetch(`/api/tareas/eliminarRecurso/${recursoId}`, {
-      method: "DELETE",
+    // Mostrar una alerta de confirmación antes de eliminar
+    const confirmation = await Swal.fire({
+      title: "¿Estás seguro?",
+      text: "No podrás revertir esta acción",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
     });
-    const result = await response.json();
 
-    if (response.ok) {
-      loadRecursos_Agile();
-    } else {
-      console.error(result.message);
+    if (confirmation.isConfirmed) {
+      // Si el usuario confirma, realizar la eliminación
+      const response = await fetch(`/api/tareas/eliminarRecurso/${recursoId}`, {
+        method: "DELETE",
+      });
+      const result = await response.json();
+
+      if (response.ok) {
+        // Mostrar notificación de éxito
+        await Swal.fire({
+          title: "¡Eliminado!",
+          text: "El recurso ha sido eliminado correctamente.",
+          icon: "success",
+        });
+        // Recargar la lista de recursos
+        loadRecursos_Agile();
+      } else {
+        // Mostrar error si la eliminación falla
+        await Swal.fire({
+          title: "Error",
+          text: result.message || "Hubo un problema al eliminar el recurso.",
+          icon: "error",
+        });
+      }
     }
   } catch (error) {
+    // Mostrar error si ocurre un problema con la solicitud
+    await Swal.fire({
+      title: "Error",
+      text: "Ocurrió un error al intentar eliminar el recurso.",
+      icon: "error",
+    });
     console.error("Error deleting recurso:", error);
   }
 };
+
 const deleteUnidad = async (placa) => {
   // Mostrar mensaje de confirmación con SweetAlert
   const confirmResult = await Swal.fire({
