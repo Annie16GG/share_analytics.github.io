@@ -56,7 +56,7 @@ exports.createTarea = async (req, res) => {
             Titulo, Descripcion, Proyecto, Tipo_tarea, Categoria, Alcance,
             Prioridad, Asignado, Rol, Estatus, Puntos_historia,Fecha_inicio_estimada, Fecha_fin_estimada,Horas_estimadas, Fecha_inicio_sprint, Key_Sprint,
             Fecha_inicio_lib, Fecha_lib_Sprint, Fecha_final_lib, Entregable, Puntaje_satisfaccion
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
   try {
