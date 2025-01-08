@@ -1782,6 +1782,7 @@ function submitEditTareaForm(event) {
   const tareaAlcance = document.getElementById("editAlcance").value;
   const tareaPrioridad = document.getElementById("editPrioridad").value;
   const tareaAsignado = document.getElementById("editAsignado").value;
+  const tareaRol = document.getElementById("editRol_recurso").value;
   const tareaEstatus = document.getElementById("editEstatus").value;
   const tareaPuntos_historia = document.getElementById("editPuntos_historia").value;
   const tareaInicioE = document.getElementById("editInicio_Estimado").value;
@@ -1807,6 +1808,7 @@ function submitEditTareaForm(event) {
     alcancet: tareaAlcance,
     prioridadt: tareaPrioridad,
     asignadot: tareaAsignado,
+    rolt: tareaRol,
     estatust: tareaEstatus,
     puntost: tareaPuntos_historia,
     inicioE: tareaInicioE,
@@ -3006,6 +3008,7 @@ function openEditTareaModal(tareaId) {
         document.getElementById("editAlcance").value = tarea.Alcance || "";
         document.getElementById("editPrioridad").value = tarea.Prioridad || "";
         document.getElementById("editAsignado").value = tarea.Asignado || "";
+        document.getElementById("editRol_recurso").value = tarea.Rol || "";
         document.getElementById("editEstatus").value = tarea.Estatus || "";
         document.getElementById("editPuntos_historia").value =
           tarea.Puntos_historia || "";

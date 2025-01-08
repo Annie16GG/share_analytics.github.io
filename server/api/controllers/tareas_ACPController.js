@@ -277,7 +277,40 @@ exports.getTareaporid = async (req, res) => {
 
 exports.updateTarea = async (req, res) => {
   const { id } = req.params;
-  const { titulot, descripciont, proyectot, tipot, categoriat, alcancet, prioridadt, asignadot, puntost,inicioE, finE, hestimadas, inicios, sprint, iniciol, libsprint, finall, entregable, satist, estatust } = req.body;
+  const {
+    titulot,
+    descripciont,
+    proyectot,
+    tipot,
+    categoriat,
+    alcancet,
+    prioridadt,
+    asignadot,
+    rolt,
+    puntost,
+    inicioE,
+    finE,
+    hestimadas,
+    inicios,
+    sprint,
+    iniciol,
+    libsprint,
+    finall,
+    entregable,
+    satist,
+    estatust,
+  } = req.body;
+
+  // Validar y asignar valores por defecto
+  const puntosFinal = puntost === " " || puntost === "" ? 0.0 : puntost;
+  const satisfaccionFinal = satist === " " || satist === "" ? 0.0 : satist;
+
+  const inicioEFinal = inicioE === " " || inicioE === "" ? null : inicioE;
+  const finEFinal = finE === " " || finE === "" ? null : finE;
+  const iniciosFinal = inicios === " " || inicios === "" ? null : inicios;
+  const iniciolFinal = iniciol === " " || iniciol === "" ? null : iniciol;
+  const libsprintFinal = libsprint === " " || libsprint === "" ? null : libsprint;
+  const finallFinal = finall === " " || finall === "" ? null : finall;
 
   const query = `
     UPDATE Tareas
@@ -290,6 +323,7 @@ exports.updateTarea = async (req, res) => {
       Alcance = ?,
       Prioridad = ?,
       Asignado = ?,
+      Rol = ?,
       Estatus = ?, 
       Puntos_historia = ?,
       Fecha_inicio_estimada = ?,
@@ -306,7 +340,30 @@ exports.updateTarea = async (req, res) => {
   `;
 
   try {
-    const [results] = await db.query(query, [titulot, descripciont, proyectot, tipot, categoriat, alcancet, prioridadt, asignadot, estatust, puntost,inicioE, finE, hestimadas, inicios, sprint, iniciol, libsprint, finall, entregable, satist, id]);
+    const [results] = await db.query(query, [
+      titulot,
+      descripciont,
+      proyectot,
+      tipot,
+      categoriat,
+      alcancet,
+      prioridadt,
+      asignadot,
+      rolt,
+      estatust,
+      puntosFinal, // Validación aplicada
+      inicioEFinal, // Validación aplicada
+      finEFinal,    // Validación aplicada
+      hestimadas,
+      iniciosFinal, // Validación aplicada
+      sprint,
+      iniciolFinal, // Validación aplicada
+      libsprintFinal, // Validación aplicada
+      finallFinal,    // Validación aplicada
+      entregable,
+      satisfaccionFinal, // Validación aplicada
+      id,
+    ]);
 
     if (results.affectedRows === 0) {
       return res.status(404).json({ error: "Tarea no encontrada" });
@@ -318,6 +375,7 @@ exports.updateTarea = async (req, res) => {
     return res.status(500).json({ error: "Error al actualizar los detalles de la tarea" });
   }
 };
+
 
 exports.updateRecurso = async (req, res) => {
   const { id } = req.params;
