@@ -3398,7 +3398,6 @@ function loadRecursos_Agile() {
                 <td>${estudiante.Nombre_Recurso}</td>
                 <td>${estudiante.Fecha_inicio}</td>
                 <td>${estudiante.Fecha_fin}</td>
-                <td>${estudiante.Rol}</td>
                 <td>
     <div class="dropdown">
       <button class="dropbtn">Actions</button>
