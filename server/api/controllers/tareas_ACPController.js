@@ -49,12 +49,24 @@ exports.createTarea = async (req, res) => {
     entregable,
     satisfaccion,
   } = req.body;
+
   const id = uuidv4();
+
+  // Validar y asignar valores por defecto
+  const puntosFinal = puntos === " " || puntos === "" ? 0.0 : puntos;
+  const satisfaccionFinal = satisfaccion === " " || satisfaccion === "" ? 0.0 : satisfaccion;
+
+  const fechaIEFinal = fechaIE === " " || fechaIE === "" ? null : fechaIE;
+  const fechaFEFinal = fechaFE === " " || fechaFE === "" ? null : fechaFE;
+  const fechaIniFinal = fecha_ini === " " || fecha_ini === "" ? null : fecha_ini;
+  const fechaIniLibFinal = fecha_ini_lib === " " || fecha_ini_lib === "" ? null : fecha_ini_lib;
+  const fechaLibSprintFinal = fecha_lib_sprint === " " || fecha_lib_sprint === "" ? null : fecha_lib_sprint;
+  const fechaFinalFinal = fecha_final === " " || fecha_final === "" ? null : fecha_final;
 
   const query = `
         INSERT INTO Tareas (T_KeyTarea,
             Titulo, Descripcion, Proyecto, Tipo_tarea, Categoria, Alcance,
-            Prioridad, Asignado, Rol, Estatus, Puntos_historia,Fecha_inicio_estimada, Fecha_fin_estimada,Horas_estimadas, Fecha_inicio_sprint, Key_Sprint,
+            Prioridad, Asignado, Rol, Estatus, Puntos_historia, Fecha_inicio_estimada, Fecha_fin_estimada, Horas_estimadas, Fecha_inicio_sprint, Key_Sprint,
             Fecha_inicio_lib, Fecha_lib_Sprint, Fecha_final_lib, Entregable, Puntaje_satisfaccion
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
@@ -72,17 +84,17 @@ exports.createTarea = async (req, res) => {
       asignado,
       rol,
       estatus,
-      puntos,
-      fechaIE,
-      fechaFE,
+      puntosFinal,
+      fechaIEFinal,
+      fechaFEFinal,
       horas_estimadas,
-      fecha_ini,
+      fechaIniFinal,
       sprint,
-      fecha_ini_lib,
-      fecha_lib_sprint,
-      fecha_final,
+      fechaIniLibFinal,
+      fechaLibSprintFinal,
+      fechaFinalFinal,
       entregable,
-      satisfaccion,
+      satisfaccionFinal,
     ]);
     return res.status(201).json({
       message: "Tarea creada exitosamente",
@@ -92,6 +104,8 @@ exports.createTarea = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 };
+
+
 
 exports.createRecurso = async (req, res) => {
   const {

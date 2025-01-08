@@ -933,6 +933,24 @@ document
       });
   });
 
+  document.addEventListener("DOMContentLoaded", () => {
+    // Cargar los proyectos al cargar la página o el modal
+    fetch("/api/tareas/obtenerRol") // Reemplaza con la ruta de tu consulta
+      .then((response) => response.json())
+      .then((data) => {
+        const proyectoSelect = document.getElementById("editRol_recurso");
+        data.forEach((proyecto) => {
+          const option = document.createElement("option");
+          option.value = proyecto.Nombre_Rol; // Usa el campo que represente el ID del proyecto
+          option.textContent = proyecto.Nombre_Rol; // Usa el campo que represente el nombre del proyecto
+          proyectoSelect.appendChild(option);
+        });
+      })
+      .catch((error) => {
+        console.error("Error al cargar los proyectos:", error);
+      });
+  });
+
 document
   .getElementById("addTareaModal")
   .addEventListener("submit", function (event) {
