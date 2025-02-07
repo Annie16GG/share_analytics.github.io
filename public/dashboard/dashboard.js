@@ -27,7 +27,7 @@ var rootUrl = "https://login.shareanalytics.com.mx/bi";
 var siteIdentifier = "site/acp";
 var environment = "onpremise";
 var embedType = "component";
-var authorizationUrl = "https://329b-2605-59c8-7073-f710-a8c0-52ea-9feb-37b7.ngrok-free.app/embeddetail/get";
+var authorizationUrl = " https://d717-138-84-56-79.ngrok-free.app/embeddetail/get";
 // var authorizationUrl = "http://localhost:8080/embeddetail/get";
 // var authorizationUrl = "https://api-boldbi.vercel.app/api/embeddetail/get";
 let selectedAccess = null;
@@ -442,7 +442,7 @@ document
   .addEventListener("submit", submitEditTaskForm);
   document
   .getElementById("graduationForm")
-  .addEventListener("submit", submitEditViajeForm);
+  .addEventListener("submit", submitGraduationForm);
 
 document
   .getElementById("addPermissionForm")
@@ -1626,8 +1626,9 @@ function submitGraduationForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
   // Obtener el ID del estudiante
-  const studentId = document.getElementById("Student_Id").value;
-  const studentGrade = document.getElementById("studentGrade").value;
+  const studentId = document.getElementById("studentGradId").value;
+  const studentGrado_Id = document.getElementById("studentGradoId").value;
+  const studentGrade = document.getElementById("studentGrade").textContent;
 
   // Obtener el estado del checkbox de graduación
   const isGraduated = document.getElementById("isGraduated").checked;
@@ -1635,6 +1636,7 @@ function submitGraduationForm(event) {
   // Crear el objeto con la información de graduación
   const graduationData = {
     studentGrade: studentGrade,
+    studentGradoId: studentGrado_Id,
     graduado: isGraduated ? true : false, // Si está seleccionado, graduado será true
   };
 
@@ -1651,7 +1653,7 @@ function submitGraduationForm(event) {
   }).then((result) => {
     if (result.isConfirmed) {
       // Enviar la solicitud de graduación
-      fetch(`/api/graduacion/${studentId}`, {
+      fetch(`/api/estudiantes/graduacion/${studentId}`, {
         method: "PUT", // Método HTTP para actualizar datos
         headers: {
           "Content-Type": "application/json",
@@ -1664,7 +1666,7 @@ function submitGraduationForm(event) {
           Swal.fire("Graduado", "El alumno ha sido graduado.", "success");
           // Cerrar el modal
           document.getElementById("graduationModal").style.display = "none";
-          loadStudents(); // Recargar la lista de estudiantes si es necesario
+          loadEstudiantes(); // Recargar la lista de estudiantes si es necesario
         })
         .catch((error) => {
           console.error("Error updating graduation status:", error);
@@ -2689,9 +2691,12 @@ function openGraduationModal(Student_Id) {
       if (estudiantes.length > 0) {
         const student = estudiantes[0]; // Acceder al primer (y único) objeto en el array
 
+        console.log(student);
         // Extraer el nombre, grado y estado de graduación del estudiante
+        const studentId = student.Student_Id || "No se encontro el ID";
         const studentName = student.Student_Name || "Nombre no disponible";
         const studentGrade = student.Grade_Name || "Grado no disponible";
+        const studentGradeId = student.Grade_Id || "Grado no disponible";
         const graduationStatus = student.Graduation_Status || 0; // 0: no graduado, 1: graduado
 
         // Verificar si el alumno ya está graduado
@@ -2705,6 +2710,8 @@ function openGraduationModal(Student_Id) {
           });
         } else {
           // Asignar los valores al modal
+          document.getElementById("studentGradId").value = studentId;
+          document.getElementById("studentGradoId").value = studentGradeId;
           document.getElementById("studentName").textContent = studentName;
           document.getElementById("studentGrade").textContent = studentGrade;
 

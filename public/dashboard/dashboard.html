@@ -757,13 +757,15 @@
         <h2>Graduar Alumno</h2>
         <form id="graduationForm">
           <!-- Campo oculto para el ID del estudiante -->
-          <input type="hidden" id="Student_Id" name="Student_Id" required>
+          <input type="number" id="studentGradId" name="studentid" required>
 
           <!-- Texto con nombre y grado -->
           <p style="font-size: 1.2em;">
             ¿El alumno <strong id="studentName">[Nombre del Alumno]</strong>
             se gradúa del grado <strong id="studentGrade">[Grado]</strong>?
           </p>
+
+          <input type="number" id="studentGradoId" name="studentgradoid" required>
 
           <!-- Checkbox para confirmar la graduación -->
           <label style="font-size: 1.1em;">

@@ -7,10 +7,10 @@ const caBundlePath = path.join(__dirname, 'singlestore_bundle.pem');
 
 // Crear un pool de conexiones con soporte para promesas
 const pool = mysql.createPool({
-  host: 'svc-b845e011-115a-40f4-bea9-2c3d85c359f8-dml.aws-virginia-6.svc.singlestore.com',
+  host: 'svc-c54c488b-3913-4cdf-a6a0-0d65b0c4d23c-dml.aws-oregon-3.svc.singlestore.com',
   port: '3306',
   user: 'admin',
-  password: 'hgNFzhQ1frChitO0BS51MM0Ripaf7PGx',
+  password: 'qzJFvi1iHJ9Ge1JfjMynX0hXHAxH5q2v',
   database: 'share_analytics',
   ssl: {
     ca: fs.readFileSync(caBundlePath)
