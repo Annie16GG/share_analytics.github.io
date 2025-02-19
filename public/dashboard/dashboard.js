@@ -10,6 +10,7 @@
 //   filtParameters = "Categoria=Entretenimiento";
 // }
 
+
 // Función para verificar si hay una sesión activa
 function checkSession() {
   const token = localStorage.getItem("authToken"); // Aquí buscamos el token en el localStorage
@@ -27,7 +28,7 @@ var rootUrl = "https://login.shareanalytics.com.mx/bi";
 var siteIdentifier = "site/acp";
 var environment = "onpremise";
 var embedType = "component";
-var authorizationUrl = " https://d717-138-84-56-79.ngrok-free.app/embeddetail/get";
+var authorizationUrl = "https://e57a-129-222-91-127.ngrok-free.app/embeddetail/get";
 // var authorizationUrl = "http://localhost:8080/embeddetail/get";
 // var authorizationUrl = "https://api-boldbi.vercel.app/api/embeddetail/get";
 let selectedAccess = null;
@@ -3999,6 +4000,9 @@ function showMenuBasedOnRole() {
   //   window.history.back();
   // });
 }
+
+
+
 function addCostoRow() {
   const tableBody = document.getElementById("costoTableBody");
 
