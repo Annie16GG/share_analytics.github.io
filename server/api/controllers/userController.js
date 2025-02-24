@@ -1,4 +1,4 @@
-const db = require('../../config/db');
+const db = require('../../config/db_singlestore');
 
 exports.getUsers = async (req, res) => {
   const query = 'SELECT * FROM users';

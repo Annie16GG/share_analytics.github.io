@@ -10,8 +10,7 @@
 </head>
 
 <body>
-  <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-  <div class="sidebar" id="sidebar">
+  <div class="sidebar">
     <img id="logo-main" src="../images/logo.png">
     <h2 id="titulo-menu">Menu</h2>
     <a href="#" id="menu-dashboard">Dashboards</a>
@@ -30,1832 +29,1832 @@
     </div>
   </div>
 
-  <div class="secondary-toggle" onclick="toggleSecondaryMenu()">≡</div>
-  <div id="dashboard-view" class="view">
-    <!-- Submenú del dashboard -->
-    <div class="sidebar secondary-sidebar">
-      <h2>Dashboards</h2>
-      <button id="CategoryButton">Añadir Categoria</button>
-      <ul id="dashboards-menu">
-
-      </ul>
-      <ul id="dashboard-list"></ul>
-      <div id="dashboard-container"></div>
-    </div>
-    <!-- Contenido del dashboard embebido -->
-    <div id="dashboard" class="dashboard-content">
-      <!-- Contenido principal de tu dashboard -->
-    </div>
-  </div>
-
-  <div id="upload-view" class="view" style="display: none;">
-    <!-- Contenido de la vista de Upload -->
-    <div class="sidebar secondary-sidebar">
-      <h2>Forms</h2>
-      <!-- <button id="addFormButton">Añadir Formulario</button> -->
-      <ul id="forms-menu">
-        <!-- Los elementos de la lista de formularios se cargarán dinámicamente aquí -->
-      </ul>
-    </div>
-    <div id="formulario">
-      <!-- Aquí se renderizará el formulario seleccionado -->
-    </div>
-  </div>
-  <!-- Sección de Users -->
-  <div id="users-view" class="view" style="display: none;">
-    <h1>Users</h1>
-    <button id="addUserButton">Add User</button>
-    <button id="selectedActionButton" style="display: none;">Add Group</button>
-    <table id="users-table">
-      <thead>
-        <tr>
-          <th>Select</th>
-          <th>Name</th>
-          <th>User</th>
-          <th>Email</th>
-          <th>Status</th>
-          <th>Verification</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Aquí se llenará la tabla con los datos de los usuarios -->
-      </tbody>
-    </table>
-  </div>
-  <!-- Sección de Unidades -->
-  <div id="unidades-view" class="view" style="display: none;">
-    <h1>Unidades</h1>
-    <button id="addUnityButton">Añadir vehículo</button>
-    <button id="selectedActionButton" style="display: none;">Añadir grupo</button>
-    <table id="unidades-table">
-      <thead>
-        <tr>
-          <th>Placas</th>
-          <th>Estado</th>
-          <th>Fecha de Compra</th>
-          <th>Carga Max.</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Aquí se llenará la tabla con los datos de los usuarios -->
-      </tbody>
-    </table>
-  </div>
-  <div id="tareas-view" class="view" style="display: none;">
-    <h1>Administración de tareas</h1>
-    <button id="addTareaButton">Añadir tarea</button>
-    <button id="addTareaProyButton">Añadir Proyecto</button>
-    <br>
-    <table id="tareas-table">
-      <thead>
-        <tr>
-          <th>Título</th>
-          <th>Prioridad</th>
-          <th>Asignado</th>
-          <th>Estatus</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Aquí se llenará la tabla con los datos de los usuarios -->
-      </tbody>
-    </table>
-  </div>
-
-  <div id="estudiantes-view" class="view" style="display: none;">
-    <h1>Administración de estudiantes</h1>
-    <button id="addEstudButton">Añadir estudiante</button>
-    <button id="addProfButton">Añadir profesor</button>
-    <br>
-    <table id="estudiantes-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Año</th>
-          <th>Grado</th>
-          <th>Fecha inscripción</th>
-          <th>Estatus</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Aquí se llenará la tabla con los datos de los usuarios -->
-      </tbody>
-    </table>
-  </div>
-
-  <div id="agile-view" class="view" style="display: none;">
-    <h1>Team Agile</h1>
-    <button id="addTareaAButton">Añadir tarea</button>
-    <br>
-    <table id="agile-table">
-      <thead>
-        <tr>
-          <th>Proyecto</th>
-          <th>Status</th>
-          <th>Tipo</th>
-          <th>Prioridad</th>
-          <th>Miembro del equipo</th>
-          <th>Fecha asignacion</th>
-          <th>Horas planeadas</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Aquí se llenará la tabla con los datos de los usuarios -->
-      </tbody>
-    </table>
-  </div>
-
-  <div id="roles-view" class="view" style="display: none;">
-    <h1>Team Agile</h1>
-    <button id="addTareaRolButton">Añadir Rol</button>
-    <br>
-    <table id="agile-roles-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Tarifa</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Aquí se llenará la tabla con los datos de los usuarios -->
-      </tbody>
-    </table>
-  </div>
-
-  <div id="recursos-view" class="view" style="display: none;">
-    <h1>Team Agile</h1>
-    <button id="addTareaRecursoButton">Añadir Recurso</button>
-    <br>
-    <table id="agile-recursos-table">
-      <thead>
-        <tr>
-          <th>Nombre</th>
-          <th>Fecha inicio</th>
-          <th>Fecha fin</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Aquí se llenará la tabla con los datos de los usuarios -->
-      </tbody>
-    </table>
-  </div>
-
-  <div id="permission-view" class="view" style="display: none;">
-    <a href="#">
-      <img src="../images/pista-anterior.png" id="backToUsersButton" alt="Back">
-    </a>
-    <!-- <img src="../images/apagar.png" alt="Sign out" class="sign-out-icon"> -->
-    <h2>Permissions</h2>
-    <button id="addPermissionButton">Add Permission</button>
-    <table id="permissionsTable">
-      <thead>
-        <tr>
-          <th>Entity</th>
-          <th>Scope</th>
-          <th>Access Mode</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Permissions rows will be dynamically added here -->
-      </tbody>
-    </table>
-  </div>
-  <!-- Modal para agregar usuarios -->
-  <div id="addUserModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Add User</h2>
-      <form id="addUserForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required><br>
-
-        <label for="last_name">Last Name:</label>
-        <input type="text" id="last_name" name="last_name" required><br>
-
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required><br>
-
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required><br>
-
-        <label for="user">User:</label>
-        <input type="text" id="user" name="user" required><br>
-
-        <label for="status">Status:</label>
-        <input type="text" id="status" name="status" required><br>
-
-        <label for="verification">Verification:</label>
-        <input type="text" id="verification" name="verification" required><br>
-
-        <label for="image_url">Image URL:</label>
-        <input type="text" id="image_url" name="image_url"><br>
-
-        <label for="tipo_user">Tipo de User:</label>
-        <select id="tipo_user" name="tipo_user" required>
-          <option value="Administrador">Administrador</option>
-          <option value="Visualizador">Visualizador</option>
-          <option value="Visualizador y carga">Visualizador y carga</option>
-          <option value="Solo carga">Solo carga</option>
-          <option value="ACP">ACP</option>
-          <option value="ACP-Desarrollo">ACP-Desarrollo</option>
-        </select><br>
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="addUnidadModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir unidad</h2>
-      <form id="addUnidadForm">
-
-        <!-- Placas -->
-        <label for="U_Placas">Placas:</label>
-        <input type="text" id="U_Placas" name="U_Placas" required>
-        <br><br>
-
-        <!-- Estado -->
-        <label for="U_Estado">Estado:</label>
-        <select id="U_Estado" name="U_Estado" required>
-          <option value="">Selecciona un estado</option>
-          <option value="Aguascalientes">Aguascalientes</option>
-          <option value="BajaCalifornia">Baja California</option>
-          <option value="BajaCaliforniaSur">Baja California Sur</option>
-          <option value="Campeche">Campeche</option>
-          <option value="Chiapas">Chiapas</option>
-          <option value="Chihuahua">Chihuahua</option>
-          <option value="CDMX">Ciudad de México</option>
-          <option value="Coahuila">Coahuila</option>
-          <option value="Colima">Colima</option>
-          <option value="Durango">Durango</option>
-          <option value="Guanajuato">Guanajuato</option>
-          <option value="Guerrero">Guerrero</option>
-          <option value="Hidalgo">Hidalgo</option>
-          <option value="Jalisco">Jalisco</option>
-          <option value="EdoMex">Estado de México</option>
-          <option value="Michoacán">Michoacán</option>
-          <option value="Morelos">Morelos</option>
-          <option value="Nayarit">Nayarit</option>
-          <option value="NuevoLeón">Nuevo León</option>
-          <option value="Oaxaca">Oaxaca</option>
-          <option value="Puebla">Puebla</option>
-          <option value="Querétaro">Querétaro</option>
-          <option value="QuintanaRoo">Quintana Roo</option>
-          <option value="SanLuisPotosí">San Luis Potosí</option>
-          <option value="Sinaloa">Sinaloa</option>
-          <option value="Sonora">Sonora</option>
-          <option value="Tabasco">Tabasco</option>
-          <option value="Tamaulipas">Tamaulipas</option>
-          <option value="Tlaxcala">Tlaxcala</option>
-          <option value="Veracruz">Veracruz</option>
-          <option value="Yucatán">Yucatán</option>
-          <option value="Zacatecas">Zacatecas</option>
-        </select>
-        <br><br>
-
-        <!-- Fecha de Compra -->
-        <label for="U_FechaDeCompra">Fecha de Compra:</label>
-        <input type="date" id="U_FechaDeCompra" name="U_FechaDeCompra" required>
-        <br><br>
-
-        <!-- Carga Máxima -->
-        <label for="U_CargaMax">Carga Máxima:</label>
-        <input type="text" id="U_CargaMax" name="U_CargaMax" required>
-        <br><br>
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="addProyectoModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir proyecto</h2>
-      <form id="addProyectoForm">
-
-        <label for="Nombre_proyecto">Nombre del proyecto:</label>
-        <input type="text" id="Nombre_proyecto" name="Nombre_proyecto" required>
-        <br><br>
-
-        <label for="Responsable_proyecto">Responsable del proyecto:</label>
-        <select id="Responsable_proyecto" name="Responsable_proyecto" required>
-          <option value="" disabled selected>Seleccione un recurso</option>
-        </select>
-        <br><br>
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="addRecursoModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Recurso</h2>
-      <form id="addRecursoForm">
-
-        <label for="Nombre_recurso">Nombre del recurso:</label>
-        <input type="text" id="Nombre_recurso" name="Nombre_recurso" required>
-        <br><br>
-
-        <label for="Fecha_inicio_recurso">Fecha de Inicio del Recurso:</label>
-        <input type="date" id="Fecha_inicio_recurso" name="Fecha_inicio_recurso" required>
-        <br><br>
-
-        <label for="Fecha_fin_recurso">Fecha de Fin del Recurso:</label>
-        <input type="date" id="Fecha_fin_recurso" name="Fecha_fin_recurso" required>
-        <br><br>
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="addRolModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Rol</h2>
-      <form id="addRolForm">
-
-        <label for="Nombre_rol">Nombre del rol:</label>
-        <input type="text" id="Nombre_rol" name="Nombre_rol" required>
-        <br><br>
-
-        <label for="Tarifa_rol">Tarifa:</label>
-        <input type="number" id="Tarifa_rol" name="Tarifa_rol" step="0.01" required>
-        <br><br>
-
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="addTareaModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Tarea</h2>
-      <form id="addTareaForm">
-
-        <!-- Título -->
-        <label for="Titulo">Título:</label>
-        <input type="text" id="Titulo" name="Titulo" maxlength="150">
-        <br><br>
-
-        <!-- Descripción -->
-        <label for="Descripcion">Descripción:</label>
-        <textarea id="Descripcion" name="Descripcion"></textarea>
-        <br><br>
-
-        <!-- Proyecto -->
-        <label for="Proyecto">Proyecto:</label>
-        <select id="Proyecto" name="Proyecto">
-          <option value="" disabled selected>Seleccione un proyecto</option>
-        </select>
-        <br><br>
-
-
-        <!-- Tipo de Tarea -->
-        <label for="Tipo_tarea">Tipo de Tarea:</label>
-        <select id="Tipo_tarea" name="Tipo_tarea">
-          <option value="">Selecciona el tipo de tarea</option>
-          <option value="Error">Error</option>
-          <option value="Blog técnico">Blog técnico</option>
-          <option value="Historia">Historia</option>
-        </select>
-        <br><br>
-
-        <!-- Categoría -->
-        <label for="Categoria">Categoría:</label>
-        <input type="text" id="Categoria" name="Categoria" maxlength="150">
-        <br><br>
-
-        <!-- Alcance -->
-        <label for="Alcance">Alcance:</label>
-        <select id="Alcance" name="Alcance">
-          <option value="">Selecciona el alcance</option>
-          <option value="Añadida">Añadida</option>
-          <option value="Eliminada">Eliminada</option>
-        </select>
-        <br><br>
-
-        <!-- Prioridad -->
-        <label for="Prioridad">Prioridad:</label>
-        <select id="Prioridad" name="Prioridad">
-          <option value="">Selecciona la prioridad</option>
-          <option value="Baja">Baja</option>
-          <option value="Media">Media</option>
-          <option value="Alta">Alta</option>
-        </select>
-        <br><br>
-
-
-        <label for="Asignado">Asignado a:</label>
-        <select id="Asignado" name="Asignado">
-          <option value="" disabled selected>Seleccione un recurso</option>
-        </select>
-        <br><br>
-
-        <label for="Rol_recurso">Rol del recurso:</label>
-        <select id="Rol_recurso" name="Rol_recurso">
-          <option value="" disabled selected>Seleccione un rol</option>
-        </select>
-        <br><br>
-
-        <!-- Estatus -->
-        <label for="Estatus">Estatus:</label>
-        <select id="Estatus" name="Estatus">
-          <option value="">Selecciona el estatus</option>
-          <option value="Abierto">Abierto</option>
-          <option value="Cerrado">Cerrado</option>
-          <option value="Validado">Validado</option>
-          <option value="Revision">Revisión</option>
-          <option value="En curso">En curso</option>
-          <option value="En espera">En espera</option>
-        </select>
-        <br><br>
-
-        <!-- Puntos de Historia -->
-        <label for="Puntos_historia">Puntos de Historia:</label>
-        <input type="number" id="Puntos_historia" name="Puntos_historia">
-        <br><br>
-
-        <label for="Fecha_inicio_estimada">Fecha de Inicio Estimada:</label>
-        <input type="date" id="Fecha_inicio_estimada" name="Fecha_inicio_estimada">
-        <br><br>
-
-        <label for="Fecha_final_estimada">Fecha de Fin Estimada:</label>
-        <input type="date" id="Fecha_final_estimada" name="Fecha_final_estimada">
-        <br><br>
-
-        <label for="Horas_estimadas">Horas estimadas:</label>
-        <input type="number" id="Horas_estimadas" name="Horas_estimadas">
-        <br><br>
-
-        <!-- Fecha de Inicio del Sprint -->
-        <label for="Fecha_inicio_sprint">Fecha de Inicio del Sprint:</label>
-        <input type="date" id="Fecha_inicio_sprint" name="Fecha_inicio_sprint">
-        <br><br>
-
-        <!-- Key del Sprint -->
-        <label for="Key_Sprint">Identificador del Sprint:</label>
-        <input type="text" id="Key_Sprint" name="Key_Sprint" maxlength="100">
-        <br><br>
-
-        <!-- Fecha de Inicio del LIB -->
-        <label for="Fecha_inicio_lib">Fecha de inicio de liberación:</label>
-        <input type="date" id="Fecha_inicio_lib" name="Fecha_inicio_lib">
-        <br><br>
-
-        <!-- Fecha de Liberación del Sprint -->
-        <label for="Fecha_lib_Sprint">Fecha de liberación del Sprint:</label>
-        <input type="date" id="Fecha_lib_Sprint" name="Fecha_lib_Sprint">
-        <br><br>
-
-        <!-- Fecha Final de Liberación -->
-        <label for="Fecha_final_lib">Fecha final de Liberación:</label>
-        <input type="date" id="Fecha_final_lib" name="Fecha_final_lib">
-        <br><br>
-
-        <!-- Entregable -->
-        <label for="Entregable">Entregable:</label>
-        <textarea id="Entregable" name="Entregable"></textarea>
-        <br><br>
-
-        <!-- Puntaje de Satisfacción -->
-        <label for="Puntaje_satisfaccion">Puntaje de Satisfacción:</label>
-        <input type="number" step="0.01" id="Puntaje_satisfaccion" name="Puntaje_satisfaccion">
-        <br><br>
-
-        <button type="submit">Guardar</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="addEstudianteModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Estudiante</h2>
-      <form id="addStudentForm">
-        <!-- Nombre del estudiante -->
-        <label for="Student_Name">Nombre del Estudiante:</label>
-        <input type="text" id="Student_Name" name="Student_Name" maxlength="150" required>
-        <br><br>
-
-        <!-- Año -->
-        <label for="Year">Año:</label>
-        <select id="Year" name="Year" required>
-          <option value="">Selecciona el año</option>
-          <option value="1125899906842625">2022</option>
-          <option value="1125899906842626">2023</option>
-          <option value="1125899906842627">2024</option>
-          <!-- Aquí se insertarán dinámicamente los grados existentes -->
-        </select>
-        <br><br>
-
-        <!-- Género -->
-        <label for="Gender">Género:</label>
-        <select id="Gender" name="Gender" required>
-          <option value="">Selecciona el género</option>
-          <option value="Femenino">Femenino</option>
-          <option value="Masculino">Masculino</option>
-        </select>
-        <br><br>
-
-        <!-- Grado -->
-        <label for="Grade_Id">Grado:</label>
-        <select id="Grade_Id" name="Grade_Id" required>
-          <option value="">Selecciona el grado</option>
-          <option value="1125899906842625">Grado 1</option>
-          <option value="1125899906842626">Grado 2</option>
-          <option value="1125899906842627">Grado 3</option>
-          <option value="1125899906842628">Grado 4</option>
-          <option value="1125899906842629">Grado 5</option>
-          <!-- Aquí se insertarán dinámicamente los grados existentes -->
-        </select>
-        <br><br>
-
-        <!-- Cuotas -->
-        <label for="Fees">Cuotas:</label>
-        <input type="number" id="Fees" name="Fees" required>
-        <br><br>
-
-        <!-- Fecha de inscripción -->
-        <label for="Date_Enrolment">Fecha de Inscripción:</label>
-        <input type="date" id="Date_Enrolment" name="Date_Enrolment" required>
-        <br><br>
-
-        <!-- Intereses -->
-        <label>Materias de interés:</label>
-        <div class="interests">
-          <div class="interest-item">
-            <input type="checkbox" id="Artes" name="Interests" value="1125899906842628">
-            <label for="Artes">Artes</label>
-          </div>
-          <div class="interest-item">
-            <input type="checkbox" id="Ciencias" name="Interests" value="1125899906842626">
-            <label for="Ciencias">Ciencias</label>
-          </div>
-          <div class="interest-item">
-            <input type="checkbox" id="Matematicas" name="Interests" value="1125899906842627">
-            <label for="Matematicas">Matemáticas</label>
-          </div>
-          <div class="interest-item">
-            <input type="checkbox" id="Educacion_Fisica" name="Interests" value="1125899906842625">
-            <label for="Educacion_Fisica">Educación Física</label>
-          </div>
-          <div class="interest-item">
-            <input type="checkbox" id="Ingles" name="Interests" value="1125899906842629">
-            <label for="Ingles">Inglés</label>
-          </div>
-        </div>
-        <br><br>
-
-
-        <!-- Satisfacción del estudiante -->
-        <label for="student_satisfaction">Satisfacción del Estudiante:</label>
-        <input type="range" id="student_satisfaction" name="student_satisfaction" min="1" max="5" step="1" value="3"
-          oninput="document.getElementById('studentSatisfactionValue').textContent = this.value">
-        <span id="studentSatisfactionValue">3</span>/5
-        <br><br>
-
-        <!-- Satisfacción de los padres -->
-        <label for="parent_satisfaction">Satisfacción de los Padres:</label>
-        <input type="range" id="parent_satisfaction" name="parent_satisfaction" min="1" max="5" step="1" value="3"
-          oninput="document.getElementById('parentSatisfactionValue').textContent = this.value">
-        <span id="parentSatisfactionValue">3</span>/5
-        <br><br>
-
-        <button type="submit">Guardar</button>
-      </form>
+  <div id="content" class="content">
+    <div id="dashboard-view" class="view">
+      <!-- Submenú del dashboard -->
+      <div class="sidebar secondary-sidebar">
+        <h2>Dashboards</h2>
+        <button id="CategoryButton">Añadir Categoria</button>
+        <ul id="dashboards-menu">
+
+        </ul>
+        <ul id="dashboard-list"></ul>
+        <div id="dashboard-container"></div>
+      </div>
+      <!-- Contenido del dashboard embebido -->
+      <div id="dashboard" class="dashboard-content">
+        <!-- Contenido principal de tu dashboard -->
+      </div>
     </div>
 
-  </div>
-
-  <div id="addProfesorModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Profesor</h2>
-      <form id="addProfForm">
-        <!-- Grado -->
-        <label for="Grade_ID">Grado:</label>
-        <select id="Grade_ID" name="Grade_ID" required>
-          <option value="">Selecciona el grado</option>
-          <option value="1125899906842625">Grado 1</option>
-          <option value="1125899906842626">Grado 2</option>
-          <option value="1125899906842627">Grado 3</option>
-          <option value="1125899906842628">Grado 4</option>
-          <option value="1125899906842629">Grado 5</option>
-          <!-- Aquí se insertarán dinámicamente los grados existentes -->
-        </select>
-        <br><br>
-
-        <!-- Rama -->
-        <label for="Branch_Id_prof">Materia:</label>
-        <select id="Branch_Id_prof" name="Branch_Id_prof" required>
-          <option value="">Selecciona una materia</option>
-          <option value="1125899906842625">Artes</option>
-          <option value="1125899906842626">Ciencias</option>
-          <option value="1125899906842627">Matemáticas</option>
-          <option value="1125899906842628">Educación Física</option>
-          <option value="1125899906842629">Inglés</option>
-          <!-- Opciones adicionales pueden agregarse dinámicamente -->
-        </select>
-        <br><br>
-
-        <!-- Nombre del profesor -->
-        <label for="Teacher_Name">Nombre del Profesor:</label>
-        <input type="text" id="Teacher_Name" name="Teacher_Name" maxlength="150" required>
-        <br><br>
-
-        <!-- Porcentaje de la lección -->
-        <label for="Lesson_Percentage">Porcentaje de la Lección:</label>
-        <input type="number" id="Lesson_Percentage" name="Lesson_Percentage" required>
-        <br><br>
-
-        <!-- Correo de contacto -->
-        <label for="Contact">Correo de Contacto:</label>
-        <input type="email" id="Contact" name="Contact" required>
-        <br><br>
-
-        <!-- Año -->
-        <label for="Year_prof">Año:</label>
-        <select id="Year_prof" name="Year" required>
-          <option value="">Selecciona el año</option>
-          <option value="1125899906842625">2022</option>
-          <option value="1125899906842626">2023</option>
-          <option value="1125899906842627">2024</option>
-          <!-- Aquí se insertarán dinámicamente los grados existentes -->
-        </select>
-        <br><br>
-
-        <!-- Satisfacción -->
-        <label for="Satisfaction_Rating">Calificación de Satisfacción:</label>
-        <select id="Satisfaction_Rating" name="Satisfaction_Rating" required>
-          <option value="">Selecciona la calificación</option>
-          <option value="Promedio">Promedio</option>
-          <option value="Sobre Promedio">Sobre Promedio</option>
-          <option value="Excelente">Excelente</option>
-          <option value="Bueno">Bueno</option>
-        </select>
-        <br><br>
-
-        <!-- Salario -->
-        <label for="salary">Salario:</label>
-        <input type="number" id="salary" name="salary" required>
-        <br><br>
-
-        <button type="submit">Guardar</button>
-      </form>
+    <div id="upload-view" class="view" style="display: none;">
+      <!-- Contenido de la vista de Upload -->
+      <div class="sidebar secondary-sidebar">
+        <h2>Forms</h2>
+        <!-- <button id="addFormButton">Añadir Formulario</button> -->
+        <ul id="forms-menu">
+          <!-- Los elementos de la lista de formularios se cargarán dinámicamente aquí -->
+        </ul>
+      </div>
+      <div id="formulario">
+        <!-- Aquí se renderizará el formulario seleccionado -->
+      </div>
     </div>
-  </div>
-
-  <div id="addCalifModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Calificación</h2>
-      <form id="addCalifForm">
-        <!-- Rama -->
-        <label for="Branch_Id">Materia:</label>
-        <select id="Branch_Id" name="Branch_Id" required>
-          <option value="">Selecciona una materia</option>
-          <option value="1125899906842625">Artes</option>
-          <option value="1125899906842626">Ciencias</option>
-          <option value="1125899906842627">Matemáticas</option>
-          <option value="1125899906842628">Educación Física</option>
-          <option value="1125899906842629">Inglés</option>
-          <!-- Opciones adicionales pueden agregarse dinámicamente -->
-        </select>
-        <br><br>
-
-        <!-- Calificación -->
-        <label for="Marks">Calificación:</label>
-        <input type="number" id="Marks" name="Marks" min="0" max="100" required>
-        <br><br>
-
-        <!-- Participación -->
-        <label for="Participation">Participación:</label>
-        <input type="number" id="Participation" name="Participation" min="0" max="100" required>
-        <br><br>
-
-        <!-- Faltas -->
-        <label for="Days_Abscent">Faltas:</label>
-        <input type="number" id="Days_Abscent" name="Days_Abscent" min="0" required>
-        <br><br>
-
-        <button type="submit">Guardar</button>
-      </form>
+    <!-- Sección de Users -->
+    <div id="users-view" class="view" style="display: none;">
+      <h1>Users</h1>
+      <button id="addUserButton">Add User</button>
+      <button id="selectedActionButton" style="display: none;">Add Group</button>
+      <table id="users-table">
+        <thead>
+          <tr>
+            <th>Select</th>
+            <th>Name</th>
+            <th>User</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Verification</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
     </div>
-  </div>
-
-  <div id="graduationModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Graduar Alumno</h2>
-      <form id="graduationForm">
-        <!-- Campo oculto para el ID del estudiante -->
-        <input type="number" id="studentGradId" name="studentid" required>
-
-        <!-- Texto con nombre y grado -->
-        <p style="font-size: 1.2em;">
-          ¿El alumno <strong id="studentName">[Nombre del Alumno]</strong>
-          se gradúa del grado <strong id="studentGrade">[Grado]</strong>?
-        </p>
-
-        <input type="number" id="studentGradoId" name="studentgradoid" required>
-
-        <!-- Checkbox para confirmar la graduación -->
-        <label style="font-size: 1.1em;">
-          <input type="checkbox" id="isGraduated" name="isGraduated" required>
-          Sí, alumno graduado
-        </label>
-        <br><br>
-
-        <!-- Botón para confirmar -->
-        <button type="submit" style="font-size: 1.1em; padding: 10px 20px;">Confirmar Graduación</button>
-      </form>
+    <!-- Sección de Unidades -->
+    <div id="unidades-view" class="view" style="display: none;">
+      <h1>Unidades</h1>
+      <button id="addUnityButton">Añadir vehículo</button>
+      <button id="selectedActionButton" style="display: none;">Añadir grupo</button>
+      <table id="unidades-table">
+        <thead>
+          <tr>
+            <th>Placas</th>
+            <th>Estado</th>
+            <th>Fecha de Compra</th>
+            <th>Carga Max.</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
     </div>
-  </div>
-
-  <div id="addTaskModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Tarea</h2>
-      <form id="addTaskForm">
-        <!-- Tipo de Proyecto -->
-        <label for="Proyect_Type">Tipo de Proyecto:</label>
-        <input type="text" id="Proyect_Type" name="Proyect_Type" maxlength="150" required>
-        <br><br>
-
-        <!-- Miembro del Equipo -->
-        <label for="Team_Member">Miembro del Equipo:</label>
-        <select id="Team_Member" name="Team_Member" required>
-          <option value="">Selecciona el miembro del equipo</option>
-          <option value="Desarrollador de Software">Desarrollador de Software</option>
-          <option value="Ingeniero QA">Ingeniero QA</option>
-          <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
-        </select>
-        <br><br>
-
-        <!-- Estatus de Tarea -->
-        <label for="Task_Status">Estatus de la Tarea:</label>
-        <select id="Task_Status" name="Task_Status" required>
-          <option value="">Selecciona el estatus</option>
-          <option value="Cerrada">Cerrada</option>
-          <option value="Pruebas">Pruebas</option>
-          <option value="En Espera">En Espera</option>
-          <option value="En Proceso">En Proceso</option>
-          <option value="Abierta">Abierta</option>
-          <option value="Validada">Validada</option>
-          <option value="En Revisión">En Revisión</option>
-        </select>
-        <br><br>
-
-        <!-- Tipo de Tarea -->
-        <label for="Task_Type">Tipo de Tarea:</label>
-        <select id="Task_Type" name="Task_Type" required>
-          <option value="">Selecciona el tipo de tarea</option>
-          <option value="Bug">Bug</option>
-          <option value="Funcionalidad">Funcionalidad</option>
-          <option value="Historia">Historia</option>
-        </select>
-        <br><br>
-
-        <!-- Puntos de Historia -->
-        <label for="Task_StoryPoints">Puntos de Historia:</label>
-        <input type="number" id="Task_StoryPoints" name="Task_StoryPoints" min="0">
-        <br><br>
-
-        <!-- Rol del Recurso -->
-        <label for="Resource_Role">Rol del Recurso:</label>
-        <select id="Resource_Role" name="Resource_Role" required>
-          <option value="">Selecciona el rol del recurso</option>
-          <option value="Desarrollador de Software">Desarrollador de Software</option>
-          <option value="Diseñador Gráfico">Diseñador Gráfico</option>
-          <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
-        </select>
-        <br><br>
-
-        <!-- Fecha Asignada -->
-        <label for="Assigned_Date">Fecha Asignada:</label>
-        <input type="date" id="Assigned_Date" name="Assigned_Date" required>
-        <br><br>
-
-        <!-- Fecha Cerrada -->
-        <label for="Closed_Date">Fecha Cerrada:</label>
-        <input type="date" id="Closed_Date" name="Closed_Date">
-        <br><br>
-
-        <!-- Horas Planeadas -->
-        <label for="Planned_Hours">Horas Planeadas:</label>
-        <input type="number" id="Planned_Hours" name="Planned_Hours" min="0">
-        <br><br>
-
-        <!-- Horas Trabajadas -->
-        <label for="Worked_Hours">Horas Trabajadas:</label>
-        <input type="number" id="Worked_Hours" name="Worked_Hours" min="0">
-        <br><br>
-
-        <!-- Prioridad -->
-        <label for="Task_Priority">Prioridad:</label>
-        <select id="Task_Priority" name="Task_Priority" required>
-          <option value="">Selecciona la prioridad</option>
-          <option value="Baja">Baja</option>
-          <option value="Media">Media</option>
-          <option value="Alta">Alta</option>
-          <option value="Crítica">Crítica</option>
-        </select>
-        <br><br>
-
-        <!-- Total de Recursos -->
-        <label for="Total_Resource">Total de Recursos:</label>
-        <input type="number" id="Total_Resource" name="Total_Resource" min="0">
-        <br><br>
-
-        <!-- Botón para guardar -->
-        <button type="submit">Guardar</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="editRecursoModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Editar Recurso</h2>
-      <form id="editRecursoForm">
-
-        <input type="hidden" id="editRecursoId" name="editRecurso_ID" required>
-
-        <label for="editNombre_recurso">Nombre del recurso:</label>
-        <input type="text" id="editNombre_recurso" name="editNombre_recurso" required>
-        <br><br>
-
-        <label for="editFecha_inicio_recurso">Fecha de Inicio del Recurso:</label>
-        <input type="date" id="editFecha_inicio_recurso" name="editFecha_inicio_recurso" required>
-        <br><br>
-
-        <label for="editFecha_fin_recurso">Fecha de Fin del Recurso:</label>
-        <input type="date" id="editFecha_fin_recurso" name="editFecha_fin_recurso" required>
-        <br><br>
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="editRolModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Editar Rol</h2>
-      <form id="editRolForm">
-
-        <input type="hidden" id="editRolId" name="editRol_ID" required>
-
-        <label for="editNombre_rol">Nombre del rol:</label>
-        <input type="text" id="editNombre_rol" name="editNombre_rol" required>
-        <br><br>
-
-        <label for="editTarifa_rol">Tarifa:</label>
-        <input type="number" id="editTarifa_rol" name="editTarifa_rol" step="0.01" required>
-        <br><br>
-
-
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="editEstudModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Editar Estudiante</h2>
-      <form id="editStudentForm">
-        <!-- ID del estudiante (oculto) -->
-        <input type="hidden" id="editStudentId" name="Student_Id" required>
-
-        <!-- Nombre del Estudiante -->
-        <label for="editStudentName">Nombre del Estudiante:</label>
-        <input type="text" id="editStudentName" name="Student_Name" maxlength="150" required>
-        <br><br>
-
-        <!-- Año -->
-        <label for="editYear">Año:</label>
-        <select id="editYear" name="Year" required>
-          <option value="">Selecciona el año</option>
-          <option value="1125899906842625">2022</option>
-          <option value="1125899906842626">2023</option>
-          <option value="1125899906842627">2024</option>
-        </select>
-        <br><br>
-
-        <!-- Género -->
-        <label for="editGender">Género:</label>
-        <select id="editGender" name="Gender" required>
-          <option value="">Selecciona el género</option>
-          <option value="Masculino">Masculino</option>
-          <option value="Femenino">Femenino</option>
-        </select>
-        <br><br>
-
-        <!-- Grado -->
-        <label for="editGradeId">Grado:</label>
-        <select id="editGradeId" name="Grade_Id" required>
-          <option value="">Selecciona el grado</option>
-          <option value="1125899906842625">Grado 1</option>
-          <option value="1125899906842626">Grado 2</option>
-          <option value="1125899906842627">Grado 3</option>
-          <option value="1125899906842628">Grado 4</option>
-          <option value="1125899906842629">Grado 5</option>
-          <!-- Aquí se insertarán dinámicamente los grados existentes -->
-        </select>
-        <br><br>
-
-        <!-- Matrícula -->
-        <label for="editFees">Cuotas:</label>
-        <input type="number" id="editFees" name="Fees" min="0" required>
-        <br><br>
-
-        <!-- Fecha de inscripción -->
-        <label for="editDateEnrolment">Fecha de inscripción:</label>
-        <input type="date" id="editDateEnrolment" name="Date_Enrolment" required>
-        <br><br>
-
-        <!-- Estado de Baja -->
-        <label for="editDroppedOut">Estatus:</label>
-        <select id="editDroppedOut" name="dropped_out" required>
-          <option value="0">Activo</option>
-          <option value="1">Dado de baja</option>
-        </select>
-        <br><br>
-
-        <!-- Satisfacción del Estudiante -->
-        <label for="editStudentSatisfaction">Satisfacción del Estudiante:</label>
-        <input type="number" id="editStudentSatisfaction" name="student_satisfaction" step="0.01" min="0" max="100"
-          required>
-        <br><br>
-
-        <!-- Satisfacción de los Padres -->
-        <label for="editParentSatisfaction">Satisfacción de los Padres:</label>
-        <input type="number" id="editParentSatisfaction" name="parent_satisfaction" step="0.01" min="0" max="100"
-          required>
-        <br><br>
-
-        <button type="submit">Guardar</button>
-      </form>
+    <div id="tareas-view" class="view" style="display: none;">
+      <h1>Administración de tareas</h1>
+      <button id="addTareaButton">Añadir tarea</button>
+      <button id="addTareaProyButton">Añadir Proyecto</button>
+      <br>
+      <table id="tareas-table">
+        <thead>
+          <tr>
+            <th>Título</th>
+            <th>Prioridad</th>
+            <th>Asignado</th>
+            <th>Estatus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
     </div>
 
-  </div>
-
-  <div id="editTaskModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Editar Tarea</h2>
-      <form id="editTaskForm">
-        <!-- ID de la tarea (oculto y automático) -->
-        <input type="hidden" id="editTaskId" name="Task_ID" required>
-
-        <!-- Tipo de Proyecto -->
-        <label for="editProjectType">Tipo de Proyecto:</label>
-        <input type="text" id="editProjectType" name="Proyect_Type" required
-          placeholder="Escribe el nombre del Proyecto">
-        <br><br>
-
-
-        <!-- Miembro del Equipo -->
-        <label for="editTeamMember">Miembro del Equipo:</label>
-        <select id="editTeamMember" name="Team_Member" required>
-          <option value="">Selecciona el miembro</option>
-          <option value="Desarrollador de Software">Desarrollador de Software</option>
-          <option value="Ingeniero de QA">Ingeniero QA</option>
-          <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
-        </select>
-        <br><br>
-
-        <!-- Estatus de la Tarea -->
-        <label for="editTaskStatus">Estatus de la Tarea:</label>
-        <select id="editTaskStatus" name="Task_Status" required>
-          <option value="">Selecciona el estatus</option>
-          <option value="Cerrada">Cerrada</option>
-          <option value="En Pruebas">En Pruebas</option>
-          <option value="En Espera">En Espera</option>
-          <option value="En Progreso">En Progreso</option>
-          <option value="Abierta">Abierta</option>
-          <option value="Validada">Validada</option>
-          <option value="En Revisión">En Revisión</option>
-        </select>
-        <br><br>
-
-        <!-- Tipo de Tarea -->
-        <label for="editTaskType">Tipo de Tarea:</label>
-        <select id="editTaskType" name="Task_Type" required>
-          <option value="">Selecciona el tipo</option>
-          <option value="Error">Error</option>
-          <option value="Funcionalidad">Funcionalidad</option>
-          <option value="Historia">Historia</option>
-        </select>
-        <br><br>
-
-        <!-- Puntos de Historia -->
-        <label for="editStoryPoints">Puntos de Historia:</label>
-        <input type="number" id="editStoryPoints" name="Task_StoryPoints" min="0" required>
-        <br><br>
-
-        <!-- Rol del Recurso -->
-        <label for="editResourceRole">Rol del Recurso:</label>
-        <select id="editResourceRole" name="Resource_Role" required>
-          <option value="">Selecciona el rol</option>
-          <option value="Desarrollador de Software">Desarrollador de Software</option>
-          <option value="Diseñador Gráfico">Diseñador Gráfico</option>
-          <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
-        </select>
-        <br><br>
-
-        <!-- Fecha de Asignación -->
-        <label for="editAssignedDate">Fecha de Asignación:</label>
-        <input type="date" id="editAssignedDate" name="Assigned_Date" required>
-        <br><br>
-
-        <!-- Fecha de Cierre -->
-        <label for="editClosedDate">Fecha de Cierre:</label>
-        <input type="date" id="editClosedDate" name="Closed_Date">
-        <br><br>
-
-        <!-- Horas Planificadas -->
-        <label for="editPlannedHours">Horas Planificadas:</label>
-        <input type="number" id="editPlannedHours" name="Planned_Hours" min="0" required>
-        <br><br>
-
-        <!-- Horas Trabajadas -->
-        <label for="editWorkedHours">Horas Trabajadas:</label>
-        <input type="number" id="editWorkedHours" name="Worked_Hours" min="0" required>
-        <br><br>
-
-        <!-- Prioridad de la Tarea -->
-        <label for="editTaskPriority">Prioridad de la Tarea:</label>
-        <select id="editTaskPriority" name="Task_Priority" required>
-          <option value="">Selecciona la prioridad</option>
-          <option value="Baja">Baja</option>
-          <option value="Media">Media</option>
-          <option value="Alta">Alta</option>
-          <option value="Crítica">Crítica</option>
-        </select>
-        <br><br>
-
-        <!-- Total de Recursos -->
-        <label for="editTotalResource">Total de Recursos:</label>
-        <input type="number" id="editTotalResource" name="Total_Resource" min="0" required>
-        <br><br>
-
-        <!-- Puntuación -->
-        <label for="editScore">Puntuación:</label>
-        <input type="number" id="editScore" name="Score" min="1" max="5" step="1" required>
-        <br><br>
-
-        <button type="submit">Guardar</button>
-      </form>
+    <div id="estudiantes-view" class="view" style="display: none;">
+      <h1>Administración de estudiantes</h1>
+      <button id="addEstudButton">Añadir estudiante</button>
+      <button id="addProfButton">Añadir profesor</button>
+      <br>
+      <table id="estudiantes-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Año</th>
+            <th>Grado</th>
+            <th>Fecha inscripción</th>
+            <th>Estatus</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
     </div>
-  </div>
 
-  <div id="editTareaModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Editar Tarea</h2>
-      <form id="editTareaForm">
-        <input type="hidden" id="editT_KeyTarea" name="T_KeyTarea" required>
-        <!-- Título (Deshabilitado) -->
-        <label for="editTitulo">Título:</label>
-        <input type="text" id="editTitulo" name="Titulo" maxlength="150">
-        <br><br>
-
-        <!-- Descripción (Deshabilitado) -->
-        <label for="editDescripcion">Descripción:</label>
-        <textarea id="editDescripcion" name="Descripcion"></textarea>
-        <br><br>
-
-
-        <label for="editProyecto">Proyecto:</label>
-        <select id="editProyecto" name="editProyecto">
-          <option value="" disabled selected>Seleccione un proyecto</option>
-        </select>
-        <br><br>
-
-        <!-- Tipo de Tarea (Deshabilitado) -->
-        <label for="editTipo_tarea">Tipo de Tarea:</label>
-        <select id="editTipo_tarea" name="Tipo_tarea">
-          <option value="">Selecciona el tipo de tarea</option>
-          <option value="Error">Error</option>
-          <option value="Blog técnico">Blog técnico</option>
-          <option value="Historia">Historia</option>
-        </select>
-        <br><br>
-
-        <!-- Categoría (Deshabilitado) -->
-        <label for="editCategoria">Categoría:</label>
-        <input type="text" id="editCategoria" name="Categoria" maxlength="150">
-        <br><br>
-
-        <!-- Alcance (Deshabilitado) -->
-        <label for="editAlcance">Alcance:</label>
-        <select id="editAlcance" name="Alcance">
-          <option value="">Selecciona el alcance</option>
-          <option value="Añadida">Añadida</option>
-          <option value="Eliminada">Eliminada</option>
-          <option value="Planeada">Planeada</option>
-        </select>
-        <br><br>
-
-        <!-- Prioridad (Deshabilitado) -->
-        <label for="editPrioridad">Prioridad:</label>
-        <select id="editPrioridad" name="Prioridad">
-          <option value="">Selecciona la prioridad</option>
-          <option value="Baja">Baja</option>
-          <option value="Media">Media</option>
-          <option value="Alta">Alta</option>
-        </select>
-        <br><br>
-
-
-        <label for="editAsignado">Asignado a:</label>
-        <select id="editAsignado" name="editAsignado">
-          <option value="" disabled selected>Seleccione un recurso</option>
-        </select>
-        <br><br>
-
-        <label for="editRol_recurso">Rol del recurso:</label>
-        <select id="editRol_recurso" name="editRol_recurso">
-          <option value="" disabled selected>Seleccione un rol</option>
-        </select>
-        <br><br>
-
-        <!-- Estatus -->
-        <label for="editEstatus">Estatus:</label>
-        <select id="editEstatus" name="Estatus">
-          <option value="">Selecciona el estatus</option>
-          <option value="Abierto">Abierto</option>
-          <option value="Cerrado">Cerrado</option>
-          <option value="Validado">Validado</option>
-          <option value="Revision">Revisión</option>
-          <option value="En curso">En curso</option>
-          <option value="En espera">En espera</option>
-        </select>
-        <br><br>
-
-        <!-- Puntos de Historia (Deshabilitado) -->
-        <label for="editPuntos_historia">Puntos de Historia:</label>
-        <input type="number" id="editPuntos_historia" name="Puntos_historia">
-        <br><br>
-
-        <label for="editInicio_Estimado">Fecha de Inicio Estimada:</label>
-        <input type="date" id="editInicio_Estimado" name="editInicio_Estimado">
-        <br><br>
-
-        <label for="editFin_Estimado">Fecha de Fin Estimada:</label>
-        <input type="date" id="editFin_Estimado" name="editFin_Estimado">
-        <br><br>
-
-        <label for="editHoras_estimadas">Horas estimadas:</label>
-        <input type="number" id="editHoras_estimadas" name="editHoras_estimadas">
-        <br><br>
-        <!-- Fecha de Inicio del Sprint (Deshabilitado) -->
-        <label for="editFecha_inicio_sprint">Fecha de Inicio del Sprint:</label>
-        <input type="date" id="editFecha_inicio_sprint" name="Fecha_inicio_sprint">
-        <br><br>
-
-        <!-- Key del Sprint (Deshabilitado) -->
-        <label for="editKey_Sprint">Identificador del Sprint:</label>
-        <input type="text" id="editKey_Sprint" name="Key_Sprint" maxlength="100">
-        <br><br>
-
-        <!-- Fecha de Inicio del LIB (Deshabilitado) -->
-        <label for="editFecha_inicio_lib">Fecha de inicio de liberación:</label>
-        <input type="date" id="editFecha_inicio_lib" name="Fecha_inicio_lib">
-        <br><br>
-
-        <!-- Fecha de Liberación del Sprint (Deshabilitado) -->
-        <label for="editFecha_lib_Sprint">Fecha de liberación del Sprint:</label>
-        <input type="date" id="editFecha_lib_Sprint" name="Fecha_lib_Sprint">
-        <br><br>
-
-        <!-- Fecha Final de Liberación (Deshabilitado) -->
-        <label for="editFecha_final_lib">Fecha final de Liberación:</label>
-        <input type="date" id="editFecha_final_lib" name="Fecha_final_lib">
-        <br><br>
-
-        <!-- Entregable (Deshabilitado) -->
-        <label for="editEntregable">Entregable:</label>
-        <textarea id="editEntregable" name="Entregable"></textarea>
-        <br><br>
-
-        <!-- Puntaje de Satisfacción -->
-        <label for="editPuntaje_satisfaccion">Puntaje de Satisfacción:</label>
-        <input type="number" step="0.01" id="editPuntaje_satisfaccion" name="Puntaje_satisfaccion">
-        <br><br>
-
-        <button type="submit">Guardar</button>
-      </form>
+    <div id="agile-view" class="view" style="display: none;">
+      <h1>Team Agile</h1>
+      <button id="addTareaAButton">Añadir tarea</button>
+      <br>
+      <table id="agile-table">
+        <thead>
+          <tr>
+            <th>Proyecto</th>
+            <th>Status</th>
+            <th>Tipo</th>
+            <th>Prioridad</th>
+            <th>Miembro del equipo</th>
+            <th>Fecha asignacion</th>
+            <th>Horas planeadas</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
     </div>
-  </div>
 
-  <!-- Modal para editar usuario -->
-  <div id="editUserModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Edit User</h2>
-      <form id="editUserForm">
-        <input type="hidden" id="editUserId" name="id">
-        <label for="editName">Name:</label>
-        <input type="text" id="editName" name="name" required><br>
-        <label for="editLastName">Last Name:</label>
-        <input type="text" id="editLastName" name="last_name" required><br>
-        <label for="editEmail">Email:</label>
-        <input type="email" id="editEmail" name="email" required><br>
-        <label for="editUser">Username:</label>
-        <input type="text" id="editUser" name="user" required><br>
-        <label for="editStatus">Status:</label>
-        <input type="text" id="editStatus" name="status" required><br>
-        <label for="editVerification">Verification:</label>
-        <input type="text" id="editVerification" name="verification" required><br>
-        <label for="editImageUrl">Image URL:</label>
-        <input type="text" id="editImageUrl" name="image_url"><br>
-        <label for="editTipoUser">User Type:</label>
-        <select id="editTipoUser" name="tipo_user" required>
-          <option value="Administrador">Administrador</option>
-          <option value="Visualizador">Visualizador</option>
-          <option value="Visualizador y carga">Visualizador y carga</option>
-          <option value="Solo carga">Solo carga</option>
-          <option value="ACP">ACP</option>
-          <option value="ACP-Desarrollo">ACP-Desarrollo</option>
-        </select><br>
-        <input type="submit" value="Edit User">
-      </form>
+    <div id="roles-view" class="view" style="display: none;">
+      <h1>Team Agile</h1>
+      <button id="addTareaRolButton">Añadir Rol</button>
+      <br>
+      <table id="agile-roles-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Tarifa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
     </div>
-  </div>
 
-  <div id="editUnidadModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Editar unidad</h2>
-      <form id="editUnidadForm">
-        <input type="hidden" id="editU_Placas" name="U_Placas" required>
-        <!-- Estado -->
-        <label for="U_Estado">Estado:</label>
-        <select id="editU_Estado" name="U_Estado" required>
-          <option value="">Selecciona un estado</option>
-          <option value="Aguascalientes">Aguascalientes</option>
-          <option value="BajaCalifornia">Baja California</option>
-          <option value="BajaCaliforniaSur">Baja California Sur</option>
-          <option value="Campeche">Campeche</option>
-          <option value="Chiapas">Chiapas</option>
-          <option value="Chihuahua">Chihuahua</option>
-          <option value="CDMX">Ciudad de México</option>
-          <option value="Coahuila">Coahuila</option>
-          <option value="Colima">Colima</option>
-          <option value="Durango">Durango</option>
-          <option value="Guanajuato">Guanajuato</option>
-          <option value="Guerrero">Guerrero</option>
-          <option value="Hidalgo">Hidalgo</option>
-          <option value="Jalisco">Jalisco</option>
-          <option value="EdoMex">Estado de México</option>
-          <option value="Michoacán">Michoacán</option>
-          <option value="Morelos">Morelos</option>
-          <option value="Nayarit">Nayarit</option>
-          <option value="NuevoLeón">Nuevo León</option>
-          <option value="Oaxaca">Oaxaca</option>
-          <option value="Puebla">Puebla</option>
-          <option value="Querétaro">Querétaro</option>
-          <option value="QuintanaRoo">Quintana Roo</option>
-          <option value="SanLuisPotosí">San Luis Potosí</option>
-          <option value="Sinaloa">Sinaloa</option>
-          <option value="Sonora">Sonora</option>
-          <option value="Tabasco">Tabasco</option>
-          <option value="Tamaulipas">Tamaulipas</option>
-          <option value="Tlaxcala">Tlaxcala</option>
-          <option value="Veracruz">Veracruz</option>
-          <option value="Yucatán">Yucatán</option>
-          <option value="Zacatecas">Zacatecas</option>
-        </select>
-        <br><br>
-
-        <!-- Fecha de Compra -->
-        <label for="U_FechaDeCompra">Fecha de Compra:</label>
-        <input type="date" id="editU_FechaDeCompra" name="U_FechaDeCompra" required>
-        <br><br>
-
-        <!-- Carga Máxima -->
-        <label for="U_CargaMax">Carga Máxima:</label>
-        <input type="text" id="editU_CargaMax" name="U_CargaMax" required>
-        <br><br>
-
-        <label for="U_Status">Estado:</label>
-        <select id="editU_Status" name="U_Status" required>
-          <option value="Disponible">Disponible</option>
-          <option value="Fuera de servicio">Fuera de servicio</option>
-        </select>
-
-        <button type="submit">Submit</button>
-      </form>
+    <div id="recursos-view" class="view" style="display: none;">
+      <h1>Team Agile</h1>
+      <button id="addTareaRecursoButton">Añadir Recurso</button>
+      <br>
+      <table id="agile-recursos-table">
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Fecha inicio</th>
+            <th>Fecha fin</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Aquí se llenará la tabla con los datos de los usuarios -->
+        </tbody>
+      </table>
     </div>
-  </div>
 
-  <div id="addPermissionModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <input type="hidden" id="userIdInput" name="userId" />
-      <h2>Add Permission</h2>
-      <form id="addPermissionForm">
-        <div class="radio-group">
-          <div>
-            <input type="radio" id="specificResources" name="category" value="Specific Resources" checked>
-            <label for="specificResources">Specific Resources</label>
-          </div>
-          <div>
-            <input type="radio" id="allSettings" name="category" value="All Settings">
-            <label for="allSettings">All Settings</label>
-          </div>
-          <div>
-            <input type="radio" id="specificSettings" name="category" value="Specific Settings">
-            <label for="specificSettings">Specific Settings</label>
-          </div>
-        </div>
-        <div class="cards-container">
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h3 class="card-title">Entity</h3>
-              <ul id="entities-menu">
-              </ul>
+    <div id="permission-view" class="view" style="display: none;">
+      <a href="#">
+        <img src="../images/pista-anterior.png" id="backToUsersButton" alt="Back">
+      </a>
+      <!-- <img src="../images/apagar.png" alt="Sign out" class="sign-out-icon"> -->
+      <h2>Permissions</h2>
+      <button id="addPermissionButton">Add Permission</button>
+      <table id="permissionsTable">
+        <thead>
+          <tr>
+            <th>Entity</th>
+            <th>Scope</th>
+            <th>Access Mode</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Permissions rows will be dynamically added here -->
+        </tbody>
+      </table>
+    </div>
+    <!-- Modal para agregar usuarios -->
+    <div id="addUserModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Add User</h2>
+        <form id="addUserForm">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name" required><br>
+
+          <label for="last_name">Last Name:</label>
+          <input type="text" id="last_name" name="last_name" required><br>
+
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required><br>
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required><br>
+
+          <label for="user">User:</label>
+          <input type="text" id="user" name="user" required><br>
+
+          <label for="status">Status:</label>
+          <input type="text" id="status" name="status" required><br>
+
+          <label for="verification">Verification:</label>
+          <input type="text" id="verification" name="verification" required><br>
+
+          <label for="image_url">Image URL:</label>
+          <input type="text" id="image_url" name="image_url"><br>
+
+          <label for="tipo_user">Tipo de User:</label>
+          <select id="tipo_user" name="tipo_user" required>
+            <option value="Administrador">Administrador</option>
+            <option value="Visualizador">Visualizador</option>
+            <option value="Visualizador y carga">Visualizador y carga</option>
+            <option value="Solo carga">Solo carga</option>
+            <option value="ACP">ACP</option>
+            <option value="ACP-Desarrollo">ACP-Desarrollo</option>
+          </select><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addUnidadModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir unidad</h2>
+        <form id="addUnidadForm">
+
+          <!-- Placas -->
+          <label for="U_Placas">Placas:</label>
+          <input type="text" id="U_Placas" name="U_Placas" required>
+          <br><br>
+
+          <!-- Estado -->
+          <label for="U_Estado">Estado:</label>
+          <select id="U_Estado" name="U_Estado" required>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
+
+          <!-- Fecha de Compra -->
+          <label for="U_FechaDeCompra">Fecha de Compra:</label>
+          <input type="date" id="U_FechaDeCompra" name="U_FechaDeCompra" required>
+          <br><br>
+
+          <!-- Carga Máxima -->
+          <label for="U_CargaMax">Carga Máxima:</label>
+          <input type="text" id="U_CargaMax" name="U_CargaMax" required>
+          <br><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addProyectoModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir proyecto</h2>
+        <form id="addProyectoForm">
+
+          <label for="Nombre_proyecto">Nombre del proyecto:</label>
+          <input type="text" id="Nombre_proyecto" name="Nombre_proyecto" required>
+          <br><br>
+
+          <label for="Responsable_proyecto">Responsable del proyecto:</label>
+          <select id="Responsable_proyecto" name="Responsable_proyecto" required>
+            <option value="" disabled selected>Seleccione un recurso</option>
+          </select>
+          <br><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addRecursoModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Recurso</h2>
+        <form id="addRecursoForm">
+
+          <label for="Nombre_recurso">Nombre del recurso:</label>
+          <input type="text" id="Nombre_recurso" name="Nombre_recurso" required>
+          <br><br>
+
+          <label for="Fecha_inicio_recurso">Fecha de Inicio del Recurso:</label>
+          <input type="date" id="Fecha_inicio_recurso" name="Fecha_inicio_recurso" required>
+          <br><br>
+
+          <label for="Fecha_fin_recurso">Fecha de Fin del Recurso:</label>
+          <input type="date" id="Fecha_fin_recurso" name="Fecha_fin_recurso" required>
+          <br><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addRolModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Rol</h2>
+        <form id="addRolForm">
+
+          <label for="Nombre_rol">Nombre del rol:</label>
+          <input type="text" id="Nombre_rol" name="Nombre_rol" required>
+          <br><br>
+
+          <label for="Tarifa_rol">Tarifa:</label>
+          <input type="number" id="Tarifa_rol" name="Tarifa_rol" step="0.01" required>
+          <br><br>
+
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addTareaModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Tarea</h2>
+        <form id="addTareaForm">
+
+          <!-- Título -->
+          <label for="Titulo">Título:</label>
+          <input type="text" id="Titulo" name="Titulo" maxlength="150" >
+          <br><br>
+
+          <!-- Descripción -->
+          <label for="Descripcion">Descripción:</label>
+          <textarea id="Descripcion" name="Descripcion" ></textarea>
+          <br><br>
+
+          <!-- Proyecto -->
+          <label for="Proyecto">Proyecto:</label>
+          <select id="Proyecto" name="Proyecto" >
+            <option value="" disabled selected>Seleccione un proyecto</option>
+          </select>
+          <br><br>
+
+
+          <!-- Tipo de Tarea -->
+          <label for="Tipo_tarea">Tipo de Tarea:</label>
+          <select id="Tipo_tarea" name="Tipo_tarea" >
+            <option value="">Selecciona el tipo de tarea</option>
+            <option value="Error">Error</option>
+            <option value="Blog técnico">Blog técnico</option>
+            <option value="Historia">Historia</option>
+          </select>
+          <br><br>
+
+          <!-- Categoría -->
+          <label for="Categoria">Categoría:</label>
+          <input type="text" id="Categoria" name="Categoria" maxlength="150" >
+          <br><br>
+
+          <!-- Alcance -->
+          <label for="Alcance">Alcance:</label>
+          <select id="Alcance" name="Alcance" >
+            <option value="">Selecciona el alcance</option>
+            <option value="Añadida">Añadida</option>
+            <option value="Eliminada">Eliminada</option>
+          </select>
+          <br><br>
+
+          <!-- Prioridad -->
+          <label for="Prioridad">Prioridad:</label>
+          <select id="Prioridad" name="Prioridad" >
+            <option value="">Selecciona la prioridad</option>
+            <option value="Baja">Baja</option>
+            <option value="Media">Media</option>
+            <option value="Alta">Alta</option>
+          </select>
+          <br><br>
+
+
+          <label for="Asignado">Asignado a:</label>
+          <select id="Asignado" name="Asignado" >
+            <option value="" disabled selected>Seleccione un recurso</option>
+          </select>
+          <br><br>
+
+          <label for="Rol_recurso">Rol del recurso:</label>
+          <select id="Rol_recurso" name="Rol_recurso" >
+            <option value="" disabled selected>Seleccione un rol</option>
+          </select>
+          <br><br>
+
+          <!-- Estatus -->
+          <label for="Estatus">Estatus:</label>
+          <select id="Estatus" name="Estatus" >
+            <option value="">Selecciona el estatus</option>
+            <option value="Abierto">Abierto</option>
+            <option value="Cerrado">Cerrado</option>
+            <option value="Validado">Validado</option>
+            <option value="Revision">Revisión</option>
+            <option value="En curso">En curso</option>
+            <option value="En espera">En espera</option>
+          </select>
+          <br><br>
+
+          <!-- Puntos de Historia -->
+          <label for="Puntos_historia">Puntos de Historia:</label>
+          <input type="number" id="Puntos_historia" name="Puntos_historia" >
+          <br><br>
+
+          <label for="Fecha_inicio_estimada">Fecha de Inicio Estimada:</label>
+          <input type="date" id="Fecha_inicio_estimada" name="Fecha_inicio_estimada" >
+          <br><br>
+
+          <label for="Fecha_final_estimada">Fecha de Fin Estimada:</label>
+          <input type="date" id="Fecha_final_estimada" name="Fecha_final_estimada" >
+          <br><br>
+
+          <label for="Horas_estimadas">Horas estimadas:</label>
+          <input type="number" id="Horas_estimadas" name="Horas_estimadas" >
+          <br><br>
+
+          <!-- Fecha de Inicio del Sprint -->
+          <label for="Fecha_inicio_sprint">Fecha de Inicio del Sprint:</label>
+          <input type="date" id="Fecha_inicio_sprint" name="Fecha_inicio_sprint" >
+          <br><br>
+
+          <!-- Key del Sprint -->
+          <label for="Key_Sprint">Identificador del Sprint:</label>
+          <input type="text" id="Key_Sprint" name="Key_Sprint" maxlength="100" >
+          <br><br>
+
+          <!-- Fecha de Inicio del LIB -->
+          <label for="Fecha_inicio_lib">Fecha de inicio de liberación:</label>
+          <input type="date" id="Fecha_inicio_lib" name="Fecha_inicio_lib" >
+          <br><br>
+
+          <!-- Fecha de Liberación del Sprint -->
+          <label for="Fecha_lib_Sprint">Fecha de liberación del Sprint:</label>
+          <input type="date" id="Fecha_lib_Sprint" name="Fecha_lib_Sprint" >
+          <br><br>
+
+          <!-- Fecha Final de Liberación -->
+          <label for="Fecha_final_lib">Fecha final de Liberación:</label>
+          <input type="date" id="Fecha_final_lib" name="Fecha_final_lib" >
+          <br><br>
+
+          <!-- Entregable -->
+          <label for="Entregable">Entregable:</label>
+          <textarea id="Entregable" name="Entregable" ></textarea>
+          <br><br>
+
+          <!-- Puntaje de Satisfacción -->
+          <label for="Puntaje_satisfaccion">Puntaje de Satisfacción:</label>
+          <input type="number" step="0.01" id="Puntaje_satisfaccion" name="Puntaje_satisfaccion" >
+          <br><br>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addEstudianteModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Estudiante</h2>
+        <form id="addStudentForm">
+          <!-- Nombre del estudiante -->
+          <label for="Student_Name">Nombre del Estudiante:</label>
+          <input type="text" id="Student_Name" name="Student_Name" maxlength="150" required>
+          <br><br>
+
+          <!-- Año -->
+          <label for="Year">Año:</label>
+          <select id="Year" name="Year" required>
+            <option value="">Selecciona el año</option>
+            <option value="1125899906842625">2022</option>
+            <option value="1125899906842626">2023</option>
+            <option value="1125899906842627">2024</option>
+            <!-- Aquí se insertarán dinámicamente los grados existentes -->
+          </select>
+          <br><br>
+
+          <!-- Género -->
+          <label for="Gender">Género:</label>
+          <select id="Gender" name="Gender" required>
+            <option value="">Selecciona el género</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Masculino">Masculino</option>
+          </select>
+          <br><br>
+
+          <!-- Grado -->
+          <label for="Grade_Id">Grado:</label>
+          <select id="Grade_Id" name="Grade_Id" required>
+            <option value="">Selecciona el grado</option>
+            <option value="1125899906842625">Grado 1</option>
+            <option value="1125899906842626">Grado 2</option>
+            <option value="1125899906842627">Grado 3</option>
+            <option value="1125899906842628">Grado 4</option>
+            <option value="1125899906842629">Grado 5</option>
+            <!-- Aquí se insertarán dinámicamente los grados existentes -->
+          </select>
+          <br><br>
+
+          <!-- Cuotas -->
+          <label for="Fees">Cuotas:</label>
+          <input type="number" id="Fees" name="Fees" required>
+          <br><br>
+
+          <!-- Fecha de inscripción -->
+          <label for="Date_Enrolment">Fecha de Inscripción:</label>
+          <input type="date" id="Date_Enrolment" name="Date_Enrolment" required>
+          <br><br>
+
+          <!-- Intereses -->
+          <label>Materias de interés:</label>
+          <div class="interests">
+            <div class="interest-item">
+              <input type="checkbox" id="Artes" name="Interests" value="1125899906842628">
+              <label for="Artes">Artes</label>
+            </div>
+            <div class="interest-item">
+              <input type="checkbox" id="Ciencias" name="Interests" value="1125899906842626">
+              <label for="Ciencias">Ciencias</label>
+            </div>
+            <div class="interest-item">
+              <input type="checkbox" id="Matematicas" name="Interests" value="1125899906842627">
+              <label for="Matematicas">Matemáticas</label>
+            </div>
+            <div class="interest-item">
+              <input type="checkbox" id="Educacion_Fisica" name="Interests" value="1125899906842625">
+              <label for="Educacion_Fisica">Educación Física</label>
+            </div>
+            <div class="interest-item">
+              <input type="checkbox" id="Ingles" name="Interests" value="1125899906842629">
+              <label for="Ingles">Inglés</label>
             </div>
           </div>
-          <div id="scopeCard" class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h3 class="card-title">Scope</h3>
-              <ul id="scope-menu">
-              </ul>
+          <br><br>
+
+
+          <!-- Satisfacción del estudiante -->
+          <label for="student_satisfaction">Satisfacción del Estudiante:</label>
+          <input type="range" id="student_satisfaction" name="student_satisfaction" min="1" max="5" step="1" value="3"
+            oninput="document.getElementById('studentSatisfactionValue').textContent = this.value">
+          <span id="studentSatisfactionValue">3</span>/5
+          <br><br>
+
+          <!-- Satisfacción de los padres -->
+          <label for="parent_satisfaction">Satisfacción de los Padres:</label>
+          <input type="range" id="parent_satisfaction" name="parent_satisfaction" min="1" max="5" step="1" value="3"
+            oninput="document.getElementById('parentSatisfactionValue').textContent = this.value">
+          <span id="parentSatisfactionValue">3</span>/5
+          <br><br>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div id="addProfesorModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Profesor</h2>
+        <form id="addProfForm">
+          <!-- Grado -->
+          <label for="Grade_ID">Grado:</label>
+          <select id="Grade_ID" name="Grade_ID" required>
+            <option value="">Selecciona el grado</option>
+            <option value="1125899906842625">Grado 1</option>
+            <option value="1125899906842626">Grado 2</option>
+            <option value="1125899906842627">Grado 3</option>
+            <option value="1125899906842628">Grado 4</option>
+            <option value="1125899906842629">Grado 5</option>
+            <!-- Aquí se insertarán dinámicamente los grados existentes -->
+          </select>
+          <br><br>
+
+          <!-- Rama -->
+          <label for="Branch_Id_prof">Materia:</label>
+          <select id="Branch_Id_prof" name="Branch_Id_prof" required>
+            <option value="">Selecciona una materia</option>
+            <option value="1125899906842625">Artes</option>
+            <option value="1125899906842626">Ciencias</option>
+            <option value="1125899906842627">Matemáticas</option>
+            <option value="1125899906842628">Educación Física</option>
+            <option value="1125899906842629">Inglés</option>
+            <!-- Opciones adicionales pueden agregarse dinámicamente -->
+          </select>
+          <br><br>
+
+          <!-- Nombre del profesor -->
+          <label for="Teacher_Name">Nombre del Profesor:</label>
+          <input type="text" id="Teacher_Name" name="Teacher_Name" maxlength="150" required>
+          <br><br>
+
+          <!-- Porcentaje de la lección -->
+          <label for="Lesson_Percentage">Porcentaje de la Lección:</label>
+          <input type="number" id="Lesson_Percentage" name="Lesson_Percentage" required>
+          <br><br>
+
+          <!-- Correo de contacto -->
+          <label for="Contact">Correo de Contacto:</label>
+          <input type="email" id="Contact" name="Contact" required>
+          <br><br>
+
+          <!-- Año -->
+          <label for="Year_prof">Año:</label>
+          <select id="Year_prof" name="Year" required>
+            <option value="">Selecciona el año</option>
+            <option value="1125899906842625">2022</option>
+            <option value="1125899906842626">2023</option>
+            <option value="1125899906842627">2024</option>
+            <!-- Aquí se insertarán dinámicamente los grados existentes -->
+          </select>
+          <br><br>
+
+          <!-- Satisfacción -->
+          <label for="Satisfaction_Rating">Calificación de Satisfacción:</label>
+          <select id="Satisfaction_Rating" name="Satisfaction_Rating" required>
+            <option value="">Selecciona la calificación</option>
+            <option value="Promedio">Promedio</option>
+            <option value="Sobre Promedio">Sobre Promedio</option>
+            <option value="Excelente">Excelente</option>
+            <option value="Bueno">Bueno</option>
+          </select>
+          <br><br>
+
+          <!-- Salario -->
+          <label for="salary">Salario:</label>
+          <input type="number" id="salary" name="salary" required>
+          <br><br>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addCalifModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Calificación</h2>
+        <form id="addCalifForm">
+          <!-- Rama -->
+          <label for="Branch_Id">Materia:</label>
+          <select id="Branch_Id" name="Branch_Id" required>
+            <option value="">Selecciona una materia</option>
+            <option value="1125899906842625">Artes</option>
+            <option value="1125899906842626">Ciencias</option>
+            <option value="1125899906842627">Matemáticas</option>
+            <option value="1125899906842628">Educación Física</option>
+            <option value="1125899906842629">Inglés</option>
+            <!-- Opciones adicionales pueden agregarse dinámicamente -->
+          </select>
+          <br><br>
+
+          <!-- Calificación -->
+          <label for="Marks">Calificación:</label>
+          <input type="number" id="Marks" name="Marks" min="0" max="100" required>
+          <br><br>
+
+          <!-- Participación -->
+          <label for="Participation">Participación:</label>
+          <input type="number" id="Participation" name="Participation" min="0" max="100" required>
+          <br><br>
+
+          <!-- Faltas -->
+          <label for="Days_Abscent">Faltas:</label>
+          <input type="number" id="Days_Abscent" name="Days_Abscent" min="0" required>
+          <br><br>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="graduationModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Graduar Alumno</h2>
+        <form id="graduationForm">
+          <!-- Campo oculto para el ID del estudiante -->
+          <input type="number" id="studentGradId" name="studentid" required>
+
+          <!-- Texto con nombre y grado -->
+          <p style="font-size: 1.2em;">
+            ¿El alumno <strong id="studentName">[Nombre del Alumno]</strong>
+            se gradúa del grado <strong id="studentGrade">[Grado]</strong>?
+          </p>
+
+          <input type="number" id="studentGradoId" name="studentgradoid" required>
+
+          <!-- Checkbox para confirmar la graduación -->
+          <label style="font-size: 1.1em;">
+            <input type="checkbox" id="isGraduated" name="isGraduated" required>
+            Sí, alumno graduado
+          </label>
+          <br><br>
+
+          <!-- Botón para confirmar -->
+          <button type="submit" style="font-size: 1.1em; padding: 10px 20px;">Confirmar Graduación</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addTaskModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Tarea</h2>
+        <form id="addTaskForm">
+          <!-- Tipo de Proyecto -->
+          <label for="Proyect_Type">Tipo de Proyecto:</label>
+          <input type="text" id="Proyect_Type" name="Proyect_Type" maxlength="150" required>
+          <br><br>
+
+          <!-- Miembro del Equipo -->
+          <label for="Team_Member">Miembro del Equipo:</label>
+          <select id="Team_Member" name="Team_Member" required>
+            <option value="">Selecciona el miembro del equipo</option>
+            <option value="Desarrollador de Software">Desarrollador de Software</option>
+            <option value="Ingeniero QA">Ingeniero QA</option>
+            <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
+          </select>
+          <br><br>
+
+          <!-- Estatus de Tarea -->
+          <label for="Task_Status">Estatus de la Tarea:</label>
+          <select id="Task_Status" name="Task_Status" required>
+            <option value="">Selecciona el estatus</option>
+            <option value="Cerrada">Cerrada</option>
+            <option value="Pruebas">Pruebas</option>
+            <option value="En Espera">En Espera</option>
+            <option value="En Proceso">En Proceso</option>
+            <option value="Abierta">Abierta</option>
+            <option value="Validada">Validada</option>
+            <option value="En Revisión">En Revisión</option>
+          </select>
+          <br><br>
+
+          <!-- Tipo de Tarea -->
+          <label for="Task_Type">Tipo de Tarea:</label>
+          <select id="Task_Type" name="Task_Type" required>
+            <option value="">Selecciona el tipo de tarea</option>
+            <option value="Bug">Bug</option>
+            <option value="Funcionalidad">Funcionalidad</option>
+            <option value="Historia">Historia</option>
+          </select>
+          <br><br>
+
+          <!-- Puntos de Historia -->
+          <label for="Task_StoryPoints">Puntos de Historia:</label>
+          <input type="number" id="Task_StoryPoints" name="Task_StoryPoints" min="0">
+          <br><br>
+
+          <!-- Rol del Recurso -->
+          <label for="Resource_Role">Rol del Recurso:</label>
+          <select id="Resource_Role" name="Resource_Role" required>
+            <option value="">Selecciona el rol del recurso</option>
+            <option value="Desarrollador de Software">Desarrollador de Software</option>
+            <option value="Diseñador Gráfico">Diseñador Gráfico</option>
+            <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
+          </select>
+          <br><br>
+
+          <!-- Fecha Asignada -->
+          <label for="Assigned_Date">Fecha Asignada:</label>
+          <input type="date" id="Assigned_Date" name="Assigned_Date" required>
+          <br><br>
+
+          <!-- Fecha Cerrada -->
+          <label for="Closed_Date">Fecha Cerrada:</label>
+          <input type="date" id="Closed_Date" name="Closed_Date">
+          <br><br>
+
+          <!-- Horas Planeadas -->
+          <label for="Planned_Hours">Horas Planeadas:</label>
+          <input type="number" id="Planned_Hours" name="Planned_Hours" min="0">
+          <br><br>
+
+          <!-- Horas Trabajadas -->
+          <label for="Worked_Hours">Horas Trabajadas:</label>
+          <input type="number" id="Worked_Hours" name="Worked_Hours" min="0">
+          <br><br>
+
+          <!-- Prioridad -->
+          <label for="Task_Priority">Prioridad:</label>
+          <select id="Task_Priority" name="Task_Priority" required>
+            <option value="">Selecciona la prioridad</option>
+            <option value="Baja">Baja</option>
+            <option value="Media">Media</option>
+            <option value="Alta">Alta</option>
+            <option value="Crítica">Crítica</option>
+          </select>
+          <br><br>
+
+          <!-- Total de Recursos -->
+          <label for="Total_Resource">Total de Recursos:</label>
+          <input type="number" id="Total_Resource" name="Total_Resource" min="0">
+          <br><br>
+
+          <!-- Botón para guardar -->
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="editRecursoModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Recurso</h2>
+        <form id="editRecursoForm">
+
+          <input type="hidden" id="editRecursoId" name="editRecurso_ID" required>
+
+          <label for="editNombre_recurso">Nombre del recurso:</label>
+          <input type="text" id="editNombre_recurso" name="editNombre_recurso" required>
+          <br><br>
+
+          <label for="editFecha_inicio_recurso">Fecha de Inicio del Recurso:</label>
+          <input type="date" id="editFecha_inicio_recurso" name="editFecha_inicio_recurso" required>
+          <br><br>
+
+          <label for="editFecha_fin_recurso">Fecha de Fin del Recurso:</label>
+          <input type="date" id="editFecha_fin_recurso" name="editFecha_fin_recurso" required>
+          <br><br>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="editRolModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Rol</h2>
+        <form id="editRolForm">
+
+          <input type="hidden" id="editRolId" name="editRol_ID" required>
+
+          <label for="editNombre_rol">Nombre del rol:</label>
+          <input type="text" id="editNombre_rol" name="editNombre_rol" required>
+          <br><br>
+
+          <label for="editTarifa_rol">Tarifa:</label>
+          <input type="number" id="editTarifa_rol" name="editTarifa_rol" step="0.01" required>
+          <br><br>
+
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="editEstudModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Estudiante</h2>
+        <form id="editStudentForm">
+          <!-- ID del estudiante (oculto) -->
+          <input type="hidden" id="editStudentId" name="Student_Id" required>
+
+          <!-- Nombre del Estudiante -->
+          <label for="editStudentName">Nombre del Estudiante:</label>
+          <input type="text" id="editStudentName" name="Student_Name" maxlength="150" required>
+          <br><br>
+
+          <!-- Año -->
+          <label for="editYear">Año:</label>
+          <select id="editYear" name="Year" required>
+            <option value="">Selecciona el año</option>
+            <option value="1125899906842625">2022</option>
+            <option value="1125899906842626">2023</option>
+            <option value="1125899906842627">2024</option>
+          </select>
+          <br><br>
+
+          <!-- Género -->
+          <label for="editGender">Género:</label>
+          <select id="editGender" name="Gender" required>
+            <option value="">Selecciona el género</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Femenino">Femenino</option>
+          </select>
+          <br><br>
+
+          <!-- Grado -->
+          <label for="editGradeId">Grado:</label>
+          <select id="editGradeId" name="Grade_Id" required>
+            <option value="">Selecciona el grado</option>
+            <option value="1125899906842625">Grado 1</option>
+            <option value="1125899906842626">Grado 2</option>
+            <option value="1125899906842627">Grado 3</option>
+            <option value="1125899906842628">Grado 4</option>
+            <option value="1125899906842629">Grado 5</option>
+            <!-- Aquí se insertarán dinámicamente los grados existentes -->
+          </select>
+          <br><br>
+
+          <!-- Matrícula -->
+          <label for="editFees">Cuotas:</label>
+          <input type="number" id="editFees" name="Fees" min="0" required>
+          <br><br>
+
+          <!-- Fecha de inscripción -->
+          <label for="editDateEnrolment">Fecha de inscripción:</label>
+          <input type="date" id="editDateEnrolment" name="Date_Enrolment" required>
+          <br><br>
+
+          <!-- Estado de Baja -->
+          <label for="editDroppedOut">Estatus:</label>
+          <select id="editDroppedOut" name="dropped_out" required>
+            <option value="0">Activo</option>
+            <option value="1">Dado de baja</option>
+          </select>
+          <br><br>
+
+          <!-- Satisfacción del Estudiante -->
+          <label for="editStudentSatisfaction">Satisfacción del Estudiante:</label>
+          <input type="number" id="editStudentSatisfaction" name="student_satisfaction" step="0.01" min="0" max="100"
+            required>
+          <br><br>
+
+          <!-- Satisfacción de los Padres -->
+          <label for="editParentSatisfaction">Satisfacción de los Padres:</label>
+          <input type="number" id="editParentSatisfaction" name="parent_satisfaction" step="0.01" min="0" max="100"
+            required>
+          <br><br>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div id="editTaskModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Tarea</h2>
+        <form id="editTaskForm">
+          <!-- ID de la tarea (oculto y automático) -->
+          <input type="hidden" id="editTaskId" name="Task_ID" required>
+
+          <!-- Tipo de Proyecto -->
+          <label for="editProjectType">Tipo de Proyecto:</label>
+          <input type="text" id="editProjectType" name="Proyect_Type" required
+            placeholder="Escribe el nombre del Proyecto">
+          <br><br>
+
+
+          <!-- Miembro del Equipo -->
+          <label for="editTeamMember">Miembro del Equipo:</label>
+          <select id="editTeamMember" name="Team_Member" required>
+            <option value="">Selecciona el miembro</option>
+            <option value="Desarrollador de Software">Desarrollador de Software</option>
+            <option value="Ingeniero de QA">Ingeniero QA</option>
+            <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
+          </select>
+          <br><br>
+
+          <!-- Estatus de la Tarea -->
+          <label for="editTaskStatus">Estatus de la Tarea:</label>
+          <select id="editTaskStatus" name="Task_Status" required>
+            <option value="">Selecciona el estatus</option>
+            <option value="Cerrada">Cerrada</option>
+            <option value="En Pruebas">En Pruebas</option>
+            <option value="En Espera">En Espera</option>
+            <option value="En Progreso">En Progreso</option>
+            <option value="Abierta">Abierta</option>
+            <option value="Validada">Validada</option>
+            <option value="En Revisión">En Revisión</option>
+          </select>
+          <br><br>
+
+          <!-- Tipo de Tarea -->
+          <label for="editTaskType">Tipo de Tarea:</label>
+          <select id="editTaskType" name="Task_Type" required>
+            <option value="">Selecciona el tipo</option>
+            <option value="Error">Error</option>
+            <option value="Funcionalidad">Funcionalidad</option>
+            <option value="Historia">Historia</option>
+          </select>
+          <br><br>
+
+          <!-- Puntos de Historia -->
+          <label for="editStoryPoints">Puntos de Historia:</label>
+          <input type="number" id="editStoryPoints" name="Task_StoryPoints" min="0" required>
+          <br><br>
+
+          <!-- Rol del Recurso -->
+          <label for="editResourceRole">Rol del Recurso:</label>
+          <select id="editResourceRole" name="Resource_Role" required>
+            <option value="">Selecciona el rol</option>
+            <option value="Desarrollador de Software">Desarrollador de Software</option>
+            <option value="Diseñador Gráfico">Diseñador Gráfico</option>
+            <option value="Ingeniero de Pruebas">Ingeniero de Pruebas</option>
+          </select>
+          <br><br>
+
+          <!-- Fecha de Asignación -->
+          <label for="editAssignedDate">Fecha de Asignación:</label>
+          <input type="date" id="editAssignedDate" name="Assigned_Date" required>
+          <br><br>
+
+          <!-- Fecha de Cierre -->
+          <label for="editClosedDate">Fecha de Cierre:</label>
+          <input type="date" id="editClosedDate" name="Closed_Date">
+          <br><br>
+
+          <!-- Horas Planificadas -->
+          <label for="editPlannedHours">Horas Planificadas:</label>
+          <input type="number" id="editPlannedHours" name="Planned_Hours" min="0" required>
+          <br><br>
+
+          <!-- Horas Trabajadas -->
+          <label for="editWorkedHours">Horas Trabajadas:</label>
+          <input type="number" id="editWorkedHours" name="Worked_Hours" min="0" required>
+          <br><br>
+
+          <!-- Prioridad de la Tarea -->
+          <label for="editTaskPriority">Prioridad de la Tarea:</label>
+          <select id="editTaskPriority" name="Task_Priority" required>
+            <option value="">Selecciona la prioridad</option>
+            <option value="Baja">Baja</option>
+            <option value="Media">Media</option>
+            <option value="Alta">Alta</option>
+            <option value="Crítica">Crítica</option>
+          </select>
+          <br><br>
+
+          <!-- Total de Recursos -->
+          <label for="editTotalResource">Total de Recursos:</label>
+          <input type="number" id="editTotalResource" name="Total_Resource" min="0" required>
+          <br><br>
+
+          <!-- Puntuación -->
+          <label for="editScore">Puntuación:</label>
+          <input type="number" id="editScore" name="Score" min="1" max="5" step="1" required>
+          <br><br>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="editTareaModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Tarea</h2>
+        <form id="editTareaForm">
+          <input type="hidden" id="editT_KeyTarea" name="T_KeyTarea" required>
+          <!-- Título (Deshabilitado) -->
+          <label for="editTitulo">Título:</label>
+          <input type="text" id="editTitulo" name="Titulo" maxlength="150">
+          <br><br>
+
+          <!-- Descripción (Deshabilitado) -->
+          <label for="editDescripcion">Descripción:</label>
+          <textarea id="editDescripcion" name="Descripcion"></textarea>
+          <br><br>
+
+
+          <label for="editProyecto">Proyecto:</label>
+          <select id="editProyecto" name="editProyecto" >
+            <option value="" disabled selected>Seleccione un proyecto</option>
+          </select>
+          <br><br>
+
+          <!-- Tipo de Tarea (Deshabilitado) -->
+          <label for="editTipo_tarea">Tipo de Tarea:</label>
+          <select id="editTipo_tarea" name="Tipo_tarea">
+            <option value="">Selecciona el tipo de tarea</option>
+            <option value="Error">Error</option>
+            <option value="Blog técnico">Blog técnico</option>
+            <option value="Historia">Historia</option>
+          </select>
+          <br><br>
+
+          <!-- Categoría (Deshabilitado) -->
+          <label for="editCategoria">Categoría:</label>
+          <input type="text" id="editCategoria" name="Categoria" maxlength="150">
+          <br><br>
+
+          <!-- Alcance (Deshabilitado) -->
+          <label for="editAlcance">Alcance:</label>
+          <select id="editAlcance" name="Alcance">
+            <option value="">Selecciona el alcance</option>
+            <option value="Añadida">Añadida</option>
+            <option value="Eliminada">Eliminada</option>
+            <option value="Planeada">Planeada</option>
+          </select>
+          <br><br>
+
+          <!-- Prioridad (Deshabilitado) -->
+          <label for="editPrioridad">Prioridad:</label>
+          <select id="editPrioridad" name="Prioridad">
+            <option value="">Selecciona la prioridad</option>
+            <option value="Baja">Baja</option>
+            <option value="Media">Media</option>
+            <option value="Alta">Alta</option>
+          </select>
+          <br><br>
+
+
+          <label for="editAsignado">Asignado a:</label>
+          <select id="editAsignado" name="editAsignado" >
+            <option value="" disabled selected>Seleccione un recurso</option>
+          </select>
+          <br><br>
+
+          <label for="editRol_recurso">Rol del recurso:</label>
+          <select id="editRol_recurso" name="editRol_recurso" >
+            <option value="" disabled selected>Seleccione un rol</option>
+          </select>
+          <br><br>
+
+          <!-- Estatus -->
+          <label for="editEstatus">Estatus:</label>
+          <select id="editEstatus" name="Estatus" >
+            <option value="">Selecciona el estatus</option>
+            <option value="Abierto">Abierto</option>
+            <option value="Cerrado">Cerrado</option>
+            <option value="Validado">Validado</option>
+            <option value="Revision">Revisión</option>
+            <option value="En curso">En curso</option>
+            <option value="En espera">En espera</option>
+          </select>
+          <br><br>
+
+          <!-- Puntos de Historia (Deshabilitado) -->
+          <label for="editPuntos_historia">Puntos de Historia:</label>
+          <input type="number" id="editPuntos_historia" name="Puntos_historia">
+          <br><br>
+
+          <label for="editInicio_Estimado">Fecha de Inicio Estimada:</label>
+          <input type="date" id="editInicio_Estimado" name="editInicio_Estimado" >
+          <br><br>
+
+          <label for="editFin_Estimado">Fecha de Fin Estimada:</label>
+          <input type="date" id="editFin_Estimado" name="editFin_Estimado" >
+          <br><br>
+
+          <label for="editHoras_estimadas">Horas estimadas:</label>
+          <input type="number" id="editHoras_estimadas" name="editHoras_estimadas" >
+          <br><br>
+          <!-- Fecha de Inicio del Sprint (Deshabilitado) -->
+          <label for="editFecha_inicio_sprint">Fecha de Inicio del Sprint:</label>
+          <input type="date" id="editFecha_inicio_sprint" name="Fecha_inicio_sprint">
+          <br><br>
+
+          <!-- Key del Sprint (Deshabilitado) -->
+          <label for="editKey_Sprint">Identificador del Sprint:</label>
+          <input type="text" id="editKey_Sprint" name="Key_Sprint" maxlength="100">
+          <br><br>
+
+          <!-- Fecha de Inicio del LIB (Deshabilitado) -->
+          <label for="editFecha_inicio_lib">Fecha de inicio de liberación:</label>
+          <input type="date" id="editFecha_inicio_lib" name="Fecha_inicio_lib">
+          <br><br>
+
+          <!-- Fecha de Liberación del Sprint (Deshabilitado) -->
+          <label for="editFecha_lib_Sprint">Fecha de liberación del Sprint:</label>
+          <input type="date" id="editFecha_lib_Sprint" name="Fecha_lib_Sprint">
+          <br><br>
+
+          <!-- Fecha Final de Liberación (Deshabilitado) -->
+          <label for="editFecha_final_lib">Fecha final de Liberación:</label>
+          <input type="date" id="editFecha_final_lib" name="Fecha_final_lib">
+          <br><br>
+
+          <!-- Entregable (Deshabilitado) -->
+          <label for="editEntregable">Entregable:</label>
+          <textarea id="editEntregable" name="Entregable"></textarea>
+          <br><br>
+
+          <!-- Puntaje de Satisfacción -->
+          <label for="editPuntaje_satisfaccion">Puntaje de Satisfacción:</label>
+          <input type="number" step="0.01" id="editPuntaje_satisfaccion" name="Puntaje_satisfaccion" >
+          <br><br>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal para editar usuario -->
+    <div id="editUserModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Edit User</h2>
+        <form id="editUserForm">
+          <input type="hidden" id="editUserId" name="id">
+          <label for="editName">Name:</label>
+          <input type="text" id="editName" name="name" required><br>
+          <label for="editLastName">Last Name:</label>
+          <input type="text" id="editLastName" name="last_name" required><br>
+          <label for="editEmail">Email:</label>
+          <input type="email" id="editEmail" name="email" required><br>
+          <label for="editUser">Username:</label>
+          <input type="text" id="editUser" name="user" required><br>
+          <label for="editStatus">Status:</label>
+          <input type="text" id="editStatus" name="status" required><br>
+          <label for="editVerification">Verification:</label>
+          <input type="text" id="editVerification" name="verification" required><br>
+          <label for="editImageUrl">Image URL:</label>
+          <input type="text" id="editImageUrl" name="image_url"><br>
+          <label for="editTipoUser">User Type:</label>
+          <select id="editTipoUser" name="tipo_user" required>
+            <option value="Administrador">Administrador</option>
+            <option value="Visualizador">Visualizador</option>
+            <option value="Visualizador y carga">Visualizador y carga</option>
+            <option value="Solo carga">Solo carga</option>
+            <option value="ACP">ACP</option>
+            <option value="ACP-Desarrollo">ACP-Desarrollo</option>
+          </select><br>
+          <input type="submit" value="Edit User">
+        </form>
+      </div>
+    </div>
+
+    <div id="editUnidadModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar unidad</h2>
+        <form id="editUnidadForm">
+          <input type="hidden" id="editU_Placas" name="U_Placas" required>
+          <!-- Estado -->
+          <label for="U_Estado">Estado:</label>
+          <select id="editU_Estado" name="U_Estado" required>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
+
+          <!-- Fecha de Compra -->
+          <label for="U_FechaDeCompra">Fecha de Compra:</label>
+          <input type="date" id="editU_FechaDeCompra" name="U_FechaDeCompra" required>
+          <br><br>
+
+          <!-- Carga Máxima -->
+          <label for="U_CargaMax">Carga Máxima:</label>
+          <input type="text" id="editU_CargaMax" name="U_CargaMax" required>
+          <br><br>
+
+          <label for="U_Status">Estado:</label>
+          <select id="editU_Status" name="U_Status" required>
+            <option value="Disponible">Disponible</option>
+            <option value="Fuera de servicio">Fuera de servicio</option>
+          </select>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="addPermissionModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <input type="hidden" id="userIdInput" name="userId" />
+        <h2>Add Permission</h2>
+        <form id="addPermissionForm">
+          <div class="radio-group">
+            <div>
+              <input type="radio" id="specificResources" name="category" value="Specific Resources" checked>
+              <label for="specificResources">Specific Resources</label>
+            </div>
+            <div>
+              <input type="radio" id="allSettings" name="category" value="All Settings">
+              <label for="allSettings">All Settings</label>
+            </div>
+            <div>
+              <input type="radio" id="specificSettings" name="category" value="Specific Settings">
+              <label for="specificSettings">Specific Settings</label>
             </div>
           </div>
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h3 class="card-title">Access mode</h3>
-              <ul id="access-menu">
-              </ul>
+          <div class="cards-container">
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h3 class="card-title">Entity</h3>
+                <ul id="entities-menu">
+                </ul>
+              </div>
+            </div>
+            <div id="scopeCard" class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h3 class="card-title">Scope</h3>
+                <ul id="scope-menu">
+                </ul>
+              </div>
+            </div>
+            <div class="card" style="width: 18rem;">
+              <div class="card-body">
+                <h3 class="card-title">Access mode</h3>
+                <ul id="access-menu">
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
 
-        <button type="submit">Add Permission</button>
-      </form>
+          <button type="submit">Add Permission</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <div id="addAsignacionViajeModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Asignar Viaje</h2>
-      <form id="addAsignacionViajeForm">
-        <input type="hidden" id="addU_Placas" name="U_Placas" />
-        <!-- Clave Viaje -->
-        <label for="V_KeyViaje">Clave Viaje:</label>
-        <input type="number" id="V_KeyViaje" name="V_KeyViaje" required>
-        <br><br>
+    <div id="addAsignacionViajeModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Asignar Viaje</h2>
+        <form id="addAsignacionViajeForm">
+          <input type="hidden" id="addU_Placas" name="U_Placas" />
+          <!-- Clave Viaje -->
+          <label for="V_KeyViaje">Clave Viaje:</label>
+          <input type="number" id="V_KeyViaje" name="V_KeyViaje" required>
+          <br><br>
 
-        <!-- Operador -->
-        <label for="V_Operador">Operador:</label>
-        <input type="text" id="V_Operador" name="V_Operador" required>
-        <br><br>
+          <!-- Operador -->
+          <label for="V_Operador">Operador:</label>
+          <input type="text" id="V_Operador" name="V_Operador" required>
+          <br><br>
 
-        <!-- Estado Origen -->
-        <label for="V_EstadoOrigen">Estado de Origen:</label>
-        <select id="V_EstadoOrigen" name="V_EstadoOrigen" required>
-          <option value="">Selecciona un estado</option>
-          <option value="Aguascalientes">Aguascalientes</option>
-          <option value="BajaCalifornia">Baja California</option>
-          <option value="BajaCaliforniaSur">Baja California Sur</option>
-          <option value="Campeche">Campeche</option>
-          <option value="Chiapas">Chiapas</option>
-          <option value="Chihuahua">Chihuahua</option>
-          <option value="CDMX">Ciudad de México</option>
-          <option value="Coahuila">Coahuila</option>
-          <option value="Colima">Colima</option>
-          <option value="Durango">Durango</option>
-          <option value="Guanajuato">Guanajuato</option>
-          <option value="Guerrero">Guerrero</option>
-          <option value="Hidalgo">Hidalgo</option>
-          <option value="Jalisco">Jalisco</option>
-          <option value="EdoMex">Estado de México</option>
-          <option value="Michoacán">Michoacán</option>
-          <option value="Morelos">Morelos</option>
-          <option value="Nayarit">Nayarit</option>
-          <option value="NuevoLeón">Nuevo León</option>
-          <option value="Oaxaca">Oaxaca</option>
-          <option value="Puebla">Puebla</option>
-          <option value="Querétaro">Querétaro</option>
-          <option value="QuintanaRoo">Quintana Roo</option>
-          <option value="SanLuisPotosí">San Luis Potosí</option>
-          <option value="Sinaloa">Sinaloa</option>
-          <option value="Sonora">Sonora</option>
-          <option value="Tabasco">Tabasco</option>
-          <option value="Tamaulipas">Tamaulipas</option>
-          <option value="Tlaxcala">Tlaxcala</option>
-          <option value="Veracruz">Veracruz</option>
-          <option value="Yucatán">Yucatán</option>
-          <option value="Zacatecas">Zacatecas</option>
-        </select>
-        <br><br>
+          <!-- Estado Origen -->
+          <label for="V_EstadoOrigen">Estado de Origen:</label>
+          <select id="V_EstadoOrigen" name="V_EstadoOrigen" required>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
 
-        <!-- Estado Destino -->
-        <label for="V_EstadoDestino">Estado de Destino:</label>
-        <select id="V_EstadoDestino" name="V_EstadoDestino" required>
-          <option value="">Selecciona un estado</option>
-          <option value="Aguascalientes">Aguascalientes</option>
-          <option value="BajaCalifornia">Baja California</option>
-          <option value="BajaCaliforniaSur">Baja California Sur</option>
-          <option value="Campeche">Campeche</option>
-          <option value="Chiapas">Chiapas</option>
-          <option value="Chihuahua">Chihuahua</option>
-          <option value="CDMX">Ciudad de México</option>
-          <option value="Coahuila">Coahuila</option>
-          <option value="Colima">Colima</option>
-          <option value="Durango">Durango</option>
-          <option value="Guanajuato">Guanajuato</option>
-          <option value="Guerrero">Guerrero</option>
-          <option value="Hidalgo">Hidalgo</option>
-          <option value="Jalisco">Jalisco</option>
-          <option value="EdoMex">Estado de México</option>
-          <option value="Michoacán">Michoacán</option>
-          <option value="Morelos">Morelos</option>
-          <option value="Nayarit">Nayarit</option>
-          <option value="NuevoLeón">Nuevo León</option>
-          <option value="Oaxaca">Oaxaca</option>
-          <option value="Puebla">Puebla</option>
-          <option value="Querétaro">Querétaro</option>
-          <option value="QuintanaRoo">Quintana Roo</option>
-          <option value="SanLuisPotosí">San Luis Potosí</option>
-          <option value="Sinaloa">Sinaloa</option>
-          <option value="Sonora">Sonora</option>
-          <option value="Tabasco">Tabasco</option>
-          <option value="Tamaulipas">Tamaulipas</option>
-          <option value="Tlaxcala">Tlaxcala</option>
-          <option value="Veracruz">Veracruz</option>
-          <option value="Yucatán">Yucatán</option>
-          <option value="Zacatecas">Zacatecas</option>
-        </select>
-        <br><br>
+          <!-- Estado Destino -->
+          <label for="V_EstadoDestino">Estado de Destino:</label>
+          <select id="V_EstadoDestino" name="V_EstadoDestino" required>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
 
-        <!-- Fecha de Inicio -->
-        <label for="V_FInicio">Fecha de Inicio:</label>
-        <input type="datetime-local" id="V_FInicio" name="V_FInicio" required>
-        <br><br>
+          <!-- Fecha de Inicio -->
+          <label for="V_FInicio">Fecha de Inicio:</label>
+          <input type="datetime-local" id="V_FInicio" name="V_FInicio" required>
+          <br><br>
 
-        <!-- Fecha de Fin -->
-        <label for="V_FFin">Fecha de Fin:</label>
-        <input type="datetime-local" id="V_FFin" name="V_FFin" disabled>
-        <br><br>
+          <!-- Fecha de Fin -->
+          <label for="V_FFin">Fecha de Fin:</label>
+          <input type="datetime-local" id="V_FFin" name="V_FFin" disabled>
+          <br><br>
 
-        <!-- Costo -->
-        <label for="V_Costo">Costo:</label>
-        <input type="number" step="0.01" id="V_Costo" name="V_Costo" required>
-        <br><br>
+          <!-- Costo -->
+          <label for="V_Costo">Costo:</label>
+          <input type="number" step="0.01" id="V_Costo" name="V_Costo" required>
+          <br><br>
 
-        <!-- Ingreso -->
-        <label for="V_Ingreso">Ingreso:</label>
-        <input type="number" step="0.01" id="V_Ingreso" name="V_Ingreso" required>
-        <br><br>
+          <!-- Ingreso -->
+          <label for="V_Ingreso">Ingreso:</label>
+          <input type="number" step="0.01" id="V_Ingreso" name="V_Ingreso" required>
+          <br><br>
 
-        <!-- Carga Utilizada -->
-        <label for="V_CargaUtilizada">Carga Utilizada:</label>
-        <input type="number" step="0.01" id="V_CargaUtilizada" name="V_CargaUtilizada" required>
-        <br><br>
+          <!-- Carga Utilizada -->
+          <label for="V_CargaUtilizada">Carga Utilizada:</label>
+          <input type="number" step="0.01" id="V_CargaUtilizada" name="V_CargaUtilizada" required>
+          <br><br>
 
-        <!-- Estatus -->
-        <label for="V_Status">Estatus:</label>
-        <select id="V_Status" name="V_Status" disabled>
-          <option value="En entrega">En entrega</option>
-        </select>
-        <br><br>
+          <!-- Estatus -->
+          <label for="V_Status">Estatus:</label>
+          <select id="V_Status" name="V_Status" disabled>
+            <option value="En entrega">En entrega</option>
+          </select>
+          <br><br>
 
 
-        <button type="submit">Empezar viaje</button>
-      </form>
+          <button type="submit">Empezar viaje</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <div id="updateAsignacionViajeModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Asignar Viaje</h2>
-      <form id="updateAsignacionViajeForm">
-        <input type="hidden" id="updateU_Placas" name="U_Placas" />
-        <!-- Clave Viaje -->
-        <label for="V_KeyViaje">Clave Viaje:</label>
-        <input type="number" id="upadateV_KeyViaje" name="V_KeyViaje" disabled>
-        <br><br>
+    <div id="updateAsignacionViajeModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Asignar Viaje</h2>
+        <form id="updateAsignacionViajeForm">
+          <input type="hidden" id="updateU_Placas" name="U_Placas" />
+          <!-- Clave Viaje -->
+          <label for="V_KeyViaje">Clave Viaje:</label>
+          <input type="number" id="upadateV_KeyViaje" name="V_KeyViaje" disabled>
+          <br><br>
 
-        <!-- Operador -->
-        <label for="V_Operador">Operador:</label>
-        <input type="text" id="updateV_Operador" name="V_Operador" disabled>
-        <br><br>
+          <!-- Operador -->
+          <label for="V_Operador">Operador:</label>
+          <input type="text" id="updateV_Operador" name="V_Operador" disabled>
+          <br><br>
 
-        <!-- Estado Origen -->
-        <label for="V_EstadoOrigen">Estado de Origen:</label>
-        <select id="updateV_EstadoOrigen" name="V_EstadoOrigen" disabled>
-          <option value="">Selecciona un estado</option>
-          <option value="Aguascalientes">Aguascalientes</option>
-          <option value="BajaCalifornia">Baja California</option>
-          <option value="BajaCaliforniaSur">Baja California Sur</option>
-          <option value="Campeche">Campeche</option>
-          <option value="Chiapas">Chiapas</option>
-          <option value="Chihuahua">Chihuahua</option>
-          <option value="CDMX">Ciudad de México</option>
-          <option value="Coahuila">Coahuila</option>
-          <option value="Colima">Colima</option>
-          <option value="Durango">Durango</option>
-          <option value="Guanajuato">Guanajuato</option>
-          <option value="Guerrero">Guerrero</option>
-          <option value="Hidalgo">Hidalgo</option>
-          <option value="Jalisco">Jalisco</option>
-          <option value="EdoMex">Estado de México</option>
-          <option value="Michoacán">Michoacán</option>
-          <option value="Morelos">Morelos</option>
-          <option value="Nayarit">Nayarit</option>
-          <option value="NuevoLeón">Nuevo León</option>
-          <option value="Oaxaca">Oaxaca</option>
-          <option value="Puebla">Puebla</option>
-          <option value="Querétaro">Querétaro</option>
-          <option value="QuintanaRoo">Quintana Roo</option>
-          <option value="SanLuisPotosí">San Luis Potosí</option>
-          <option value="Sinaloa">Sinaloa</option>
-          <option value="Sonora">Sonora</option>
-          <option value="Tabasco">Tabasco</option>
-          <option value="Tamaulipas">Tamaulipas</option>
-          <option value="Tlaxcala">Tlaxcala</option>
-          <option value="Veracruz">Veracruz</option>
-          <option value="Yucatán">Yucatán</option>
-          <option value="Zacatecas">Zacatecas</option>
-        </select>
-        <br><br>
+          <!-- Estado Origen -->
+          <label for="V_EstadoOrigen">Estado de Origen:</label>
+          <select id="updateV_EstadoOrigen" name="V_EstadoOrigen" disabled>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
 
-        <!-- Estado Destino -->
-        <label for="V_EstadoDestino">Estado de Destino:</label>
-        <select id="updateV_EstadoDestino" name="V_EstadoDestino" disabled>
-          <option value="">Selecciona un estado</option>
-          <option value="Aguascalientes">Aguascalientes</option>
-          <option value="BajaCalifornia">Baja California</option>
-          <option value="BajaCaliforniaSur">Baja California Sur</option>
-          <option value="Campeche">Campeche</option>
-          <option value="Chiapas">Chiapas</option>
-          <option value="Chihuahua">Chihuahua</option>
-          <option value="CDMX">Ciudad de México</option>
-          <option value="Coahuila">Coahuila</option>
-          <option value="Colima">Colima</option>
-          <option value="Durango">Durango</option>
-          <option value="Guanajuato">Guanajuato</option>
-          <option value="Guerrero">Guerrero</option>
-          <option value="Hidalgo">Hidalgo</option>
-          <option value="Jalisco">Jalisco</option>
-          <option value="EdoMex">Estado de México</option>
-          <option value="Michoacán">Michoacán</option>
-          <option value="Morelos">Morelos</option>
-          <option value="Nayarit">Nayarit</option>
-          <option value="NuevoLeón">Nuevo León</option>
-          <option value="Oaxaca">Oaxaca</option>
-          <option value="Puebla">Puebla</option>
-          <option value="Querétaro">Querétaro</option>
-          <option value="QuintanaRoo">Quintana Roo</option>
-          <option value="SanLuisPotosí">San Luis Potosí</option>
-          <option value="Sinaloa">Sinaloa</option>
-          <option value="Sonora">Sonora</option>
-          <option value="Tabasco">Tabasco</option>
-          <option value="Tamaulipas">Tamaulipas</option>
-          <option value="Tlaxcala">Tlaxcala</option>
-          <option value="Veracruz">Veracruz</option>
-          <option value="Yucatán">Yucatán</option>
-          <option value="Zacatecas">Zacatecas</option>
-        </select>
-        <br><br>
+          <!-- Estado Destino -->
+          <label for="V_EstadoDestino">Estado de Destino:</label>
+          <select id="updateV_EstadoDestino" name="V_EstadoDestino" disabled>
+            <option value="">Selecciona un estado</option>
+            <option value="Aguascalientes">Aguascalientes</option>
+            <option value="BajaCalifornia">Baja California</option>
+            <option value="BajaCaliforniaSur">Baja California Sur</option>
+            <option value="Campeche">Campeche</option>
+            <option value="Chiapas">Chiapas</option>
+            <option value="Chihuahua">Chihuahua</option>
+            <option value="CDMX">Ciudad de México</option>
+            <option value="Coahuila">Coahuila</option>
+            <option value="Colima">Colima</option>
+            <option value="Durango">Durango</option>
+            <option value="Guanajuato">Guanajuato</option>
+            <option value="Guerrero">Guerrero</option>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Jalisco">Jalisco</option>
+            <option value="EdoMex">Estado de México</option>
+            <option value="Michoacán">Michoacán</option>
+            <option value="Morelos">Morelos</option>
+            <option value="Nayarit">Nayarit</option>
+            <option value="NuevoLeón">Nuevo León</option>
+            <option value="Oaxaca">Oaxaca</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Querétaro">Querétaro</option>
+            <option value="QuintanaRoo">Quintana Roo</option>
+            <option value="SanLuisPotosí">San Luis Potosí</option>
+            <option value="Sinaloa">Sinaloa</option>
+            <option value="Sonora">Sonora</option>
+            <option value="Tabasco">Tabasco</option>
+            <option value="Tamaulipas">Tamaulipas</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+            <option value="Yucatán">Yucatán</option>
+            <option value="Zacatecas">Zacatecas</option>
+          </select>
+          <br><br>
 
-        <!-- Fecha de Inicio -->
-        <label for="V_FInicio">Fecha de Inicio:</label>
-        <input type="datetime-local" id="updateV_FInicio" name="V_FInicio" disabled>
-        <br><br>
+          <!-- Fecha de Inicio -->
+          <label for="V_FInicio">Fecha de Inicio:</label>
+          <input type="datetime-local" id="updateV_FInicio" name="V_FInicio" disabled>
+          <br><br>
 
-        <!-- Fecha de Fin -->
-        <label for="V_FFin">Fecha de Fin:</label>
-        <input type="datetime-local" id="updateV_FFin" name="V_FFin" required>
-        <br><br>
+          <!-- Fecha de Fin -->
+          <label for="V_FFin">Fecha de Fin:</label>
+          <input type="datetime-local" id="updateV_FFin" name="V_FFin" required>
+          <br><br>
 
-        <!-- Costo -->
-        <label for="V_Costo">Costo:</label>
-        <input type="number" id="updateV_Costo" name="V_Costo" disabled>
-        <br><br>
+          <!-- Costo -->
+          <label for="V_Costo">Costo:</label>
+          <input type="number" id="updateV_Costo" name="V_Costo" disabled>
+          <br><br>
 
-        <!-- Ingreso -->
-        <label for="V_Ingreso">Ingreso:</label>
-        <input type="number" step="0.01" id="updateV_Ingreso" name="V_Ingreso" disabled>
-        <br><br>
+          <!-- Ingreso -->
+          <label for="V_Ingreso">Ingreso:</label>
+          <input type="number" step="0.01" id="updateV_Ingreso" name="V_Ingreso" disabled>
+          <br><br>
 
-        <!-- Carga Utilizada -->
-        <label for="V_CargaUtilizada">Carga Utilizada:</label>
-        <input type="number" step="0.01" id="updateV_CargaUtilizada" name="V_CargaUtilizada" disabled>
-        <br><br>
+          <!-- Carga Utilizada -->
+          <label for="V_CargaUtilizada">Carga Utilizada:</label>
+          <input type="number" step="0.01" id="updateV_CargaUtilizada" name="V_CargaUtilizada" disabled>
+          <br><br>
 
-        <!-- Estatus -->
-        <label for="V_Status">Estatus:</label>
-        <select id="updateV_Status" name="V_Status" required>
-          <option value="A tiempo ">A tiempo</option>
-          <option value="Retrasado">Retrasado</option>
-        </select>
-        <br><br>
+          <!-- Estatus -->
+          <label for="V_Status">Estatus:</label>
+          <select id="updateV_Status" name="V_Status" required>
+            <option value="A tiempo ">A tiempo</option>
+            <option value="Retrasado">Retrasado</option>
+          </select>
+          <br><br>
 
 
-        <button type="submit">Finalizar viaje</button>
-      </form>
+          <button type="submit">Finalizar viaje</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <div id="eventoModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Evento</h2>
-      <form id="eventForm">
-        <input type="hidden" id="E_Placas" name="E_Placas">
+    <div id="eventoModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Evento</h2>
+        <form id="eventForm">
+          <input type="hidden" id="E_Placas" name="E_Placas">
 
-        <label for="E_Tipo">Tipo de Evento:</label>
-        <select id="E_Tipo" name="E_Tipo" required>
-          <option value="Servicio">Servicio</option>
-          <option value="Tenencia">Tenencia</option>
-          <option value="Verificacion">Verificación</option>
-        </select>
-        <br><br>
+          <label for="E_Tipo">Tipo de Evento:</label>
+          <select id="E_Tipo" name="E_Tipo" required>
+            <option value="Servicio">Servicio</option>
+            <option value="Tenencia">Tenencia</option>
+            <option value="Verificacion">Verificación</option>
+          </select>
+          <br><br>
 
-        <label for="E_FechaEvento">Fecha del Evento:</label>
-        <input type="date" id="E_FechaEvento" name="E_FechaEvento" required>
-        <br><br>
+          <label for="E_FechaEvento">Fecha del Evento:</label>
+          <input type="date" id="E_FechaEvento" name="E_FechaEvento" required>
+          <br><br>
 
-        <label for="E_Monto">Monto:</label>
-        <input type="number" id="E_Monto" name="E_Monto" required>
-        <br><br>
+          <label for="E_Monto">Monto:</label>
+          <input type="number" id="E_Monto" name="E_Monto" required>
+          <br><br>
 
-        <div>
-          <button type="submit">Guardar Evento</button>
-        </div>
-      </form>
-
-    </div>
-  </div>
-
-  <div id="addRazonModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Bloqueo</h2>
-      <form id="addRazonForm">
-        <input type="hidden" id="T_KeyTarea" name="T_KeyTarea" required>
-        <!-- Razon -->
-        <label for="Razon">Razón:</label>
-        <textarea id="Razon" name="Razon" rows="4" cols="50" required></textarea>
-        <br><br>
-
-        <button type="submit">Agregar Bloqueo</button>
-      </form>
-    </div>
-  </div>
-
-  <div id="costosModal" class="modal">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Costos del viaje</h2>
-      <form id="costForm">
-        <input type="" id="C_Placas" name="C_Placas" required>
-        <input type="" id="C_KeyViaje" name="C_KeyViaje" required>
-        <br><br>
-
-        <!-- Contenedor de los costos dinámicos -->
-        <table id="costoTable">
-          <thead>
-            <tr>
-              <th>Categoría</th>
-              <th>Tipo</th>
-              <th>Monto</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody id="costoTableBody">
-            <!-- Fila inicial -->
-            <tr>
-              <td>
-                <select name="C_Categoria[]" required>
-                  <option value="Gasolina">Gasolina</option>
-                  <option value="Limpieza">Limpieza</option>
-                  <option value="Llantas">Llantas</option>
-                  <option value="Mensualidad">Mensualidad</option>
-                </select>
-              </td>
-              <td>
-                <select name="C_Tipo[]" required>
-                  <option value="Cambio de Llantas">Cambio de Llantas</option>
-                  <option value="Lavado Completo">Lavado Completo</option>
-                  <option value="Lavado Exterior">Lavado Exterior</option>
-                  <option value="Limpieza Interior">Limpieza Interior</option>
-                  <option value="Limpieza Interior y Exterior">Limpieza Interior y Exterior</option>
-                  <option value="Pago de Arrendamiento">Pago de Arrendamiento</option>
-                  <option value="Recarga Completa">Recarga Completa</option>
-                  <option value="Revision de Llantas">Revision de Llantas</option>
-                  <option value="Revision de Presión">Revision de Presión</option>
-                </select>
-              </td>
-              <td>
-                <input type="number" name="C_Monto[]" step="0.01" required />
-              </td>
-              <td>
-                <button type="button" onclick="removeCostoRow(this)">Eliminar</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-        <button type="button" onclick="addCostoRow()">Añadir otra fila</button>
-        <br />
-        <button type="submit">Guardar Costos</button>
-      </form>
-
-
-    </div>
-  </div>
-
-  <div id="addFormModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Formulario</h2>
-      <form id="addForm">
-        <label for="formName">Nombre del Formulario:</label>
-        <input type="text" id="formName" name="formName" required>
-
-        <div id="formFieldsContainer">
-          <div class="formField">
-            <label for="fieldLabel">Etiqueta del Campo:</label>
-            <input type="text" class="fieldLabel" required>
-
-            <label for="fieldType">Tipo del Campo:</label>
-            <select class="fieldType" required>
-              <option value="text">Texto</option>
-              <option value="number">Número</option>
-              <option value="email">Email</option>
-              <option value="date">Fecha</option>
-              <option value="time">Hora</option>
-              <option value="checkbox">Checkbox</option>
-              <!-- Agrega más tipos según sea necesario -->
-            </select>
-
-            <label for="fieldName">Nombre del Campo:</label>
-            <input type="text" class="fieldName" required readonly>
+          <div>
+            <button type="submit">Guardar Evento</button>
           </div>
+        </form>
+
+      </div>
+    </div>
+
+    <div id="addRazonModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Bloqueo</h2>
+        <form id="addRazonForm">
+          <input type="hidden" id="T_KeyTarea" name="T_KeyTarea" required>
+          <!-- Razon -->
+          <label for="Razon">Razón:</label>
+          <textarea id="Razon" name="Razon" rows="4" cols="50" required></textarea>
+          <br><br>
+
+          <button type="submit">Agregar Bloqueo</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="costosModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Costos del viaje</h2>
+        <form id="costForm">
+          <input type="" id="C_Placas" name="C_Placas" required>
+          <input type="" id="C_KeyViaje" name="C_KeyViaje" required>
+          <br><br>
+
+          <!-- Contenedor de los costos dinámicos -->
+          <table id="costoTable">
+            <thead>
+              <tr>
+                <th>Categoría</th>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="costoTableBody">
+              <!-- Fila inicial -->
+              <tr>
+                <td>
+                  <select name="C_Categoria[]" required>
+                    <option value="Gasolina">Gasolina</option>
+                    <option value="Limpieza">Limpieza</option>
+                    <option value="Llantas">Llantas</option>
+                    <option value="Mensualidad">Mensualidad</option>
+                  </select>
+                </td>
+                <td>
+                  <select name="C_Tipo[]" required>
+                    <option value="Cambio de Llantas">Cambio de Llantas</option>
+                    <option value="Lavado Completo">Lavado Completo</option>
+                    <option value="Lavado Exterior">Lavado Exterior</option>
+                    <option value="Limpieza Interior">Limpieza Interior</option>
+                    <option value="Limpieza Interior y Exterior">Limpieza Interior y Exterior</option>
+                    <option value="Pago de Arrendamiento">Pago de Arrendamiento</option>
+                    <option value="Recarga Completa">Recarga Completa</option>
+                    <option value="Revision de Llantas">Revision de Llantas</option>
+                    <option value="Revision de Presión">Revision de Presión</option>
+                  </select>
+                </td>
+                <td>
+                  <input type="number" name="C_Monto[]" step="0.01" required />
+                </td>
+                <td>
+                  <button type="button" onclick="removeCostoRow(this)">Eliminar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <button type="button" onclick="addCostoRow()">Añadir otra fila</button>
+          <br />
+          <button type="submit">Guardar Costos</button>
+        </form>
+
+
+      </div>
+    </div>
+
+    <div id="addFormModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Formulario</h2>
+        <form id="addForm">
+          <label for="formName">Nombre del Formulario:</label>
+          <input type="text" id="formName" name="formName" required>
+
+          <div id="formFieldsContainer">
+            <div class="formField">
+              <label for="fieldLabel">Etiqueta del Campo:</label>
+              <input type="text" class="fieldLabel" required>
+
+              <label for="fieldType">Tipo del Campo:</label>
+              <select class="fieldType" required>
+                <option value="text">Texto</option>
+                <option value="number">Número</option>
+                <option value="email">Email</option>
+                <option value="date">Fecha</option>
+                <option value="time">Hora</option>
+                <option value="checkbox">Checkbox</option>
+                <!-- Agrega más tipos según sea necesario -->
+              </select>
+
+              <label for="fieldName">Nombre del Campo:</label>
+              <input type="text" class="fieldName" required readonly>
+            </div>
+          </div>
+
+          <button type="button" id="addFieldButton">Añadir Campo</button>
+          <button type="submit">Guardar Formulario</button>
+        </form>
+      </div>
+    </div>
+    <!-- Modal para seleccionar grupo -->
+    <div id="selectGroupModal" class="modal" style="display: none;">
+      <div id="selectGroupModal-content" class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Groups</h2>
+        <div class="tabs">
+          <button class="tab-button" data-tab="new-group">Nuevo grupo</button>
+          <button class="tab-button" data-tab="existing-group">Grupo existente</button>
         </div>
-
-        <button type="button" id="addFieldButton">Añadir Campo</button>
-        <button type="submit">Guardar Formulario</button>
-      </form>
-    </div>
-  </div>
-  <!-- Modal para seleccionar grupo -->
-  <div id="selectGroupModal" class="modal" style="display: none;">
-    <div id="selectGroupModal-content" class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Groups</h2>
-      <div class="tabs">
-        <button class="tab-button" data-tab="new-group">Nuevo grupo</button>
-        <button class="tab-button" data-tab="existing-group">Grupo existente</button>
+        <div class="tab-content" id="new-group">
+          <label for="groupName">Nombre del Grupo:</label>
+          <input type="text" id="groupName" name="groupName"><br>
+          <label for="groupDescription">Descripción:</label>
+          <textarea id="groupDescription" name="groupDescription"></textarea><br>
+        </div>
+        <div class="tab-content" id="existing-group">
+          <label for="existingGroupSelect">Selecciona un grupo:</label>
+          <select id="existingGroupSelect">
+            <!-- Grupos se cargarán aquí dinámicamente -->
+          </select>
+        </div>
+        <button id="addGroupButton">Añadir grupo</button>
       </div>
-      <div class="tab-content" id="new-group">
-        <label for="groupName">Nombre del Grupo:</label>
-        <input type="text" id="groupName" name="groupName"><br>
-        <label for="groupDescription">Descripción:</label>
-        <textarea id="groupDescription" name="groupDescription"></textarea><br>
-      </div>
-      <div class="tab-content" id="existing-group">
-        <label for="existingGroupSelect">Selecciona un grupo:</label>
-        <select id="existingGroupSelect">
-          <!-- Grupos se cargarán aquí dinámicamente -->
-        </select>
-      </div>
-      <button id="addGroupButton">Añadir grupo</button>
     </div>
-  </div>
 
-  <div id="addCategoryModal" class="modal" style="display: none;">
-    <div id="addCategoryModal-content" class="modal-content">
-      <span class="close">&times;</span>
-      <h2>Añadir Categoria</h2>
-      <label for="categoryName">Nombre:</label>
-      <input type="text" id="categoryName" name="categoryName"><br>
-      <label for="categoryDescription">Descripción:</label>
-      <textarea id="categoryDescription" name="categoryDescription"></textarea><br>
-      <button id="addCategoryButton">Añadir Categoria</button>
+    <div id="addCategoryModal" class="modal" style="display: none;">
+      <div id="addCategoryModal-content" class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Categoria</h2>
+        <label for="categoryName">Nombre:</label>
+        <input type="text" id="categoryName" name="categoryName"><br>
+        <label for="categoryDescription">Descripción:</label>
+        <textarea id="categoryDescription" name="categoryDescription"></textarea><br>
+        <button id="addCategoryButton">Añadir Categoria</button>
+      </div>
     </div>
-  </div>
 
-  <script src="../dashboard/dashboard.js"></script>
+    <script src="../dashboard/dashboard.js"></script>
 </body>
 
 </html>

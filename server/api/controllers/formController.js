@@ -1,5 +1,5 @@
-const db = require("../../config/db");
-const db2 = require("../../config/db_singlestore");
+const db2 = require("../../config/db");
+const db = require("../../config/db_singlestore");
 // const db_ss = require("../../config/db_singlestore");
 
 exports.getForms = async (req, res) => {
