@@ -11,7 +11,6 @@ exports.getForms = async (req, res) => {
   }
 };
 
-
 exports.getFormById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -31,7 +30,6 @@ exports.getFormById = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 };
-
 
 exports.addForm = async (req, res) => {
   const { name, config } = req.body;
@@ -80,8 +78,6 @@ exports.addForm = async (req, res) => {
     return res.status(500).json({ success: false, error: err.message });
   }
 };
-
-
 
 exports.submitForm = async (req, res) => {
   console.log('Request body:', req.body);

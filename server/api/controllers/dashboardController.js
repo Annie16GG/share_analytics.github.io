@@ -1,4 +1,4 @@
-const db = require("../../config/db_singlestore");
+const db = require("../../config/db_singlestoreKarem");
 
 exports.getDashboards = async (req, res) => {
   const query = "SELECT id, name_dashboard FROM dashboards";

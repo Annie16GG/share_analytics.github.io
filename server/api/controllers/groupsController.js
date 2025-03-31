@@ -39,7 +39,6 @@ exports.addGroup = (req, res) => {
   });
 };
 
-
 exports.addUsersToGroup = (req, res) => {
   const { id, users } = req.body;
   console.log(req.body);

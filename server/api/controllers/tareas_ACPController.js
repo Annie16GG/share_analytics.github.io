@@ -1,5 +1,5 @@
 const db2 = require("../../config/db");
-const db = require("../../config/db_singlestore");
+const db = require("../../config/db_singlestoreKarem");
 const { v4: uuidv4 } = require("uuid");
 
 exports.obtenerTareas = async (req, res) => {
@@ -117,7 +117,7 @@ exports.createRecurso = async (req, res) => {
   const id = uuidv4();
 
   const query = `
-        INSERT INTO Recursos_ACP (ID_Recurso, Nombre_Recurso, Fecha_inicio, Fecha_fin, Rol) VALUES (?, ?, ?, ?, ?)
+        INSERT INTO recursos_acp (ID_Recurso, Nombre_Recurso, Fecha_inicio, Fecha_fin, Rol) VALUES (?, ?, ?, ?, ?)
     `;
 
   try {
@@ -145,7 +145,7 @@ exports.createProyecto = async (req, res) => {
   const id = uuidv4();
 
   const query = `
-        INSERT INTO Proyectos_ACP (ID_Proyecto,Nombre_Proyecto,Responsable) VALUES (?, ?, ?)
+        INSERT INTO proyectos_ACP (ID_Proyecto,Nombre_Proyecto,Responsable) VALUES (?, ?, ?)
     `;
 
   try {
@@ -171,7 +171,7 @@ exports.createRol = async (req, res) => {
   const id = uuidv4();
 
   const query = `
-        INSERT INTO Rol_ACP (ID_Rol,Nombre_Rol,Tarifa) VALUES (?, ?, ?)
+        INSERT INTO rol_acp (ID_Rol,Nombre_Rol,Tarifa) VALUES (?, ?, ?)
     `;
 
   try {
@@ -193,7 +193,7 @@ exports.createBloqueo = async (req, res) => {
   const { id_tarea, razon } = req.body;
   const id = uuidv4();
   const query = `
-      INSERT INTO TareasBloqueos (B_KeyBloqueo, Razon, B_KeyTarea) VALUES  (?, ?, ?)
+      INSERT INTO tareasbloqueos (B_KeyBloqueo, Razon, B_KeyTarea) VALUES  (?, ?, ?)
     `;
 
   try {

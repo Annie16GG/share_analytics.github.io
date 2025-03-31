@@ -28,7 +28,7 @@ var rootUrl = "https://login.shareanalytics.com.mx/bi";
 var siteIdentifier = "site/acp";
 var environment = "onpremise";
 var embedType = "component";
-var authorizationUrl = "https://0f59-138-84-54-146.ngrok-free.app/embeddetail/get";
+var authorizationUrl = "https://5291-138-84-54-153.ngrok-free.app/embeddetail/get";
 // var authorizationUrl = "http://localhost:8080/embeddetail/get";
 // var authorizationUrl = "https://api-boldbi.vercel.app/api/embeddetail/get";
 let selectedAccess = null;
@@ -3124,13 +3124,13 @@ function loadDashboards() {
   const userId = localStorage.getItem("user_id");
   const role = localStorage.getItem("userRole"); // Obtener el ID del usuario del almacenamiento local
   if (role != "Administrador") {
-    fetch(`/api/perm/permitted-items/${userId}`)
+    fetch(`/api/auth/permitted-items/${userId}`)
       .then((response) => response.json())
       .then((data) => {
         const dashboards = data.dashboards;
         const dashboardsMenu = document.getElementById("dashboards-menu");
         dashboardsMenu.innerHTML = ""; // Limpiar elementos existentes
-
+        console.log(dashboards);
         dashboards.forEach((dashboard) => {
           const dashboardItem = document.createElement("li");
           dashboardItem.textContent = dashboard.name_dashboard;

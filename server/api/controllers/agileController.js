@@ -58,8 +58,6 @@ exports.agregarTarea = async (req, res) => {
   }
 };
 
-
-
 exports.obtenerTareaporId = async (req, res) => {
   try {
     const { id } = req.params;
@@ -86,7 +84,6 @@ exports.obtenerTareaporId = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-
   
 exports.updateTask = async (req, res) => {
   try {
