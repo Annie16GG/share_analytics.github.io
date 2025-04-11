@@ -12,6 +12,7 @@ const tareas_ACPRoutes = require('./routes/tareas_ACPRoutes');
 const estudiantesRoutes = require('./routes/estudiantesRoutes');
 const agileRoutes = require('./routes/agileRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const latbcRoutes = require('./routes/clientesLatRoutes');
 
 
 
@@ -37,6 +38,7 @@ app.use('/api/viaje', viajesRoutes)
 app.use('/api/tareas', tareas_ACPRoutes)
 app.use('/api/estudiantes', estudiantesRoutes)
 app.use('/api/agile', agileRoutes)
+app.use('/api/latbc', latbcRoutes)
 
 // Serve static files from the public folder
 app.use(express.static(path.join(__dirname, '..', '..', 'public')));

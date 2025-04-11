@@ -16,6 +16,7 @@
     <a href="#" id="menu-dashboard">Dashboards</a>
     <a href="#" id="menu-upload">Upload</a>
     <a href="#" id="menu-users">Users</a>
+    <a href="#" id="menu-latbc">Clientes</a>
     <a href="#" id="menu-unidades">Unidades</a>
     <a href="#" id="menu-team-agile">Agile</a>
     <a href="#" id="menu-estudiantes">Estudiantes</a>
@@ -102,6 +103,27 @@
         </tbody>
       </table>
     </div>
+    <!-- Formularios Lat -->
+    <div id="latbc-view" class="view" style="display: none;">
+      <h1>Clientes</h1>
+      <button id="addClienteButton">Añadir cliente</button>
+      <br>
+      <!-- <button id="selectedActionButton" style="display: none;">Añadir grupo</button> -->
+      <table id="latbc-table">
+        <thead>
+          <tr>
+            <th>Prioridad</th>
+            <th>Nombre de la empresa</th>
+            <th>Nombre del contacto</th>
+            <th>Estatus</th>
+            <th>Fecha ultimo acercamiento</th>
+          </tr>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
     <div id="tareas-view" class="view" style="display: none;">
       <h1>Administración de tareas</h1>
       <button id="addTareaButton">Añadir tarea</button>
@@ -258,12 +280,243 @@
             <option value="Solo carga">Solo carga</option>
             <option value="ACP">ACP</option>
             <option value="ACP-Desarrollo">ACP-Desarrollo</option>
+            <option value="Latbc">Latbc</option>
+            <option value="Latbc y ACP">Latbc y ACP</option>
           </select><br>
 
           <button type="submit">Submit</button>
         </form>
       </div>
     </div>
+
+    <div id="addCuentaModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Añadir Cuenta</h2>
+        <p style="color: black; font-style: italic;">
+          Escriba todos los datos correctamente, respetando mayúsculas, minúsculas y acentos.
+        </p>
+        <form id="addCuentaForm">
+
+          <!-- Ejecutivo de cuenta -->
+          <label for="ejecutivo_de_cuenta">Ejecutivo de cuenta:</label>
+          <select id="ejecutivo_de_cuenta" name="ejecutivo_de_cuenta" required>
+            <option value="">Selecciona un ejecutivo</option>
+            <option>Alejandro Amaya</option>
+            <option>Alejandro Castillo</option>
+            <option>Antonieta</option>
+            <option>Caramelo</option>
+            <option>Esthela</option>
+            <option>Israel</option>
+            <option>Javier Leonardí</option>
+            <option>Karla F.</option>
+            <option>Luis Antonio</option>
+            <option>Luis H.</option>
+            <option>Miguel</option>
+            <option>Tatiana</option>
+            <option>Xavier</option>
+            <option>Zoraya</option>
+          </select>
+          <br><br>
+
+          <!-- Prioridad de la cuenta -->
+          <label for="prioridad_cuenta">Prioridad de la cuenta:</label>
+          <select id="prioridad_cuenta" name="prioridad_cuenta" required>
+            <option value="">Selecciona prioridad</option>
+            <option>Alta</option>
+            <option>Media</option>
+            <option>Baja</option>
+          </select>
+          <br><br>
+
+          <!-- Nombre de la empresa -->
+          <label for="nombre_empresa">Nombre de la empresa:</label>
+          <small style="color: #777;">Por favor, asegúrate de escribir el nombre de la empresa de manera uniforme.</small>
+          <input type="text" id="nombre_empresa" name="nombre_empresa" required>
+          <br><br>
+
+          <!-- Industria -->
+          <label for="industria">Industria:</label>
+          <select id="industria" name="industria" required>
+            <option value="">Selecciona industria</option>
+            <option>Agricultura y Ganaderia</option>
+            <option>Agroindustria</option>
+            <option>Apparel</option>
+            <option>Automotive</option>
+            <option>Banking</option>
+            <option>Conglomerate</option>
+            <option>Construction</option>
+            <option>Consulting</option>
+            <option>Consumer Goods</option>
+            <option>Delivery</option>
+            <option>E-commerce</option>
+            <option>Education</option>
+            <option>Energy</option>
+            <option>Entertainment</option>
+            <option>Financial Services</option>
+            <option>Fintech</option>
+            <option>Food & Drug Retailers</option>
+            <option>Food Producers</option>
+            <option>Food Services</option>
+            <option>Government</option>
+            <option>Health</option>
+            <option>Healthcare</option>
+            <option>Hospital</option>
+            <option>Hospitality</option>
+            <option>Insurance</option>
+            <option>Legal</option>
+            <option>Logistic</option>
+            <option>Manufacturing</option>
+            <option>Marketing</option>
+            <option>Media</option>
+            <option>Oil & Gas</option>
+            <option>Pharma</option>
+            <option>Pharmacies</option>
+            <option>Retail</option>
+            <option>RH</option>
+            <option>RR.HH.</option>
+            <option>Software & Computer Services</option>
+            <option>Supply Chain</option>
+            <option>Technology</option>
+            <option>Telco</option>
+            <option>Transportation</option>
+            <option>Other</option>
+          </select>
+
+
+          <!-- Sitio Web -->
+          <label for="sitio_web_empresa">Sitio Web:</label>
+          <input type="text" id="sitio_web_empresa" name="sitio_web_empresa">
+          <br><br>
+
+          <!-- Tamaño de la Empresa -->
+          <label>Tamaño de la Empresa:</label><br>
+            <div>
+              <input type="radio" id="micro" name="numero_empleados" value="Microempresa - 1 a 10 empleados" required>
+              <label for="micro">Microempresa - 1 a 10 empleados</label><br>
+            </div>
+            <div>
+              <input type="radio" id="pequena" name="numero_empleados" value="Pequeña - 11 a 50 empleados">
+              <label for="pequena">Pequeña - 11 a 50 empleados</label><br>
+            </div>
+            <div>
+              <input type="radio" id="mediana" name="numero_empleados" value="Mediana - 51 a 250 empleados">
+              <label for="mediana">Mediana - 51 a 250 empleados</label><br>
+            </div>
+            <div>
+              <input type="radio" id="grande" name="numero_empleados" value="Grande - más de 250 empleados">
+              <label for="grande">Grande - más de 250 empleados</label>
+            </div>
+            <br>
+
+          <!-- País -->
+          <label for="pais">País:</label>
+          <select id="pais" name="pais" required>
+            <option value="">Selecciona un país</option>
+            <option>Canada</option>
+            <option>USA</option>
+            <option>Mexico</option>
+            <option>Belice</option>
+            <option>Costa Rica</option>
+            <option>El Salvador</option>
+            <option>Guatemala</option>
+            <option>Honduras</option>
+            <option>Nicaragua</option>
+            <option>Panamá</option>
+            <option>Argentina</option>
+            <option>Bolivia</option>
+            <option>Brazil</option>
+            <option>Chile</option>
+            <option>Colombia</option>
+            <option>Ecuador</option>
+            <option>Guyana</option>
+            <option>Paraguay</option>
+            <option>Peru</option>
+            <option>Surinam</option>
+            <option>Uruguay</option>
+            <option>Venezuela</option>
+          </select>
+          <br><br>
+
+          <!-- Nombre y Apellido del contacto -->
+          <label for="nombre_contacto">Nombre(s) del contacto:</label>
+          <input type="text" id="nombre_contacto" name="nombre_contacto" required><br><br>
+
+          <label for="apellidos_contacto">Apellidos del contacto:</label>
+          <input type="text" id="apellidos_contacto" name="apellidos_contacto" required><br><br>
+
+          <!-- Email y Teléfono -->
+          <label for="email">Email:</label>
+          <input type="text" id="email_cliente" name="email" required><br><br>
+
+          <label for="telefono">Teléfono:</label>
+          <input type="text" id="telefono" name="telefono"><br><br>
+
+          <!-- LinkedIn -->
+          <label for="linkedin">LinkedIn:</label>
+          <input type="text" id="linkedin" name="linkedin"><br><br>
+
+          <!-- Puesto -->
+          <label for="puesto_contacto">Puesto del contacto:</label>
+          <input type="text" id="puesto_contacto" name="puesto_contacto"><br><br>
+
+          <!-- Tag de venta -->
+          <label for="tag_venta">Tag de Venta:</label>
+          <select id="tag_venta" name="tag_venta" required>
+            <option value="">Selecciona un tag</option>
+            <option>Blue</option>
+            <option>Data</option>
+            <option>Purple</option>
+            <option>Red</option>
+            <option>Share</option>
+          </select>
+          <br><br>
+
+          <!-- Estatus de la cuenta -->
+          <label for="estatus_cuenta">Estatus de la cuenta:</label>
+          <select id="estatus_cuenta" name="estatus_cuenta" required>
+            <option value="">Selecciona estatus</option>
+            <option>1. Análisis de Mercado</option>
+            <option>2. Identificación de Oportunidad</option>
+            <option>3. Prospección</option>
+            <option>4. Contacto Inicial</option>
+            <option>5. Presentación de la Empresa</option>
+            <option>6. Identificar Necesidades</option>
+            <option>7. Envio de Propuesta</option>
+            <option>8. Negociación</option>
+            <option>9. Aceptación</option>
+            <option>10. Firma de Contrato</option>
+            <option>11. Implementación</option>
+            <option>Cerrada Ganada</option>
+            <option>No le intereso</option>
+            <option>Cerrado Perdido</option>
+          </select>
+          <br><br>
+
+          <!-- Fechas -->
+          <label for="fecha_primer_acercamiento">Fecha de primer acercamiento:</label>
+          <input type="date" id="fecha_primer_acercamiento" name="fecha_primer_acercamiento"><br><br>
+
+          <label for="fecha_ultimo_acercamiento">Fecha de último acercamiento:</label>
+          <input type="date" id="fecha_ultimo_acercamiento" name="fecha_ultimo_acercamiento"><br><br>
+
+          <label for="fecha_cita">Fecha de cita:</label>
+          <input type="date" id="fecha_cita" name="fecha_cita"><br><br>
+
+          <!-- Monto -->
+          <label for="monto_venta">Monto de venta:</label>
+          <input type="number" id="monto_venta" name="monto_venta" step="0.01"><br><br>
+
+          <!-- Notas -->
+          <label for="notas_adicionales">Notas adicionales:</label>
+          <textarea id="notas_adicionales" name="notas_adicionales" rows="4" cols="50"></textarea>
+          <br><br>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
 
     <div id="addUnidadModal" class="modal" style="display: none;">
       <div class="modal-content">
@@ -329,6 +582,8 @@
         </form>
       </div>
     </div>
+
+
 
     <div id="addProyectoModal" class="modal" style="display: none;">
       <div class="modal-content">
@@ -402,17 +657,17 @@
 
           <!-- Título -->
           <label for="Titulo">Título:</label>
-          <input type="text" id="Titulo" name="Titulo" maxlength="150" >
+          <input type="text" id="Titulo" name="Titulo" maxlength="150">
           <br><br>
 
           <!-- Descripción -->
           <label for="Descripcion">Descripción:</label>
-          <textarea id="Descripcion" name="Descripcion" ></textarea>
+          <textarea id="Descripcion" name="Descripcion"></textarea>
           <br><br>
 
           <!-- Proyecto -->
           <label for="Proyecto">Proyecto:</label>
-          <select id="Proyecto" name="Proyecto" >
+          <select id="Proyecto" name="Proyecto">
             <option value="" disabled selected>Seleccione un proyecto</option>
           </select>
           <br><br>
@@ -420,7 +675,7 @@
 
           <!-- Tipo de Tarea -->
           <label for="Tipo_tarea">Tipo de Tarea:</label>
-          <select id="Tipo_tarea" name="Tipo_tarea" >
+          <select id="Tipo_tarea" name="Tipo_tarea">
             <option value="">Selecciona el tipo de tarea</option>
             <option value="Error">Error</option>
             <option value="Blog técnico">Blog técnico</option>
@@ -430,12 +685,12 @@
 
           <!-- Categoría -->
           <label for="Categoria">Categoría:</label>
-          <input type="text" id="Categoria" name="Categoria" maxlength="150" >
+          <input type="text" id="Categoria" name="Categoria" maxlength="150">
           <br><br>
 
           <!-- Alcance -->
           <label for="Alcance">Alcance:</label>
-          <select id="Alcance" name="Alcance" >
+          <select id="Alcance" name="Alcance">
             <option value="">Selecciona el alcance</option>
             <option value="Añadida">Añadida</option>
             <option value="Eliminada">Eliminada</option>
@@ -444,7 +699,7 @@
 
           <!-- Prioridad -->
           <label for="Prioridad">Prioridad:</label>
-          <select id="Prioridad" name="Prioridad" >
+          <select id="Prioridad" name="Prioridad">
             <option value="">Selecciona la prioridad</option>
             <option value="Baja">Baja</option>
             <option value="Media">Media</option>
@@ -454,20 +709,20 @@
 
 
           <label for="Asignado">Asignado a:</label>
-          <select id="Asignado" name="Asignado" >
+          <select id="Asignado" name="Asignado">
             <option value="" disabled selected>Seleccione un recurso</option>
           </select>
           <br><br>
 
           <label for="Rol_recurso">Rol del recurso:</label>
-          <select id="Rol_recurso" name="Rol_recurso" >
+          <select id="Rol_recurso" name="Rol_recurso">
             <option value="" disabled selected>Seleccione un rol</option>
           </select>
           <br><br>
 
           <!-- Estatus -->
           <label for="Estatus">Estatus:</label>
-          <select id="Estatus" name="Estatus" >
+          <select id="Estatus" name="Estatus">
             <option value="">Selecciona el estatus</option>
             <option value="Abierto">Abierto</option>
             <option value="Cerrado">Cerrado</option>
@@ -480,54 +735,54 @@
 
           <!-- Puntos de Historia -->
           <label for="Puntos_historia">Puntos de Historia:</label>
-          <input type="number" id="Puntos_historia" name="Puntos_historia" >
+          <input type="number" id="Puntos_historia" name="Puntos_historia">
           <br><br>
 
           <label for="Fecha_inicio_estimada">Fecha de Inicio Estimada:</label>
-          <input type="date" id="Fecha_inicio_estimada" name="Fecha_inicio_estimada" >
+          <input type="date" id="Fecha_inicio_estimada" name="Fecha_inicio_estimada">
           <br><br>
 
           <label for="Fecha_final_estimada">Fecha de Fin Estimada:</label>
-          <input type="date" id="Fecha_final_estimada" name="Fecha_final_estimada" >
+          <input type="date" id="Fecha_final_estimada" name="Fecha_final_estimada">
           <br><br>
 
           <label for="Horas_estimadas">Horas estimadas:</label>
-          <input type="number" id="Horas_estimadas" name="Horas_estimadas" >
+          <input type="number" id="Horas_estimadas" name="Horas_estimadas">
           <br><br>
 
           <!-- Fecha de Inicio del Sprint -->
           <label for="Fecha_inicio_sprint">Fecha de Inicio del Sprint:</label>
-          <input type="date" id="Fecha_inicio_sprint" name="Fecha_inicio_sprint" >
+          <input type="date" id="Fecha_inicio_sprint" name="Fecha_inicio_sprint">
           <br><br>
 
           <!-- Key del Sprint -->
           <label for="Key_Sprint">Identificador del Sprint:</label>
-          <input type="text" id="Key_Sprint" name="Key_Sprint" maxlength="100" >
+          <input type="text" id="Key_Sprint" name="Key_Sprint" maxlength="100">
           <br><br>
 
           <!-- Fecha de Inicio del LIB -->
           <label for="Fecha_inicio_lib">Fecha de inicio de liberación:</label>
-          <input type="date" id="Fecha_inicio_lib" name="Fecha_inicio_lib" >
+          <input type="date" id="Fecha_inicio_lib" name="Fecha_inicio_lib">
           <br><br>
 
           <!-- Fecha de Liberación del Sprint -->
           <label for="Fecha_lib_Sprint">Fecha de liberación del Sprint:</label>
-          <input type="date" id="Fecha_lib_Sprint" name="Fecha_lib_Sprint" >
+          <input type="date" id="Fecha_lib_Sprint" name="Fecha_lib_Sprint">
           <br><br>
 
           <!-- Fecha Final de Liberación -->
           <label for="Fecha_final_lib">Fecha final de Liberación:</label>
-          <input type="date" id="Fecha_final_lib" name="Fecha_final_lib" >
+          <input type="date" id="Fecha_final_lib" name="Fecha_final_lib">
           <br><br>
 
           <!-- Entregable -->
           <label for="Entregable">Entregable:</label>
-          <textarea id="Entregable" name="Entregable" ></textarea>
+          <textarea id="Entregable" name="Entregable"></textarea>
           <br><br>
 
           <!-- Puntaje de Satisfacción -->
           <label for="Puntaje_satisfaccion">Puntaje de Satisfacción:</label>
-          <input type="number" step="0.01" id="Puntaje_satisfaccion" name="Puntaje_satisfaccion" >
+          <input type="number" step="0.01" id="Puntaje_satisfaccion" name="Puntaje_satisfaccion">
           <br><br>
 
           <button type="submit">Guardar</button>
@@ -881,6 +1136,210 @@
       </div>
     </div>
 
+    <div id="editCuentaModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Editar Cuenta</h2>
+        <form id="editCuentaForm">
+          <!-- ID de la cuenta (oculto) -->
+          <input type="hidden" id="editCuentaId" name="id" required>
+
+          <!-- Ejecutivo de cuenta -->
+          <label for="editEjecutivo">Ejecutivo de cuenta:</label>
+          <select id="editEjecutivo" name="ejecutivo_de_cuenta" required>
+            <option value="">Selecciona un ejecutivo</option>
+            <option value="Alejandro Amaya">Alejandro Amaya</option>
+            <option value="Alejandro Castillo">Alejandro Castillo</option>
+            <option value="Antonieta">Antonieta</option>
+            <option value="Caramelo">Caramelo</option>
+            <option value="Esthela">Esthela</option>
+            <option value="Israel">Israel</option>
+            <option value="Javier Leonardí">Javier Leonardí</option>
+            <option value="Karla F.">Karla F.</option>
+            <option value="Luis Antonio">Luis Antonio</option>
+            <option value="Luis H.">Luis H.</option>
+            <option value="Miguel">Miguel</option>
+            <option value="Tatiana">Tatiana</option>
+            <option value="Xavier">Xavier</option>
+            <option value="Zoraya">Zoraya</option>
+          </select>
+          <br><br>
+
+          <!-- Prioridad -->
+          <label for="editPrioridadCuenta">Prioridad de la cuenta:</label>
+          <select id="editPrioridadCuenta" name="prioridad_cuenta" required>
+            <option value="Alta">Alta</option>
+            <option value="Media">Media</option>
+            <option value="Baja">Baja</option>
+          </select>
+          <br><br>
+
+          <!-- Nombre de la empresa -->
+          <label for="editNombreEmpresa">Nombre de la empresa:</label>
+          <input type="text" id="editNombreEmpresa" name="nombre_empresa" required>
+          <br><br>
+
+          <!-- Industria -->
+          <label for="editIndustria">Industria:</label>
+          <select id="editIndustria" name="industria" required>
+            <option value="">Selecciona una industria</option>
+            <option value="Banking">Banking</option>
+            <option value="Retail">Retail</option>
+            <option value="Fintech">Fintech</option>
+            <option value="Insurance">Insurance</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Pharma">Pharma</option>
+            <option value="Telco">Telco</option>
+            <option value="Government">Government</option>
+            <option value="Automotive">Automotive</option>
+            <option value="Hospitality">Hospitality</option>
+            <option value="Financial Services">Financial Services</option>
+            <option value="Entertainment">Entertainment</option>
+            <option value="Delivery">Delivery</option>
+            <option value="Food Industry">Food Industry</option>
+            <option value="Energy">Energy</option>
+            <option value="Oil & Gas">Oil & Gas</option>
+            <option value="Technology">Technology</option>
+            <option value="Manufacturing">Manufacturing</option>
+            <option value="Media">Media</option>
+            <option value="Transportation">Transportation</option>
+            <option value="Education">Education</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Consulting">Consulting</option>
+            <option value="Textil">Textil</option>
+            <option value="Other">Other</option>
+            <option value="Pharmacies">Pharmacies</option>
+            <option value="Construction">Construction</option>
+            <option value="Health">Health</option>
+            <option value="Hospital">Hospital</option>
+            <option value="Apparel">Apparel</option>
+          </select>
+          <br><br>
+
+          <!-- Sitio Web -->
+          <label for="editSitioWeb">Sitio Web de la empresa:</label>
+          <input type="text" id="editSitioWeb" name="sitio_web_empresa">
+          <br><br>
+
+          <!-- Número de empleados -->
+          <label for="numero_empleados">Tamaño empresa:</label>
+          <input type="text" id="numero_empleados" name="numero_empleados">
+          <br><br>
+
+          <!-- País -->
+          <label for="editPais">País:</label>
+          <select id="editPais" name="pais" required>
+            <option value="">Selecciona un país</option>
+            <option value="Canada">Canada</option>
+            <option value="USA">USA</option>
+            <option value="Mexico">Mexico</option>
+            <option value="Belice">Belice</option>
+            <option value="Costa Rica">Costa Rica</option>
+            <option value="El Salvador">El Salvador</option>
+            <option value="Guatemala">Guatemala</option>
+            <option value="Honduras">Honduras</option>
+            <option value="Nicaragua">Nicaragua</option>
+            <option value="Panamá">Panamá</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Bolivia">Bolivia</option>
+            <option value="Brazil">Brazil</option>
+            <option value="Chile">Chile</option>
+            <option value="Colombia">Colombia</option>
+            <option value="Ecuador">Ecuador</option>
+            <option value="Guyana">Guyana</option>
+            <option value="Paraguay">Paraguay</option>
+            <option value="Peru">Peru</option>
+            <option value="Surinam">Surinam</option>
+            <option value="Uruguay">Uruguay</option>
+            <option value="Venezuela">Venezuela</option>
+          </select>
+          <br><br>
+
+          <!-- Contacto -->
+          <label for="editNombreContacto">Nombre(s) del contacto:</label>
+          <input type="text" id="editNombreContacto" name="nombre_contacto" required>
+          <br><br>
+
+          <label for="editApellidoContacto">Apellidos del contacto:</label>
+          <input type="text" id="editApellidoContacto" name="apellidos_contacto" required>
+          <br><br>
+
+          <label for="editEmailCliente">Email:</label>
+          <input type="text" id="editEmailCliente" name="email" required>
+          <br><br>
+
+          <label for="editTelefono">Teléfono:</label>
+          <input type="text" id="editTelefono" name="telefono">
+          <br><br>
+
+          <label for="editLinkedin">LinkedIn:</label>
+          <input type="text" id="editLinkedin" name="linkedin">
+          <br><br>
+
+          <label for="editPuesto">Puesto de trabajo del contacto:</label>
+          <input type="text" id="editPuesto" name="puesto_contacto">
+          <br><br>
+
+          <!-- Tag de venta -->
+          <label for="editTagVenta">Tag de Venta:</label>
+          <select id="editTagVenta" name="tag_venta" required>
+            <option value="Blue">Blue</option>
+            <option value="Data">Data</option>
+            <option value="Purple">Purple</option>
+            <option value="Red">Red</option>
+            <option value="Share">Share</option>
+          </select>
+          <br><br>
+
+          <!-- Estatus de cuenta -->
+          <label for="editEstatusCliente">Estatus de la Cuenta:</label>
+          <select id="editEstatusCliente" name="estatus_cuenta" required>
+            <option value="1. Análisis de Mercado">1. Análisis de Mercado</option>
+            <option value="2. Identificación de Oportunidad">2. Identificación de Oportunidad</option>
+            <option value="3. Prospección">3. Prospección</option>
+            <option value="4. Contacto Inicial">4. Contacto Inicial</option>
+            <option value="5. Presentación de la Empresa">5. Presentación de la Empresa</option>
+            <option value="6. Identificar Necesidades">6. Identificar Necesidades</option>
+            <option value="7. Envio de Propuesta">7. Envio de Propuesta</option>
+            <option value="8. Negociación">8. Negociación</option>
+            <option value="9. Aceptación">9. Aceptación</option>
+            <option value="10. Firma de Contrato">10. Firma de Contrato</option>
+            <option value="11. Implementación">11. Implementación</option>
+            <option value="Cerrada Ganada">Cerrada Ganada</option>
+            <option value="No le interesó">No le interesó</option>
+            <option value="Cerrado Perdido">Cerrado Perdido</option>
+          </select>
+          <br><br>
+
+          <!-- Fechas -->
+          <label for="editFechaPrimer">Fecha de primer acercamiento:</label>
+          <input type="date" id="editFechaPrimer" name="fecha_primer_acercamiento">
+          <br><br>
+
+          <label for="editFechaUltimo">Fecha de último acercamiento:</label>
+          <input type="date" id="editFechaUltimo" name="fecha_ultimo_acercamiento">
+          <br><br>
+
+          <label for="editFechaCita">Fecha de cita:</label>
+          <input type="date" id="editFechaCita" name="fecha_cita">
+          <br><br>
+
+          <!-- Monto -->
+          <label for="editMontoVenta">Monto de venta:</label>
+          <input type="number" id="editMontoVenta" name="monto_venta" step="0.01">
+          <br><br>
+
+          <!-- Notas -->
+          <label for="editNotas">Notas adicionales:</label>
+          <textarea id="editNotas" name="notas_adicionales" rows="4" cols="50"></textarea>
+          <br><br>
+
+          <button type="submit">Guardar</button>
+        </form>
+      </div>
+    </div>
+
+
     <div id="editRecursoModal" class="modal" style="display: none;">
       <div class="modal-content">
         <span class="close">&times;</span>
@@ -1137,7 +1596,7 @@
 
 
           <label for="editProyecto">Proyecto:</label>
-          <select id="editProyecto" name="editProyecto" >
+          <select id="editProyecto" name="editProyecto">
             <option value="" disabled selected>Seleccione un proyecto</option>
           </select>
           <br><br>
@@ -1179,20 +1638,20 @@
 
 
           <label for="editAsignado">Asignado a:</label>
-          <select id="editAsignado" name="editAsignado" >
+          <select id="editAsignado" name="editAsignado">
             <option value="" disabled selected>Seleccione un recurso</option>
           </select>
           <br><br>
 
           <label for="editRol_recurso">Rol del recurso:</label>
-          <select id="editRol_recurso" name="editRol_recurso" >
+          <select id="editRol_recurso" name="editRol_recurso">
             <option value="" disabled selected>Seleccione un rol</option>
           </select>
           <br><br>
 
           <!-- Estatus -->
           <label for="editEstatus">Estatus:</label>
-          <select id="editEstatus" name="Estatus" >
+          <select id="editEstatus" name="Estatus">
             <option value="">Selecciona el estatus</option>
             <option value="Abierto">Abierto</option>
             <option value="Cerrado">Cerrado</option>
@@ -1209,15 +1668,15 @@
           <br><br>
 
           <label for="editInicio_Estimado">Fecha de Inicio Estimada:</label>
-          <input type="date" id="editInicio_Estimado" name="editInicio_Estimado" >
+          <input type="date" id="editInicio_Estimado" name="editInicio_Estimado">
           <br><br>
 
           <label for="editFin_Estimado">Fecha de Fin Estimada:</label>
-          <input type="date" id="editFin_Estimado" name="editFin_Estimado" >
+          <input type="date" id="editFin_Estimado" name="editFin_Estimado">
           <br><br>
 
           <label for="editHoras_estimadas">Horas estimadas:</label>
-          <input type="number" id="editHoras_estimadas" name="editHoras_estimadas" >
+          <input type="number" id="editHoras_estimadas" name="editHoras_estimadas">
           <br><br>
           <!-- Fecha de Inicio del Sprint (Deshabilitado) -->
           <label for="editFecha_inicio_sprint">Fecha de Inicio del Sprint:</label>
@@ -1251,7 +1710,7 @@
 
           <!-- Puntaje de Satisfacción -->
           <label for="editPuntaje_satisfaccion">Puntaje de Satisfacción:</label>
-          <input type="number" step="0.01" id="editPuntaje_satisfaccion" name="Puntaje_satisfaccion" >
+          <input type="number" step="0.01" id="editPuntaje_satisfaccion" name="Puntaje_satisfaccion">
           <br><br>
 
           <button type="submit">Guardar</button>
@@ -1288,6 +1747,8 @@
             <option value="Solo carga">Solo carga</option>
             <option value="ACP">ACP</option>
             <option value="ACP-Desarrollo">ACP-Desarrollo</option>
+            <option value="Latbc">Latbc</option>
+            <option value="Latbc y ACP">Latbc y ACP</option>
           </select><br>
           <input type="submit" value="Edit User">
         </form>

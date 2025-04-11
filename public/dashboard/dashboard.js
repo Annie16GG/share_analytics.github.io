@@ -43,6 +43,7 @@ const addTareaButton = document.getElementById("addTareaButton");
 const addEstudButton = document.getElementById("addEstudButton");
 const addProfButton = document.getElementById("addProfButton");
 const addTaskButton = document.getElementById("addTareaAButton");
+const addClienteButton = document.getElementById("addClienteButton");
 const addTareaProyButton = document.getElementById("addTareaProyButton");
 const addTareaRecursoButton = document.getElementById("addTareaRecursoButton");
 const addUnidadButton = document.getElementById("addUnidadButton");
@@ -112,6 +113,14 @@ addTareaRecursoButton .onclick = function () {
 
 addTareaAButton .onclick = function () {
   addTaskModal.style.display = "block";
+};
+
+addTareaAButton .onclick = function () {
+  addTaskModal.style.display = "block";
+};
+
+addClienteButton.onclick = function () {
+  addCuentaModal.style.display = "block";
 };
 
 addPermissionButton.onclick = function () {
@@ -409,6 +418,10 @@ document
       });
   });
 document
+  .getElementById("editCuentaForm")
+  .addEventListener("submit", submitEditCuentaForm);
+
+  document
   .getElementById("editUserForm")
   .addEventListener("submit", submitEditUserForm);
 document
@@ -518,6 +531,21 @@ document.getElementById("menu-users").addEventListener("click", () => {
   loadUsers(); // Cargar y mostrar los usuarios
   document
     .querySelector("#users-table tbody")
+    .addEventListener("change", function (e) {
+      if (e.target && e.target.matches(".user-checkbox")) {
+        toggleActionButton();
+      }
+    });
+  document
+    .getElementById("selectedActionButton")
+    .addEventListener("click", function () {});
+});
+document.getElementById("menu-latbc").addEventListener("click", () => {
+  showView("latbc-view");
+  const userId = localStorage.getItem("user_id");
+  loadLatbcClientes(userId); // Cargar y mostrar los usuarios
+  document
+    .querySelector("#latbc-table tbody")
     .addEventListener("change", function (e) {
       if (e.target && e.target.matches(".user-checkbox")) {
         toggleActionButton();
@@ -717,6 +745,56 @@ document
       }
     });
   });
+
+
+  document
+  .getElementById("addCuentaForm")
+  .addEventListener("submit", function (event) {
+    event.preventDefault();
+
+    const Ejecutivo =localStorage.getItem("user_id");
+    const formData = {
+      id_ejecutivo: Ejecutivo,
+      ejecutivo_de_cuenta: document.getElementById("ejecutivo_de_cuenta").value,
+      prioridad_cuenta: document.getElementById("prioridad_cuenta").value,
+      nombre_empresa: document.getElementById("nombre_empresa").value,
+      industria: document.getElementById("industria").value,
+      sitio_web_empresa: document.getElementById("sitio_web_empresa").value,
+      numero_empleados: document.querySelector('input[name="numero_empleados"]:checked')?.value || "",
+      pais: document.getElementById("pais").value,
+      nombre_contacto: document.getElementById("nombre_contacto").value,
+      apellidos_contacto: document.getElementById("apellidos_contacto").value,
+      email: document.getElementById("email_cliente").value,
+      telefono: document.getElementById("telefono").value,
+      linkedin: document.getElementById("linkedin").value,
+      puesto_contacto: document.getElementById("puesto_contacto").value,
+      tag_venta: document.getElementById("tag_venta").value,
+      estatus_cuenta: document.getElementById("estatus_cuenta").value,
+      fecha_primer_acercamiento: document.getElementById("fecha_primer_acercamiento").value,
+      fecha_ultimo_acercamiento: document.getElementById("fecha_ultimo_acercamiento").value,
+      fecha_cita: document.getElementById("fecha_cita").value,
+      monto_venta: document.getElementById("monto_venta").value,
+      notas_adicionales: document.getElementById("notas_adicionales").value,
+    };
+
+    fetch("/api/latbc/subirClientes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+        addCuentaModal.style.display = "none";
+        loadLatbcClientes(Ejecutivo); // Recargar lista si tienes una función para eso
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  });
+
 
 
   document
@@ -1508,6 +1586,52 @@ function submitEditUserForm(event) {
     }
   });
 }
+
+function submitEditCuentaForm(event) {
+  event.preventDefault();
+
+  const updatedCuenta = {
+    id: document.getElementById("editCuentaId").value,
+    estatus_cuenta: document.getElementById("editEstatusCliente").value,
+    fecha_ultimo_acercamiento: document.getElementById("editFechaUltimo").value,
+    monto_venta: parseFloat(document.getElementById("editMontoVenta").value) || 0,
+    notas_adicionales: document.getElementById("editNotas").value,
+  };
+
+  Swal.fire({
+    title: "¿Estás segura?",
+    text: "Esto actualizará los datos de la cuenta.",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Sí, actualizar",
+    cancelButtonText: "Cancelar",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      fetch(`/api/latbc/actualizarCliente/${updatedCuenta.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedCuenta),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          Swal.fire("Actualizado", "La cuenta ha sido actualizada correctamente.", "success");
+          document.getElementById("editCuentaModal").style.display = "none";
+          const userId = localStorage.getItem("user_id");
+          loadLatbcClientes(userId); // Recargar la tabla de cuentas o actualizar la vista
+        })
+        .catch((error) => {
+          console.error("Error actualizando la cuenta:", error);
+          Swal.fire("Error", "Hubo un problema al actualizar la cuenta.", "error");
+        });
+    }
+  });
+}
+
+
 function submitEditUnidadForm(event) {
   event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
 
@@ -2532,6 +2656,70 @@ function openEditUserModal(userId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
+
+function openEditCuentaModal(cuentaId) {
+  fetch(`/api/latbc/obtenerCuenta/${cuentaId}`)
+    .then((response) => response.json())
+    .then((cuentas) => {
+      if (cuentas.length > 0) {
+        const cuenta = cuentas[0];
+
+        // Rellenar todos los campos pero solo habilitar los editables
+        document.getElementById("editCuentaId").value = cuenta.id;
+        document.getElementById("editEjecutivo").value = cuenta.ejecutivo_de_cuenta;
+        document.getElementById("editPrioridadCuenta").value = cuenta.prioridad_cuenta;
+        document.getElementById("editNombreEmpresa").value = cuenta.nombre_empresa;
+        document.getElementById("editIndustria").value = cuenta.industria;
+        document.getElementById("editSitioWeb").value = cuenta.sitio_web_empresa;
+        document.getElementById("numero_empleados").value = cuenta.numero_empleados;
+        document.getElementById("editPais").value = cuenta.pais;
+        document.getElementById("editNombreContacto").value = cuenta.nombre_contacto;
+        document.getElementById("editApellidoContacto").value = cuenta.apellidos_contacto;
+        document.getElementById("editEmailCliente").value = cuenta.email;
+        document.getElementById("editTelefono").value = cuenta.telefono;
+        document.getElementById("editLinkedin").value = cuenta.linkedin;
+        document.getElementById("editPuesto").value = cuenta.puesto_contacto;
+        document.getElementById("editTagVenta").value = cuenta.tag_venta;
+        document.getElementById("editFechaPrimer").value = cuenta.fecha_primer_acercamiento;
+        document.getElementById("editFechaCita").value = cuenta.fecha_cita;
+
+        // Solo campos editables
+        document.getElementById("editEstatusCliente").value = cuenta.estatus_cuenta;
+        document.getElementById("editFechaUltimo").value = cuenta.fecha_ultimo_acercamiento;
+        document.getElementById("editMontoVenta").value = cuenta.monto_venta;
+        document.getElementById("editNotas").value = cuenta.notas_adicionales;
+
+        // Deshabilitar todos los campos no editables
+        const nonEditableFields = [
+          "editEjecutivo", "editPrioridadCuenta", "editNombreEmpresa", "editIndustria", "editSitioWeb","numero_empleados", "editPais",
+          "editNombreContacto", "editApellidoContacto", "editEmailCliente", "editTelefono",
+          "editLinkedin", "editPuesto", "editTagVenta", "editFechaPrimer", "editFechaCita"
+        ];
+
+        nonEditableFields.forEach(id => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.disabled = true;
+          }
+        });
+
+        // Habilitar los editables
+        ["editEstatus", "editFechaUltimo", "editMontoVenta", "editNotas"].forEach(id => {
+          const element = document.getElementById(id);
+          if (element) {
+            element.disabled = false;
+          }
+        });
+
+        // Mostrar el modal
+        document.getElementById("editCuentaModal").style.display = "block";
+      } else {
+        console.error("No se encontró la cuenta.");
+      }
+    })
+    .catch((error) => console.error("Error al obtener los detalles de la cuenta:", error));
+}
+
 function openEditUnidadModal(unidadId) {
   fetch(`/api/auth/unidades/${unidadId}`)
     .then((response) => response.json())
@@ -2936,6 +3124,8 @@ function openEditRolModal(rolId) {
     })
     .catch((error) => console.error("Error fetching user details:", error));
 }
+
+
 function openEditRecursoModal(recursoId) {
   fetch(`/api/tareas/obtenerRecursoporId/${recursoId}`)
     .then((response) => response.json())
@@ -3307,6 +3497,36 @@ function loadUsers() {
         <a href="#" onclick="openPermissionsModal('${user.id}')">Manage Permissions</a>
         <a href="#" onclick="openEditUserModal('${user.id}')">Edit</a>
         <a href="#" onclick="deleteUser('${user.id}')">Delete</a>
+      </div>
+    </div>
+  </td>
+
+              `;
+        tbody.appendChild(row);
+      });
+    })
+    .catch((error) => console.error("Error fetching users:", error));
+}
+
+function loadLatbcClientes(userId) {
+  fetch(`/api/latbc/obtenerClientes/${userId}`)
+    .then((response) => response.json())
+    .then((data) => {
+      const tbody = document.querySelector("#latbc-table tbody");
+      tbody.innerHTML = "";
+      data.forEach((cliente) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+                <td>${cliente.prioridad_cuenta}</td>
+                <td>${cliente.nombre_empresa}</td>
+                <td>${cliente.nombre_contacto}</td>
+                <td>${cliente.estatus_cuenta }</td>
+                <td>${cliente.fecha_ultimo_acercamiento}</td>
+                <td>
+    <div class="dropdown">
+      <button class="dropbtn">Actions</button>
+      <div class="dropdown-content">
+        <a href="#" onclick="openEditCuentaModal('${cliente.id}')">Edit</a>
       </div>
     </div>
   </td>
@@ -3944,6 +4164,7 @@ function showMenuBasedOnRole() {
     const decodedToken = parseJwt(token);
     const userRole = localStorage.getItem("userRole");
     console.log(userRole);
+    
     // const userId = decodedToken.userId;
 
     // Opciones de menú para cada rol
@@ -3953,6 +4174,7 @@ function showMenuBasedOnRole() {
         "#menu-dashboard",
         "#menu-upload",
         "#menu-users",
+        "#menu-latbc",
         "#menu-unidades",
         "#menu-tareas",
         "#menu-team-agile",
@@ -3965,6 +4187,8 @@ function showMenuBasedOnRole() {
       "Solo carga": ["#menu-upload", "#signOut"],
       ACP: ["#menu-tareas", "#menu-dashboard", "#menu-team-agile-roles", "#menu-team-agile-recursos", "#signOut"],
       "ACP-Desarrollo": ["#menu-tareas", "#menu-dashboard", "#signOut"],
+      Latbc: ["#menu-latbc", "#signOut"],
+      "Latbc y ACP": ["#menu-tareas", "#menu-dashboard", "#menu-team-agile-roles", "#menu-team-agile-recursos", "#menu-latbc", "#signOut"],
     };
 
     // Limpiar el menú actual
